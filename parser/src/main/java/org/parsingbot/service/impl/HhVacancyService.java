@@ -17,8 +17,11 @@ public class HhVacancyService implements VacancyService {
 
     @Override
     public void save(List<Vacancy> vacancies) {
+        List<Vacancy> savedVacancies = vacancyRepository.findAll();
         for (Vacancy vacancy : vacancies) {
-            vacancyRepository.save(vacancy);
+            if (!savedVacancies.contains(vacancy)) {
+                vacancyRepository.save(vacancy);
+            }
         }
     }
 
@@ -31,5 +34,9 @@ public class HhVacancyService implements VacancyService {
     public List<Vacancy> getVacancies(Predicate<Vacancy> filter) {
         List<Vacancy> vacancies = vacancyRepository.findAll();
         return filter != null ? vacancyFilter.getFilteredVacancy(vacancies, filter) : vacancies;
+    }
+
+    public List<Vacancy> findAllVacancies() {
+        return vacancyRepository.findAll();
     }
 }

@@ -28,15 +28,15 @@ public class BaseUpdateHandler implements UpdateHandler {
     public void handleUpdate(TelegramBot bot, Update update) {
         long chatId = update.getMessage().getChatId();
         String userName = update.getMessage().getChat().getUserName();
-        String message = update.getMessage().getText();
-        if (userName == null || message == null) {
+        String messageBeginning = update.getMessage().getText().split(" ")[0];
+        if (userName == null || messageBeginning == null) {
             log.error(INVALID_UPDATE_ERROR);
             return;
         }
 
         if (userAuthService.isAuthorised(userName)) {
-            if (commandHandler.isCommand(message)) {
-                commandHandler.handleCommand(message);
+            if (commandHandler.isCommand(messageBeginning)) {
+                commandHandler.handleCommand(bot, update);
             } else {
                 responseHandler.sendResponse(bot, NOT_A_COMMAND_MESSAGE, chatId);
             }

@@ -12,6 +12,6 @@ public enum Authorisation {
     private final String name;
 
     public static String asString(Authorisation authorisation) {
-        return authorisation.getName();
+        return authorisation.getName().toLowerCase();
     }
 }

@@ -32,4 +32,5 @@ public interface VacancyService {
      */
     List<Vacancy> getVacancies(Predicate<Vacancy> filter);
 
+    List<Vacancy> findAllVacancies();
 }
