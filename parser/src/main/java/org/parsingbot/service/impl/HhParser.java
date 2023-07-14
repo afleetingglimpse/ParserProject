@@ -47,4 +47,9 @@ public class HhParser implements Parser {
     public List<Vacancy> getVacancies(Predicate<Vacancy> filter) {
         return vacancyService.getVacancies(filter);
     }
+
+    @Override
+    public List<Vacancy> getAllVacancies() {
+        return vacancyService.findAllVacancies();
+    }
 }

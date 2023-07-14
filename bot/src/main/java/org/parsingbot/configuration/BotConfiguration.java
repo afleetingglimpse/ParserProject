@@ -1,7 +1,7 @@
 package org.parsingbot.configuration;
 
 import org.parsingbot.repository.UserRepository;
-import org.parsingbot.service.bot.AbstractBot;
+import org.parsingbot.service.Parser;
 import org.parsingbot.service.bot.impl.TelegramBot;
 import org.parsingbot.service.handlers.CommandHandler;
 import org.parsingbot.service.handlers.ResponseHandler;
@@ -20,17 +20,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableJpaRepositories("org.parsingbot")
-@Import(BotParametersProvider.class)
+@Import({BotParametersProvider.class, ParserConfiguration.class})
 public class BotConfiguration {
 
-//    @Bean
-//    BotParametersProvider botParametersProvider() {
-//        return new BotParametersProvider();
-//    }
-
     @Bean
-    CommandHandler commandHandler() {
-        return new BaseCommandHandler();
+    CommandHandler commandHandler(ResponseHandler responseHandler) {
+        return new BaseCommandHandler(responseHandler);
     }
 
     @Bean
@@ -59,8 +54,12 @@ public class BotConfiguration {
     }
 
     @Bean
-    TelegramBot bot(BotParametersProvider botParametersProvider, UpdateHandler updateHandler) {
-        return new TelegramBot(botParametersProvider, updateHandler);
+    TelegramBot bot(BotParametersProvider botParametersProvider,
+                    UpdateHandler updateHandler,
+                    Parser parser) {
+        return new TelegramBot(botParametersProvider,
+                updateHandler,
+                parser);
     }
 
     @Bean

@@ -36,4 +36,6 @@ public interface Parser {
      * @return список найденных вакансий, прошедших фильтрацию
      */
     List<Vacancy> getVacancies(Predicate<Vacancy> filter);
+
+    List<Vacancy> getAllVacancies();
 }

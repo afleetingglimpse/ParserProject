@@ -33,22 +33,24 @@ public class HhVacancyBrowser implements VacancyBrowser {
             }
 
             for (Element vacancy : vacanciesElements) {
-                // получение основной информации о вакансии
-                Elements mainElements = vacancy.getElementsByClass(VACANCY_TITLE_CLASS);
-                String vacancyName = mainElements.text();
-                String link = mainElements.attr(LINK_KEY);
+                if (vacancies.size() < numberOfVacancies) {
+                    // получение основной информации о вакансии
+                    Elements mainElements = vacancy.getElementsByClass(VACANCY_TITLE_CLASS);
+                    String vacancyName = mainElements.text();
+                    String link = mainElements.attr(LINK_KEY);
 
-                // создание объекта вакансии и заполнение основных полей
-                Vacancy temp = new Vacancy();
-                temp.setVacancyName(vacancyName);
-                temp.setVacancyLink(link);
+                    // создание объекта вакансии и заполнение основных полей
+                    Vacancy temp = new Vacancy();
+                    temp.setVacancyName(vacancyName);
+                    temp.setVacancyLink(link);
 
-                if (filter != null) {
-                    if (filter.test(temp)) {
+                    if (filter != null) {
+                        if (filter.test(temp)) {
+                            vacancies.add(temp);
+                        }
+                    } else {
                         vacancies.add(temp);
                     }
-                } else {
-                    vacancies.add(temp);
                 }
             }
             page++;

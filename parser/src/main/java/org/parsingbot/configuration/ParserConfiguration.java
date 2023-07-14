@@ -11,10 +11,8 @@ import org.parsingbot.service.impl.HhVacancyFilter;
 import org.parsingbot.service.impl.HhVacancyService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableJpaRepositories("org.parsingbot")
 public class ParserConfiguration {
 
     @Bean

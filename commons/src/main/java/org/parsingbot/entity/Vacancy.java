@@ -3,6 +3,8 @@ package org.parsingbot.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Objects;
+
 
 @Data
 @Entity
@@ -23,5 +25,20 @@ public class Vacancy {
                 "vacancyName='" + vacancyName + '\'' +
                 ", vacancyLink='" + vacancyLink + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Vacancy vacancy = (Vacancy) o;
+
+        return Objects.equals(vacancyLink, vacancy.vacancyLink);
+    }
+
+    @Override
+    public int hashCode() {
+        return vacancyLink != null ? vacancyLink.hashCode() : 0;
     }
 }
