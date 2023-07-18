@@ -8,8 +8,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
  */
 public interface UpdateHandler {
 
-    /** Метод обработки событий
-     *  @param bot бот, в который пришло событие (костыль)
-     *  @param update событие */
+    /**
+     * Метод обработки событий
+     *
+     * @param bot    бот, в который пришло событие (костыль)
+     * @param update событие
+     */
     void handleUpdate(TelegramBot bot, Update update);
 }

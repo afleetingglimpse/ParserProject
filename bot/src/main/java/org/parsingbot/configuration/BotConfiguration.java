@@ -1,7 +1,9 @@
 package org.parsingbot.configuration;
 
 import org.parsingbot.repository.UserRepository;
+import org.parsingbot.schedule.ScheduleService;
 import org.parsingbot.service.Parser;
+import org.parsingbot.service.bot.BotParametersProvider;
 import org.parsingbot.service.bot.impl.TelegramBot;
 import org.parsingbot.service.handlers.CommandHandler;
 import org.parsingbot.service.handlers.ResponseHandler;
@@ -17,8 +19,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
+@EnableScheduling
 @EnableJpaRepositories("org.parsingbot")
 @Import({BotParametersProvider.class, ParserConfiguration.class})
 public class BotConfiguration {
