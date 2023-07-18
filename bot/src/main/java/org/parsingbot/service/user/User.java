@@ -13,4 +13,6 @@ public class User {
     private int id;
     private String userName;
     private String authorisation;
+    private String isSubscribed;
+    private int chatId;
 }

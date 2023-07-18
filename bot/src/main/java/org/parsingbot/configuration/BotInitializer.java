@@ -2,7 +2,6 @@ package org.parsingbot.configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.parsingbot.service.bot.AbstractBot;
 import org.parsingbot.service.bot.impl.TelegramBot;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;

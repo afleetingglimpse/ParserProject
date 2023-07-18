@@ -1,15 +1,16 @@
 package org.parsingbot.service.bot.impl;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.parsingbot.configuration.BotParametersProvider;
-import org.parsingbot.configuration.ParserConfiguration;
+import org.parsingbot.service.bot.BotParametersProvider;
 import org.parsingbot.service.Parser;
 import org.parsingbot.service.handlers.UpdateHandler;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Slf4j
+@Getter
 @RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
 
@@ -33,5 +34,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     public Parser getParser() {return parser;}
+
+
 
 }

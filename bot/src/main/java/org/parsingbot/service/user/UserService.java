@@ -1,5 +1,6 @@
 package org.parsingbot.service.user;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -8,4 +9,5 @@ import java.util.Optional;
 public interface UserService {
 
     Optional<User> getUserByName(String userName);
+    List<User> getSubscribedUsers();
 }

@@ -27,6 +27,7 @@ public class BaseUpdateHandler implements UpdateHandler {
     @Override
     public void handleUpdate(TelegramBot bot, Update update) {
         long chatId = update.getMessage().getChatId();
+        System.out.println(chatId);
         String userName = update.getMessage().getChat().getUserName();
         String messageBeginning = update.getMessage().getText().split(" ")[0];
         if (userName == null || messageBeginning == null) {
