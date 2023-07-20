@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.parsingbot.repository.UserRepository;
 import org.parsingbot.service.user.User;
 import org.parsingbot.service.user.UserService;
+import org.parsingbot.service.user.auth.Authorisation;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
@@ -20,8 +21,33 @@ public class BaseUserService implements UserService {
     }
 
     @Override
+    public Optional<User> getUserById(int id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
     @Cacheable("subscribedUsers")
     public List<User> getSubscribedUsers() {
         return userRepository.getSubscribedUsers();
+    }
+
+    @Override
+    public void updateAuthorisationByUserName(String userName, Authorisation authorisation) {
+        Optional<User> userOptional = userRepository.findByUserName(userName);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setAuthorisation(Authorisation.asString(authorisation));
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void updateAuthorisationById(int id, Authorisation authorisation) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setAuthorisation(Authorisation.asString(authorisation));
+            userRepository.save(user);
+        }
     }
 }
