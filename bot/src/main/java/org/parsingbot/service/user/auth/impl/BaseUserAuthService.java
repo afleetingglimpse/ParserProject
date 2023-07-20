@@ -21,8 +21,7 @@ public class BaseUserAuthService implements UserAuthService {
     public boolean isAuthorised(String userName) {
         Optional<User> userOptional = userService.getUserByName(userName);
         if (userOptional.isPresent()) {
-            return userOptional.get().getAuthorisation().toLowerCase().
-                    equals(Authorisation.asString(Authorisation.ADMIN));
+            return userOptional.get().getAuthorisation().toLowerCase().equals(Authorisation.asString(Authorisation.ADMIN));
         } else {
             log.warn(USER_NOT_FOUND_ERROR, userName);
         }
@@ -30,8 +29,13 @@ public class BaseUserAuthService implements UserAuthService {
     }
 
     @Override
-    public void setAuthorised(String userName, Authorisation authorisation) {
-        Optional<User> userOptional = userService.getUserByName(userName);
+    public void setAuthorisedByUserName(String userName, Authorisation authorisation) {
+        userService.updateAuthorisationByUserName(userName, authorisation);
+    }
+
+    @Override
+    public void setAuthorisedById(int id, Authorisation authorisation) {
+        Optional<User> userOptional = userService.getUserById(id);
         userOptional.ifPresent(user -> user.setAuthorisation(Authorisation.asString(authorisation)));
     }
 }
