@@ -1,13 +1,18 @@
 package org.parsingbot.schedule;
 
 import lombok.RequiredArgsConstructor;
+import org.parsingbot.entity.Vacancy;
+import org.parsingbot.service.Parser;
 import org.parsingbot.service.bot.impl.TelegramBot;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.user.User;
 import org.parsingbot.service.user.UserService;
+import org.parsingbot.utils.StringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
 
 @RequiredArgsConstructor
 public class ScheduleService {
@@ -16,9 +21,28 @@ public class ScheduleService {
     private final ResponseHandler responseHandler;
     private final UserService userService;
 
+    private static final Map<String, String> parsingParameters = Map.of(
+            "vacancyToSearch", "java",
+            "numberOfVacancies", "5"
+    );
+
     @Scheduled(fixedDelayString = "${fixedDelayMS}")
-    public void sendDataEverySec() {
+    public void sendDataEveryMinute() {
         List<User> subscribedUsers = userService.getSubscribedUsers();
-        subscribedUsers.forEach(user -> responseHandler.sendResponse(bot, "Hi", user.getChatId()));
+        subscribedUsers.forEach(user -> sendData(user, parsingParameters));
+    }
+
+    private void sendData(User user,  Map<String, String> parsingParameters) {
+        Parser parser = bot.getParser();
+
+        // TODO убрать хардкод
+        Predicate<Vacancy> unique = vacancy -> !parser.getAllVacancies().contains(vacancy);
+
+        String vacancyToSearch = parsingParameters.get("vacancyToSearch");
+        int numberOfVacancies = Integer.parseInt(parsingParameters.get("numberOfVacancies"));
+
+        List<Vacancy> vacancies = parser.parse(vacancyToSearch, numberOfVacancies, unique);
+
+        vacancies.forEach(vacancy -> responseHandler.sendResponse(bot, vacancy.getVacancyLink(), user.getChatId()));
     }
 }

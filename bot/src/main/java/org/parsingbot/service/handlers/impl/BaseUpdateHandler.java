@@ -6,6 +6,7 @@ import org.parsingbot.service.bot.impl.TelegramBot;
 import org.parsingbot.service.handlers.CommandHandler;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.handlers.UpdateHandler;
+import org.parsingbot.service.user.auth.Authorisation;
 import org.parsingbot.service.user.auth.UserAuthService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -15,10 +16,8 @@ public class BaseUpdateHandler implements UpdateHandler {
 
     private static final String NOT_AUTHORISED_ERROR = "User {} not authorised";
     private static final String INVALID_UPDATE_ERROR = "userName or/and message not valid";
-    private static final String NOT_A_COMMAND_MESSAGE = "Your message is not a command. " +
-            "Type /help to see the commands list";
-    private static final String NOT_AUTHORISED_MESSAGE = "Not authorised. Contact system administrators " +
-            "for further information.";
+    private static final String NOT_A_COMMAND_MESSAGE = "Your message is not a command. " + "Type /help to see the commands list";
+    private static final String NOT_AUTHORISED_MESSAGE = "Not authorised. Contact system administrators " + "for further information.";
 
     private final CommandHandler commandHandler;
     private final ResponseHandler responseHandler;
@@ -27,7 +26,6 @@ public class BaseUpdateHandler implements UpdateHandler {
     @Override
     public void handleUpdate(TelegramBot bot, Update update) {
         long chatId = update.getMessage().getChatId();
-        System.out.println(chatId);
         String userName = update.getMessage().getChat().getUserName();
         String messageBeginning = update.getMessage().getText().split(" ")[0];
         if (userName == null || messageBeginning == null) {
@@ -35,7 +33,7 @@ public class BaseUpdateHandler implements UpdateHandler {
             return;
         }
 
-        if (userAuthService.isAuthorised(userName)) {
+        if (userAuthService.isAuthorised(userName, Authorisation.ADMIN)) {
             if (commandHandler.isCommand(messageBeginning)) {
                 commandHandler.handleCommand(bot, update);
             } else {

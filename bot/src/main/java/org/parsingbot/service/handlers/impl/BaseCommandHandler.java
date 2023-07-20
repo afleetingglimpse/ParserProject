@@ -20,17 +20,14 @@ import java.util.function.Predicate;
 public class BaseCommandHandler implements CommandHandler {
 
     private static final String START_COMMAND_MESSAGE = "Привет, я бот, который умеет парсить HH!";
-
+    private final ResponseHandler responseHandler;
+    private TelegramBot bot;
+    private String userName;
+    private long chatId;
     private final Map<String, Function<String, Void>> commandsFunctionsMap = Map.of(
             "/hh", this::handleHhCommand,
             "/start", this::handleStartCommand
     );
-
-    private final ResponseHandler responseHandler;
-
-    private TelegramBot bot;
-    private String userName;
-    private long chatId;
 
     @Override
     public boolean isCommand(String command) {
@@ -45,16 +42,16 @@ public class BaseCommandHandler implements CommandHandler {
         String commandBeginning = command.split(" ")[0];
 
         this.bot = bot;
-        if(isCommand(commandBeginning)) {
+        if (isCommand(commandBeginning)) {
             commandsFunctionsMap.get(commandBeginning).apply(command);
         }
     }
 
     private Void handleHhCommand(String command) {
-        responseHandler.sendResponse(bot, "wow", chatId);
         List<String> commandParameters = StringUtils.parseHhCommand(command);
         Parser parser = bot.getParser();
 
+        // TODO убрать хардкод
         Predicate<Vacancy> unique = vacancy -> !parser.getAllVacancies().contains(vacancy);
 
         String vacancyToSearch = commandParameters.get(0);
@@ -68,5 +65,4 @@ public class BaseCommandHandler implements CommandHandler {
         responseHandler.sendResponse(bot, START_COMMAND_MESSAGE, chatId);
         return null;
     }
-
 }
