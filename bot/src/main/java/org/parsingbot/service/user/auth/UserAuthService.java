@@ -9,10 +9,10 @@ public interface UserAuthService {
      * Проверка авторизации пользователей
      *
      * @param userName      имя пользователя
-     * @param authorisation необходимая авторизация
+     * @param minimumAuthorisation необходимая авторизация
      * @return true/false если у пользователя есть/нет прав для просмотра
      */
-    boolean isAuthorised(String userName, Authorisation authorisation);
+    boolean isAuthorised(String userName, Authorisation minimumAuthorisation);
 
     /**
      * Установка авторизации пользователя по userName

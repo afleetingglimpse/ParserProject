@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Authorisation {
     DEFAULT("DEFAULT"),
-    ADMIN("ADMIN");
+    USER("USER"),
+    ADMIN("ADMIN"),
+    DUNGEON_MASTER("DUNGEON_MASTER");
 
     private final String name;
 

@@ -2,6 +2,7 @@ package org.parsingbot.service.handlers.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.parsingbot.service.bot.BotParametersProvider;
 import org.parsingbot.service.bot.impl.TelegramBot;
 import org.parsingbot.service.handlers.CommandHandler;
 import org.parsingbot.service.handlers.ResponseHandler;
@@ -19,6 +20,7 @@ public class BaseUpdateHandler implements UpdateHandler {
     private static final String NOT_A_COMMAND_MESSAGE = "Your message is not a command. " + "Type /help to see the commands list";
     private static final String NOT_AUTHORISED_MESSAGE = "Not authorised. Contact system administrators " + "for further information.";
 
+    private final BotParametersProvider botParameters;
     private final CommandHandler commandHandler;
     private final ResponseHandler responseHandler;
     private final UserAuthService userAuthService;
@@ -33,7 +35,8 @@ public class BaseUpdateHandler implements UpdateHandler {
             return;
         }
 
-        if (userAuthService.isAuthorised(userName, Authorisation.ADMIN)) {
+        Authorisation minimunAuthorisation = Authorisation.valueOf(botParameters.getMinimumAuthorisation());
+        if (userAuthService.isAuthorised(userName, minimunAuthorisation)) {
             if (commandHandler.isCommand(messageBeginning)) {
                 commandHandler.handleCommand(bot, update);
             } else {

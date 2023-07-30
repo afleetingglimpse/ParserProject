@@ -15,4 +15,7 @@ public class BotParametersProvider {
 
     @Value("${bot.token}")
     private String token;
+
+    @Value("${bot.commands.minimumAuthorisation}")
+    private String minimumAuthorisation;
 }

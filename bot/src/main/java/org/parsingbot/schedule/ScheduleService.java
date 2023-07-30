@@ -26,7 +26,7 @@ public class ScheduleService {
             "numberOfVacancies", "5"
     );
 
-    @Scheduled(fixedDelayString = "${fixedDelayMS}")
+    @Scheduled(fixedDelayString = "${scheduler.fixedDelayMS}")
     public void sendDataEveryMinute() {
         List<User> subscribedUsers = userService.getSubscribedUsers();
         subscribedUsers.forEach(user -> sendData(user, parsingParameters));
