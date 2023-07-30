@@ -2,6 +2,7 @@ package org.parsingbot.service.user.auth.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.parsingbot.service.bot.BotParametersProvider;
 import org.parsingbot.service.user.User;
 import org.parsingbot.service.user.UserService;
 import org.parsingbot.service.user.auth.Authorisation;
@@ -18,10 +19,12 @@ public class BaseUserAuthService implements UserAuthService {
     private final UserService userService;
 
     @Override
-    public boolean isAuthorised(String userName, Authorisation authorisation) {
+    public boolean isAuthorised(String userName, Authorisation minimumAuthorisation) {
         Optional<User> userOptional = userService.getUserByName(userName);
         if (userOptional.isPresent()) {
-            return userOptional.get().getAuthorisation().toLowerCase().equals(Authorisation.asString(authorisation));
+            User user = userOptional.get();
+            Authorisation userAuthorisation = Authorisation.valueOf(user.getAuthorisation());
+            return userAuthorisation.compareTo(minimumAuthorisation) >= 0;
         } else {
             log.warn(USER_NOT_FOUND_ERROR, userName);
         }

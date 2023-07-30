@@ -48,10 +48,12 @@ public class BotConfiguration {
     }
 
     @Bean
-    UpdateHandler updateHandler(CommandHandler commandHandler,
+    UpdateHandler updateHandler(BotParametersProvider botParametersProvider,
+                                CommandHandler commandHandler,
                                 ResponseHandler responseHandler,
                                 UserAuthService userAuthService) {
         return new BaseUpdateHandler(
+                botParametersProvider,
                 commandHandler,
                 responseHandler,
                 userAuthService);
