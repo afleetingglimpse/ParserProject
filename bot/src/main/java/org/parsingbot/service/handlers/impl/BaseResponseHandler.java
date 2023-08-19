@@ -2,7 +2,7 @@ package org.parsingbot.service.handlers.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.parsingbot.service.bot.impl.TelegramBot;
+import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
