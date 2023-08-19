@@ -1,19 +1,17 @@
 package org.parsingbot.schedule;
 
 import lombok.RequiredArgsConstructor;
+import org.parsingbot.entity.User;
 import org.parsingbot.entity.Vacancy;
 import org.parsingbot.service.Parser;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.bot.utils.VacancyPredicates;
 import org.parsingbot.service.handlers.ResponseHandler;
-import org.parsingbot.service.user.User;
 import org.parsingbot.service.user.UserService;
-import org.parsingbot.utils.StringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 @RequiredArgsConstructor
 public class ScheduleService {
@@ -33,7 +31,7 @@ public class ScheduleService {
         subscribedUsers.forEach(user -> sendData(user, parsingParameters));
     }
 
-    private void sendData(User user,  Map<String, String> parsingParameters) {
+    private void sendData(User user, Map<String, String> parsingParameters) {
         Parser parser = bot.getParser();
 
         String vacancyToSearch = parsingParameters.get("vacancyToSearch");

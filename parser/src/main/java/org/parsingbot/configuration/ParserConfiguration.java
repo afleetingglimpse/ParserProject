@@ -11,8 +11,10 @@ import org.parsingbot.service.impl.HhVacancyFilter;
 import org.parsingbot.service.impl.HhVacancyService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @Configuration
+@Import(CommonConfiguration.class)
 public class ParserConfiguration {
 
     @Bean

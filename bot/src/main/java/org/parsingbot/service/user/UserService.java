@@ -1,9 +1,9 @@
 package org.parsingbot.service.user;
 
+import org.parsingbot.entity.User;
 import org.parsingbot.service.user.auth.Authorisation;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
