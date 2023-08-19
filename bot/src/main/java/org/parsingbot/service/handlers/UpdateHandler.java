@@ -1,6 +1,6 @@
 package org.parsingbot.service.handlers;
 
-import org.parsingbot.service.bot.impl.TelegramBot;
+import org.parsingbot.service.bot.TelegramBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**

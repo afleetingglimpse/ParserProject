@@ -3,7 +3,8 @@ package org.parsingbot.schedule;
 import lombok.RequiredArgsConstructor;
 import org.parsingbot.entity.Vacancy;
 import org.parsingbot.service.Parser;
-import org.parsingbot.service.bot.impl.TelegramBot;
+import org.parsingbot.service.bot.TelegramBot;
+import org.parsingbot.service.bot.utils.VacancyPredicates;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.user.User;
 import org.parsingbot.service.user.UserService;
@@ -35,13 +36,10 @@ public class ScheduleService {
     private void sendData(User user,  Map<String, String> parsingParameters) {
         Parser parser = bot.getParser();
 
-        // TODO убрать хардкод
-        Predicate<Vacancy> unique = vacancy -> !parser.getAllVacancies().contains(vacancy);
-
         String vacancyToSearch = parsingParameters.get("vacancyToSearch");
         int numberOfVacancies = Integer.parseInt(parsingParameters.get("numberOfVacancies"));
 
-        List<Vacancy> vacancies = parser.parse(vacancyToSearch, numberOfVacancies, unique);
+        List<Vacancy> vacancies = parser.parse(vacancyToSearch, numberOfVacancies, VacancyPredicates.unique(parser));
 
         vacancies.forEach(vacancy -> responseHandler.sendResponse(bot, vacancy.getVacancyLink(), user.getChatId()));
     }

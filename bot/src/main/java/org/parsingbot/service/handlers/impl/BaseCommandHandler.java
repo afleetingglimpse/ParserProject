@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.entity.Vacancy;
 import org.parsingbot.service.Parser;
-import org.parsingbot.service.bot.impl.TelegramBot;
+import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.handlers.CommandHandler;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.utils.StringUtils;
