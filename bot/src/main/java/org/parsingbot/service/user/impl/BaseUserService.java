@@ -1,8 +1,8 @@
 package org.parsingbot.service.user.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.parsingbot.entity.User;
 import org.parsingbot.repository.UserRepository;
-import org.parsingbot.service.user.User;
 import org.parsingbot.service.user.UserService;
 import org.parsingbot.service.user.auth.Authorisation;
 import org.springframework.cache.annotation.Cacheable;

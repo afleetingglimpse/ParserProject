@@ -1,7 +1,7 @@
 package org.parsingbot.configuration;
 
 import org.parsingbot.schedule.ScheduleService;
-import org.parsingbot.service.bot.impl.TelegramBot;
+import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.user.UserService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

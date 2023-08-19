@@ -3,6 +3,7 @@ package org.parsingbot.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -18,6 +19,13 @@ public class Vacancy {
     private String vacancyName;
     private String vacancyLink;
     private String vacancyDescription;
+
+    @ManyToMany(mappedBy = "userVacancies")
+    private List<User> vacancyFollowers;
+
+    public void addUser(User user) {
+        vacancyFollowers.add(user);
+    }
 
     @Override
     public String toString() {

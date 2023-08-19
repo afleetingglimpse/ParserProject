@@ -2,8 +2,7 @@ package org.parsingbot.service.user.auth.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.parsingbot.service.bot.BotParametersProvider;
-import org.parsingbot.service.user.User;
+import org.parsingbot.entity.User;
 import org.parsingbot.service.user.UserService;
 import org.parsingbot.service.user.auth.Authorisation;
 import org.parsingbot.service.user.auth.UserAuthService;
