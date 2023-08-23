@@ -7,8 +7,8 @@ import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.handlers.CommandHandler;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.handlers.UpdateHandler;
-import org.parsingbot.service.user.auth.Authorisation;
-import org.parsingbot.service.user.auth.UserAuthService;
+import org.parsingbot.service.Authorisation;
+import org.parsingbot.service.UserAuthService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Slf4j

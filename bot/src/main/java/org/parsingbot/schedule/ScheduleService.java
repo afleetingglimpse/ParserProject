@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.parsingbot.entity.User;
 import org.parsingbot.entity.Vacancy;
 import org.parsingbot.service.Parser;
+import org.parsingbot.service.UserService;
+import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.bot.utils.VacancyPredicates;
 import org.parsingbot.service.handlers.ResponseHandler;
-import org.parsingbot.service.user.UserService;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class ScheduleService {
     private final TelegramBot bot;
     private final ResponseHandler responseHandler;
     private final UserService userService;
+    private final VacancyService vacancyService;
 
     private static final Map<String, String> parsingParameters = Map.of(
             "vacancyToSearch", "java",
@@ -37,8 +39,16 @@ public class ScheduleService {
         String vacancyToSearch = parsingParameters.get("vacancyToSearch");
         int numberOfVacancies = Integer.parseInt(parsingParameters.get("numberOfVacancies"));
 
-        List<Vacancy> vacancies = parser.parse(vacancyToSearch, numberOfVacancies, VacancyPredicates.unique(parser));
+        List<Integer> userVacanciesIds = userService.getUserVacanciesIds(1);
+        List<Vacancy> vacancies = vacancyService.getVacanciesByIds(userVacanciesIds);
 
-        vacancies.forEach(vacancy -> responseHandler.sendResponse(bot, vacancy.getVacancyLink(), user.getChatId()));
+        List<Vacancy> newVacancies = parser.parse(
+                vacancyToSearch,
+                numberOfVacancies,
+                VacancyPredicates.uniqueVacancy(vacancies)
+        );
+
+        newVacancies.forEach(vacancy ->
+                responseHandler.sendResponse(bot, vacancy.getVacancyLink(), user.getChatId()));
     }
 }

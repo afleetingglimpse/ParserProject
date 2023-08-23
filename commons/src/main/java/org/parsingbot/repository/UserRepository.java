@@ -9,6 +9,13 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+    @Query(value = "select vacancy_id from vacancies " +
+            "join users_vacancies on vacancies.id = users_vacancies.vacancy_id " +
+            "join users on users_vacancies.user_id = users.id " +
+            "where users.id = ?1",
+            nativeQuery = true)
+    List<Integer> getUserVacanciesIds(Integer userId);
+
     Optional<User> findByUserName(String userName);
 
     @Query(value = "select * from users where is_subscribed = 'true'", nativeQuery = true)
