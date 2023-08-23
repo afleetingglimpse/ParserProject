@@ -28,14 +28,4 @@ public interface Parser {
      * @return список найденных вакансий
      */
     List<Vacancy> parse(String vacancyToSearch, int numberOfVacancies);
-
-    /**
-     * Функция достает из БД вакансии, удовлетворяющие функции фильтра
-     *
-     * @param filter функция фильтрации вакансий
-     * @return список найденных вакансий, прошедших фильтрацию
-     */
-    List<Vacancy> getVacancies(Predicate<Vacancy> filter);
-
-    List<Vacancy> getAllVacancies();
 }

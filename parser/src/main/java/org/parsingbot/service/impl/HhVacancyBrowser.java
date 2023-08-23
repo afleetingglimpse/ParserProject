@@ -17,6 +17,7 @@ public class HhVacancyBrowser implements VacancyBrowser {
     private static final String VACANCY_BODY_CLASS = "vacancy-serp-item-body";
     private static final String VACANCY_TITLE_CLASS = "serp-item__title";
     private static final String URL_TEMPLATE = "https://hh.ru/search/vacancy?text=%s&from=suggest_post&area=1&page=";
+
     @Override
     public List<Vacancy> browse(String vacancyToSearch, int numberOfVacancies, Predicate<Vacancy> filter)
             throws IOException {
