@@ -18,24 +18,23 @@ import org.springframework.context.annotation.Import;
 public class ParserConfiguration {
 
     @Bean
-    VacancyFilter vacancyFilter() {
+    public VacancyFilter vacancyFilter() {
         return new HhVacancyFilter();
     }
 
     @Bean
-    VacancyService vacancyService(VacancyFilter vacancyFilter, VacancyRepository vacancyRepository) {
+    public VacancyService vacancyService(VacancyFilter vacancyFilter, VacancyRepository vacancyRepository) {
         return new HhVacancyService(vacancyFilter, vacancyRepository);
     }
 
     @Bean
-    VacancyBrowser vacancyBrowser() {
+    public VacancyBrowser vacancyBrowser() {
         return new HhVacancyBrowser();
     }
 
     @Bean
-    Parser parser(VacancyService vacancyService, VacancyBrowser vacancyBrowser) {
+    public Parser parser(VacancyService vacancyService, VacancyBrowser vacancyBrowser) {
         return new HhParser(vacancyService, vacancyBrowser);
     }
-
 }
 
