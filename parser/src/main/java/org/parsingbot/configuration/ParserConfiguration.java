@@ -27,8 +27,8 @@ public class ParserConfiguration {
     }
 
     @Bean
-    public Parser parser(VacancyService vacancyService, VacancyBrowser vacancyBrowser) {
-        return new HhParser(vacancyService, vacancyBrowser);
+    public Parser parser(VacancyBrowser vacancyBrowser) {
+        return new HhParser(vacancyBrowser);
     }
 }
 

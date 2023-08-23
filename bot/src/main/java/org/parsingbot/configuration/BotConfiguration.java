@@ -2,6 +2,7 @@ package org.parsingbot.configuration;
 
 import org.parsingbot.repository.UserRepository;
 import org.parsingbot.service.Parser;
+import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.BotParametersProvider;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.handlers.CommandHandler;
@@ -27,23 +28,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class BotConfiguration {
 
     @Bean
-    CommandHandler commandHandler(ResponseHandler responseHandler) {
-        return new BaseCommandHandler(responseHandler);
+    CommandHandler commandHandler(ResponseHandler responseHandler,
+                                  VacancyService vacancyService) {
+        return new BaseCommandHandler(responseHandler, vacancyService);
     }
 
     @Bean
     ResponseHandler responseHandler() {
         return new BaseResponseHandler();
-    }
-
-    @Bean
-    UserService userService(UserRepository userRepository) {
-        return new UserServiceImpl(userRepository);
-    }
-
-    @Bean
-    UserAuthService userAuthService(UserService userService) {
-        return new UserAuthServiceImpl(userService);
     }
 
     @Bean

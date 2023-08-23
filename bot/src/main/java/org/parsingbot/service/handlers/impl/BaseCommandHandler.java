@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.entity.Vacancy;
 import org.parsingbot.service.Parser;
+import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.bot.utils.VacancyPredicates;
 import org.parsingbot.service.handlers.CommandHandler;
@@ -22,6 +23,7 @@ public class BaseCommandHandler implements CommandHandler {
 
     private static final String START_COMMAND_MESSAGE = "Привет, я бот, который умеет парсить HH!";
     private final ResponseHandler responseHandler;
+    private final VacancyService vacancyService;
     private TelegramBot bot;
     private String userName;
     private long chatId;
@@ -58,7 +60,10 @@ public class BaseCommandHandler implements CommandHandler {
         String vacancyToSearch = commandParameters.get(0);
         int numberOfVacancies = Integer.parseInt(commandParameters.get(1));
         List<Vacancy> vacancies = parser.parse(vacancyToSearch, numberOfVacancies, unique);
-        vacancies.forEach(vacancy -> responseHandler.sendResponse(bot, vacancy.getVacancyLink(), chatId));
+        vacancies.forEach(vacancy -> {
+            vacancyService.save(vacancy);
+            responseHandler.sendResponse(bot, vacancy.getVacancyLink(), chatId);
+        });
         return null;
     }
 
