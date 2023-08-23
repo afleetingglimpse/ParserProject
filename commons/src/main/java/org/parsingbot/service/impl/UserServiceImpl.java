@@ -1,17 +1,18 @@
-package org.parsingbot.service.user.impl;
+package org.parsingbot.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.parsingbot.entity.User;
+import org.parsingbot.entity.Vacancy;
 import org.parsingbot.repository.UserRepository;
-import org.parsingbot.service.user.UserService;
-import org.parsingbot.service.user.auth.Authorisation;
+import org.parsingbot.service.Authorisation;
+import org.parsingbot.service.UserService;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class BaseUserService implements UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -50,4 +51,10 @@ public class BaseUserService implements UserService {
             userRepository.save(user);
         }
     }
+
+    @Override
+    public List<Integer> getUserVacanciesIds(Integer userId) {
+        return userRepository.getUserVacanciesIds(userId);
+    }
+
 }

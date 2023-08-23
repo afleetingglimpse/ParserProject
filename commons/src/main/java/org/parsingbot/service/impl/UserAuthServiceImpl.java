@@ -1,17 +1,17 @@
-package org.parsingbot.service.user.auth.impl;
+package org.parsingbot.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.entity.User;
-import org.parsingbot.service.user.UserService;
-import org.parsingbot.service.user.auth.Authorisation;
-import org.parsingbot.service.user.auth.UserAuthService;
+import org.parsingbot.service.Authorisation;
+import org.parsingbot.service.UserAuthService;
+import org.parsingbot.service.UserService;
 
 import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
-public class BaseUserAuthService implements UserAuthService {
+public class UserAuthServiceImpl implements UserAuthService {
 
     private static final String USER_NOT_FOUND_ERROR = "User with name {} wasn't found";
 

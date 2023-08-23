@@ -1,4 +1,4 @@
-package org.parsingbot.service.user.auth;
+package org.parsingbot.service;
 
 /**
  * Сервис авторизации пользователей

@@ -1,4 +1,4 @@
-package org.parsingbot.service.user.auth;
+package org.parsingbot.service;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

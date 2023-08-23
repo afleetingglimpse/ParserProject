@@ -1,7 +1,7 @@
-package org.parsingbot.service.user;
+package org.parsingbot.service;
 
 import org.parsingbot.entity.User;
-import org.parsingbot.service.user.auth.Authorisation;
+import org.parsingbot.entity.Vacancy;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +20,6 @@ public interface UserService {
     void updateAuthorisationByUserName(String userName, Authorisation authorisation);
 
     void updateAuthorisationById(int id, Authorisation authorisation);
+
+    List<Integer> getUserVacanciesIds(Integer userId);
 }

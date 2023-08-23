@@ -1,8 +1,8 @@
 package org.parsingbot.service.bot.utils;
 
 import org.parsingbot.entity.Vacancy;
-import org.parsingbot.service.Parser;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class VacancyPredicates {
@@ -15,7 +15,7 @@ public class VacancyPredicates {
     public static final Predicate<Vacancy> SENIOR =
             vacancy -> vacancy.getVacancyName().toLowerCase().contains("senior");
 
-    public static Predicate<Vacancy> unique(Parser parser) {
-        return vacancy -> !parser.getAllVacancies().contains(vacancy);
+    public static Predicate<Vacancy> uniqueVacancy(List<Vacancy> vacancies) {
+        return vacancy -> !vacancies.contains(vacancy);
     }
 }

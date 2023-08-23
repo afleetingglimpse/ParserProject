@@ -1,9 +1,10 @@
 package org.parsingbot.configuration;
 
 import org.parsingbot.schedule.ScheduleService;
+import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.handlers.ResponseHandler;
-import org.parsingbot.service.user.UserService;
+import org.parsingbot.service.UserService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +20,9 @@ public class ScheduleConfiguration {
     @ConditionalOnProperty(value = "scheduler.enabled")
     ScheduleService scheduleService(TelegramBot bot,
                                     ResponseHandler responseHandler,
-                                    UserService userService) {
-        return new ScheduleService(bot, responseHandler, userService);
+                                    UserService userService,
+                                    VacancyService vacancyService) {
+        return new ScheduleService(bot, responseHandler, userService, vacancyService);
     }
 
 }

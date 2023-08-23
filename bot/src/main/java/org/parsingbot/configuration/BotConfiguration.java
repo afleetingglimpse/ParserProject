@@ -10,10 +10,10 @@ import org.parsingbot.service.handlers.UpdateHandler;
 import org.parsingbot.service.handlers.impl.BaseCommandHandler;
 import org.parsingbot.service.handlers.impl.BaseResponseHandler;
 import org.parsingbot.service.handlers.impl.BaseUpdateHandler;
-import org.parsingbot.service.user.UserService;
-import org.parsingbot.service.user.auth.UserAuthService;
-import org.parsingbot.service.user.auth.impl.BaseUserAuthService;
-import org.parsingbot.service.user.impl.BaseUserService;
+import org.parsingbot.service.UserService;
+import org.parsingbot.service.UserAuthService;
+import org.parsingbot.service.impl.UserAuthServiceImpl;
+import org.parsingbot.service.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -38,12 +38,12 @@ public class BotConfiguration {
 
     @Bean
     UserService userService(UserRepository userRepository) {
-        return new BaseUserService(userRepository);
+        return new UserServiceImpl(userRepository);
     }
 
     @Bean
     UserAuthService userAuthService(UserService userService) {
-        return new BaseUserAuthService(userService);
+        return new UserAuthServiceImpl(userService);
     }
 
     @Bean
