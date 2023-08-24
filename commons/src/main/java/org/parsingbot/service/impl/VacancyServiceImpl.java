@@ -1,6 +1,7 @@
 package org.parsingbot.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.parsingbot.entity.User;
 import org.parsingbot.entity.Vacancy;
 import org.parsingbot.repository.UserRepository;
 import org.parsingbot.repository.VacancyRepository;
@@ -27,5 +28,16 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<Vacancy> getVacanciesByIds(List<Integer> idList) {
         return vacancyRepository.findAllById(idList);
+    }
+
+    @Override
+    public List<Vacancy> getVacanciesByUserId(Integer userId) {
+        List<Integer> userVacanciesIds = userRepository.getUserVacanciesIds(userId);
+        return getVacanciesByIds(userVacanciesIds);
+    }
+
+    @Override
+    public List<Vacancy> getVacanciesByUser(User user) {
+        return getVacanciesByUserId(user.getId());
     }
 }

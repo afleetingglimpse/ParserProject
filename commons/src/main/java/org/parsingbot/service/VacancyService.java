@@ -23,4 +23,8 @@ public interface VacancyService {
 
     List<Vacancy> getVacanciesByIds(List<Integer> idList);
 
+    List<Vacancy> getVacanciesByUserId(Integer userId);
+
+    List<Vacancy> getVacanciesByUser(User user);
+
 }

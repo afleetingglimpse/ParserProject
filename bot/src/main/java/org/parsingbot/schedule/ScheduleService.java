@@ -22,7 +22,7 @@ public class ScheduleService {
     private final UserService userService;
     private final VacancyService vacancyService;
 
-    private static final Map<String, String> parsingParameters = Map.of(
+    private static final Map<String, String> DEFAULT_PARSING_PARAMETERS = Map.of(
             "vacancyToSearch", "java",
             "numberOfVacancies", "5"
     );
@@ -30,7 +30,7 @@ public class ScheduleService {
     @Scheduled(fixedDelayString = "${scheduler.fixedDelayMS}")
     public void sendDataEveryMinute() {
         List<User> subscribedUsers = userService.getSubscribedUsers();
-        subscribedUsers.forEach(user -> sendData(user, parsingParameters));
+        subscribedUsers.forEach(user -> sendData(user, DEFAULT_PARSING_PARAMETERS));
     }
 
     private void sendData(User user, Map<String, String> parsingParameters) {
@@ -39,7 +39,7 @@ public class ScheduleService {
         String vacancyToSearch = parsingParameters.get("vacancyToSearch");
         int numberOfVacancies = Integer.parseInt(parsingParameters.get("numberOfVacancies"));
 
-        List<Integer> userVacanciesIds = userService.getUserVacanciesIds(1);
+        List<Integer> userVacanciesIds = userService.getUserVacanciesIds(user.getId());
         List<Vacancy> vacancies = vacancyService.getVacanciesByIds(userVacanciesIds);
 
         List<Vacancy> newVacancies = parser.parse(
