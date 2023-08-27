@@ -21,7 +21,7 @@ public class User {
     private String isSubscribed;
     private int chatId;
 
-    @ManyToMany
+    @ManyToMany//(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_vacancies",
             joinColumns = @JoinColumn(name = "user_id"),
