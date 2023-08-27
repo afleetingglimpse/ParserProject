@@ -22,4 +22,8 @@ public interface UserService {
     void updateAuthorisationById(int id, Authorisation authorisation);
 
     List<Integer> getUserVacanciesIds(Integer userId);
+
+    void addVacancies(List<Vacancy> vacancies);
+
+    void save(User user);
 }

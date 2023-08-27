@@ -2,14 +2,11 @@ package org.parsingbot.configuration;
 
 import org.parsingbot.service.Parser;
 import org.parsingbot.service.UserAuthService;
-import org.parsingbot.service.UserService;
-import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.BotParametersProvider;
 import org.parsingbot.service.bot.TelegramBot;
-import org.parsingbot.service.handlers.CommandHandler;
+import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.handlers.UpdateHandler;
-import org.parsingbot.service.handlers.impl.BaseCommandHandler;
 import org.parsingbot.service.handlers.impl.BaseResponseHandler;
 import org.parsingbot.service.handlers.impl.BaseUpdateHandler;
 import org.springframework.context.annotation.Bean;
@@ -25,25 +22,18 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class BotConfiguration {
 
     @Bean
-    public CommandHandler commandHandler(ResponseHandler responseHandler,
-                                         VacancyService vacancyService,
-                                         UserService userService) {
-        return new BaseCommandHandler(responseHandler, vacancyService, userService);
-    }
-
-    @Bean
     public ResponseHandler responseHandler() {
         return new BaseResponseHandler();
     }
 
     @Bean
     public UpdateHandler updateHandler(BotParametersProvider botParametersProvider,
-                                       CommandHandler commandHandler,
+                                       CommandHandlerDispatcher commandHandlerDispatcher,
                                        ResponseHandler responseHandler,
                                        UserAuthService userAuthService) {
         return new BaseUpdateHandler(
                 botParametersProvider,
-                commandHandler,
+                commandHandlerDispatcher,
                 responseHandler,
                 userAuthService);
     }

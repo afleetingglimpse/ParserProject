@@ -57,4 +57,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.getUserVacanciesIds(userId);
     }
 
+    @Override
+    public void addVacancies(List<Vacancy> vacancies) {
+
+    }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
 }
