@@ -1,6 +1,5 @@
 package org.parsingbot.configuration;
 
-import org.parsingbot.entity.CommandDto;
 import org.parsingbot.entity.CommandEnum;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;

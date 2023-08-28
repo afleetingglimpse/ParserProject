@@ -8,6 +8,7 @@ import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.bot.utils.VacancyPredicates;
+import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -17,15 +18,15 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ScheduleService {
 
-    private final TelegramBot bot;
-    private final ResponseHandler responseHandler;
-    private final UserService userService;
-    private final VacancyService vacancyService;
-
     private static final Map<String, String> DEFAULT_PARSING_PARAMETERS = Map.of(
             "vacancyToSearch", "java",
             "numberOfVacancies", "5"
     );
+
+    private final TelegramBot bot;
+    private final ResponseHandler responseHandler;
+    private final UserService userService;
+    private final VacancyService vacancyService;
 
     @Scheduled(fixedDelayString = "${scheduler.fixedDelayMS}")
     public void sendDataEveryMinute() {
@@ -39,16 +40,19 @@ public class ScheduleService {
         String vacancyToSearch = parsingParameters.get("vacancyToSearch");
         int numberOfVacancies = Integer.parseInt(parsingParameters.get("numberOfVacancies"));
 
-        List<Integer> userVacanciesIds = userService.getUserVacanciesIds(user.getId());
-        List<Vacancy> vacancies = vacancyService.getVacanciesByIds(userVacanciesIds);
+        List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
 
         List<Vacancy> newVacancies = parser.parse(
                 vacancyToSearch,
                 numberOfVacancies,
-                VacancyPredicates.uniqueVacancy(vacancies)
+                VacancyPredicates.uniqueVacancy(userVacancies)
         );
 
-        newVacancies.forEach(vacancy ->
-                responseHandler.sendResponse(bot, vacancy.getVacancyLink(), user.getChatId()));
+        newVacancies.forEach(vacancy -> {
+            user.addVacancy(vacancy);
+            responseHandler.sendResponse(bot, vacancy.getVacancyLink(), user.getChatId());
+        });
+        vacancyService.save(newVacancies);
+        userService.save(user);
     }
 }
