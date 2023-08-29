@@ -24,13 +24,11 @@ public class CommandHandlerConfiguration {
     @Bean
     public CommandHandler hhCommandHandler(ResponseHandler responseHandler,
                                            VacancyService vacancyService,
-                                           UserService userService,
-                                           TelegramBot bot) {
+                                           UserService userService) {
         return new HhCommandHandler(
                 responseHandler,
                 vacancyService,
-                userService,
-                bot);
+                userService);
     }
 
     @Bean
