@@ -1,7 +1,6 @@
 package org.parsingbot.service.commands;
 
 import org.parsingbot.entity.CommandDto;
-import org.parsingbot.service.bot.TelegramBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
@@ -12,7 +11,8 @@ public interface CommandHandler {
     /**
      * Метод реализующий логику выполнения команды в событии
      *
-     * @param update событие
+     * @param commandDto обертка над объектом команды от пользователя
+     * @param update     объект Update передаваемый вместе с командой
      */
-    void handleCommand(TelegramBot bot, CommandDto commandDto, Update update);
+    void handleCommand(CommandDto commandDto, Update update);
 }

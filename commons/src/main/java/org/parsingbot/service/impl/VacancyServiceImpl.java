@@ -26,8 +26,8 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<Vacancy> getVacanciesByIds(List<Integer> idList) {
-        return vacancyRepository.findAllById(idList);
+    public List<Vacancy> getVacanciesByIds(List<Integer> vacanciesIdsList) {
+        return vacancyRepository.findAllById(vacanciesIdsList);
     }
 
     @Override

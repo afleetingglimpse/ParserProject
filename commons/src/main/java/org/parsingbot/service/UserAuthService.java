@@ -15,14 +15,6 @@ public interface UserAuthService {
     boolean isAuthorised(String userName, Authorisation minimumAuthorisation);
 
     /**
-     * Установка авторизации пользователя по userName
-     *
-     * @param userName      имя пользователя
-     * @param authorisation устанавливаемая авторизация
-     */
-    void setAuthorisedByUserName(String userName, Authorisation authorisation);
-
-    /**
      * Установка авторизации пользователя по id
      *
      * @param id            id пользователя

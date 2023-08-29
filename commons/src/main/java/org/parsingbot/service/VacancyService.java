@@ -21,10 +21,21 @@ public interface VacancyService {
      */
     void save(Vacancy vacancy);
 
-    List<Vacancy> getVacanciesByIds(List<Integer> idList);
+    /**
+     * @param vacanciesIdsList список id вакансий
+     * @return список вакансий с соответствующими id
+     */
+    List<Vacancy> getVacanciesByIds(List<Integer> vacanciesIdsList);
 
+    /**
+     * @param userId id пользователя
+     * @return список вакансий, на которые подписан пользователь
+     */
     List<Vacancy> getVacanciesByUserId(Integer userId);
 
+    /**
+     * @param user объект пользователя
+     * @return список вакансий, на которые подписан пользователь
+     */
     List<Vacancy> getVacanciesByUser(User user);
-
 }

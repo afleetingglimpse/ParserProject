@@ -49,7 +49,7 @@ public class BaseUpdateHandler implements UpdateHandler {
                 responseHandler.sendResponse(bot, NOT_A_COMMAND_MESSAGE, chatId);
                 return;
             }
-            commandHandler.handleCommand(bot, commandDto, update);
+            commandHandler.handleCommand(commandDto, update);
         } else {
             // log.warn(NOT_AUTHORISED_ERROR, userName);
             responseHandler.sendResponse(bot, NOT_AUTHORISED_MESSAGE, chatId);

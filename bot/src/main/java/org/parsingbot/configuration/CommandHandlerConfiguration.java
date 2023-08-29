@@ -3,6 +3,7 @@ package org.parsingbot.configuration;
 import org.parsingbot.entity.CommandEnum;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
+import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.service.commands.impl.CommandHandlerDispatcherImpl;
@@ -23,11 +24,13 @@ public class CommandHandlerConfiguration {
     @Bean
     public CommandHandler hhCommandHandler(ResponseHandler responseHandler,
                                            VacancyService vacancyService,
-                                           UserService userService) {
+                                           UserService userService,
+                                           TelegramBot bot) {
         return new HhCommandHandler(
                 responseHandler,
                 vacancyService,
-                userService);
+                userService,
+                bot);
     }
 
     @Bean

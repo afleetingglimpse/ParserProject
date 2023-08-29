@@ -25,9 +25,10 @@ public class HhCommandHandler implements CommandHandler {
     private final ResponseHandler responseHandler;
     private final VacancyService vacancyService;
     private final UserService userService;
+    private final TelegramBot bot;
 
     @Override
-    public void handleCommand(TelegramBot bot, CommandDto command, Update update) {
+    public void handleCommand(CommandDto command, Update update) {
         Long chatId = update.getMessage().getChatId();
         String userName = update.getMessage().getChat().getUserName();
         Optional<User> userOptional = userService.getUserByName(userName);
