@@ -9,9 +9,10 @@ import org.parsingbot.entity.CommandDto;
 public interface CommandHandlerDispatcher {
 
     /**
+     * Метод реализующий логику выбора обработчика в зависимости от полученной команды
+     *
      * @param command команда
      * @return диспетчер, обрабатывающий входящую команду
      */
     CommandHandler getCommandHandler(CommandDto command);
-
 }

@@ -31,11 +31,6 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
-    public void setAuthorisedByUserName(String userName, Authorisation authorisation) {
-        userService.updateAuthorisationByUserName(userName, authorisation);
-    }
-
-    @Override
     public void setAuthorisedById(int id, Authorisation authorisation) {
         userService.updateAuthorisationById(id, authorisation);
     }

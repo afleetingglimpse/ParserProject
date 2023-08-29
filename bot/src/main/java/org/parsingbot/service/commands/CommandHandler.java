@@ -12,7 +12,9 @@ public interface CommandHandler {
     /**
      * Метод реализующий логику выполнения команды в событии
      *
-     * @param update событие
+     * @param bot        объект бота, в котором происходит взаимодействие с пользователем
+     * @param commandDto обертка над объектом команды от пользователя
+     * @param update     объект Update передаваемый вместе с командой
      */
     void handleCommand(TelegramBot bot, CommandDto commandDto, Update update);
 }

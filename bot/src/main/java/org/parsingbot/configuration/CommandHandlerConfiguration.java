@@ -3,6 +3,7 @@ package org.parsingbot.configuration;
 import org.parsingbot.entity.CommandEnum;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
+import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.service.commands.impl.CommandHandlerDispatcherImpl;

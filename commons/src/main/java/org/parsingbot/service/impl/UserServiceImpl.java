@@ -2,7 +2,6 @@ package org.parsingbot.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.parsingbot.entity.User;
-import org.parsingbot.entity.Vacancy;
 import org.parsingbot.repository.UserRepository;
 import org.parsingbot.service.Authorisation;
 import org.parsingbot.service.UserService;
@@ -15,6 +14,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
 
     @Override
     public Optional<User> getUserByName(String userName) {
@@ -33,16 +37,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateAuthorisationByUserName(String userName, Authorisation authorisation) {
-        Optional<User> userOptional = userRepository.findByUserName(userName);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setAuthorisation(Authorisation.asString(authorisation));
-            userRepository.save(user);
-        }
-    }
-
-    @Override
     public void updateAuthorisationById(int id, Authorisation authorisation) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
@@ -51,20 +45,4 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         }
     }
-
-    @Override
-    public List<Integer> getUserVacanciesIds(Integer userId) {
-        return userRepository.getUserVacanciesIds(userId);
-    }
-
-    @Override
-    public void addVacancies(List<Vacancy> vacancies) {
-
-    }
-
-    @Override
-    public void save(User user) {
-        userRepository.save(user);
-    }
-
 }

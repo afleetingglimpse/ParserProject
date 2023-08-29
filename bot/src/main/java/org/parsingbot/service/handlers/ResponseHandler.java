@@ -8,7 +8,7 @@ import org.parsingbot.service.bot.TelegramBot;
 public interface ResponseHandler {
 
     /**
-     * Отправляет сообщение пользователю в чат
+     * Метод отправляет сообщение пользователю в чат
      *
      * @param bot     объект бота, от которого будет отправлено сообщение
      * @param message текст сообщения
