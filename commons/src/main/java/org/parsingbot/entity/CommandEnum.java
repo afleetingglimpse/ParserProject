@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum CommandEnum {
 
-    HH_COMMAND(new CommandDto("/hh"));
+    HH_COMMAND(new CommandDto("/hh")),
+    SUBSCRIBE_COMMAND(new CommandDto("/subscribe")),
+    UNSUBSCRIBE_COMMAND(new CommandDto("/unsubscribe"));
 
     private final CommandDto commandDto;
 }
