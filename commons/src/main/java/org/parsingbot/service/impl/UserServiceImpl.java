@@ -31,7 +31,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable("subscribedUsers")
     public List<User> getSubscribedUsers() {
         return userRepository.getSubscribedUsers();
     }

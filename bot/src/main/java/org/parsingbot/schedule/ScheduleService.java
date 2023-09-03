@@ -8,9 +8,9 @@ import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.bot.utils.VacancyPredicates;
-import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -29,12 +29,14 @@ public class ScheduleService {
     private final VacancyService vacancyService;
 
     @Scheduled(fixedDelayString = "${scheduler.fixedDelayMS}")
+    @Transactional
     public void sendDataEveryMinute() {
         List<User> subscribedUsers = userService.getSubscribedUsers();
         subscribedUsers.forEach(user -> sendData(user, DEFAULT_PARSING_PARAMETERS));
     }
 
     private void sendData(User user, Map<String, String> parsingParameters) {
+        // TODO inject instead of declare
         Parser parser = bot.getParser();
 
         String vacancyToSearch = parsingParameters.get("vacancyToSearch");
@@ -42,17 +44,16 @@ public class ScheduleService {
 
         List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
 
-        List<Vacancy> newVacancies = parser.parse(
+        List<Vacancy> vacancies = parser.parse(
                 vacancyToSearch,
                 numberOfVacancies,
-                VacancyPredicates.uniqueVacancy(userVacancies)
-        );
+                VacancyPredicates.uniqueVacancy(userVacancies));
 
-        newVacancies.forEach(vacancy -> {
+        vacancies.forEach(vacancy -> {
             user.addVacancy(vacancy);
             responseHandler.sendResponse(bot, vacancy.getVacancyLink(), user.getChatId());
         });
-        vacancyService.save(newVacancies);
+        vacancyService.save(vacancies);
         userService.save(user);
     }
 }
