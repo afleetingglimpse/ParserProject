@@ -40,6 +40,7 @@ class HhParserTest {
 
     @Test
     void parseExceptionTest() throws IOException {
+        // TODO intercept log
         List<Vacancy> expectedVacancies = Collections.emptyList();
         when(vacancyBrowser.browse(VACANCY_TO_SEARCH, NUMBER_OF_VACANCIES, FILTER)).thenThrow(new IOException());
 
