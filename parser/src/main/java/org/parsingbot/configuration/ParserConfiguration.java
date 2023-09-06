@@ -31,4 +31,3 @@ public class ParserConfiguration {
         return new HhParser(vacancyBrowser);
     }
 }
-
