@@ -3,13 +3,14 @@ package org.parsingbot.configuration;
 import org.parsingbot.entity.CommandEnum;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
-import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
+import org.parsingbot.service.commands.CommandParser;
 import org.parsingbot.service.commands.impl.CommandHandlerDispatcherImpl;
-import org.parsingbot.service.commands.impl.HhCommandHandler;
 import org.parsingbot.service.commands.impl.SubscribeCommandHandler;
 import org.parsingbot.service.commands.impl.UnsubscribeCommandHandler;
+import org.parsingbot.service.commands.impl.hh.HhCommandHandler;
+import org.parsingbot.service.commands.impl.hh.HhCommandParser;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -22,13 +23,20 @@ import java.util.Map;
 public class CommandHandlerConfiguration {
 
     @Bean
+    public CommandParser hhCommandParser() {
+        return new HhCommandParser();
+    }
+
+    @Bean
     public CommandHandler hhCommandHandler(ResponseHandler responseHandler,
                                            VacancyService vacancyService,
-                                           UserService userService) {
+                                           UserService userService,
+                                           CommandParser hhCommandParser) {
         return new HhCommandHandler(
                 responseHandler,
                 vacancyService,
-                userService);
+                userService,
+                hhCommandParser);
     }
 
     @Bean
@@ -41,7 +49,7 @@ public class CommandHandlerConfiguration {
 
     @Bean
     public CommandHandler unsubscribeCommandHandler(UserService userService,
-                                                  ResponseHandler responseHandler) {
+                                                    ResponseHandler responseHandler) {
         return new UnsubscribeCommandHandler(
                 userService,
                 responseHandler);
