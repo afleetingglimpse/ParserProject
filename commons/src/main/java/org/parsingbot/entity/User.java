@@ -1,9 +1,7 @@
 package org.parsingbot.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,5 +30,4 @@ public class User {
     public void addVacancy(Vacancy vacancy) {
         userVacancies.add(vacancy);
     }
-
 }
