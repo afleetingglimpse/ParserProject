@@ -16,10 +16,10 @@ public class User {
 
     private String userName;
     private String authorisation;
-    private String isSubscribed;
+    private Boolean isSubscribed;
     private int chatId;
 
-    @ManyToMany//(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "users_vacancies",
             joinColumns = @JoinColumn(name = "user_id"),

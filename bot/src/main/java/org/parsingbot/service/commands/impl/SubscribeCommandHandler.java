@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SubscribeCommandHandler implements CommandHandler {
 
-    private static final String USER_ALREADY_SUBSRIBED = "User is already subscribed";
+    private static final String USER_ALREADY_SUBSCRIBED = "User is already subscribed";
     private static final String SUCCESSFUL_SUBSCRIBE = "You have been successfully subscribed";
 
     private final UserService userService;
@@ -30,14 +30,12 @@ public class SubscribeCommandHandler implements CommandHandler {
             return;
         }
         User user = userOptional.get();
-
-        // TODO check is possible to store boolean in Postgres
-        if (user.getIsSubscribed().equals(String.valueOf(true))) {
-            responseHandler.sendResponse(bot, USER_ALREADY_SUBSRIBED, chatId);
+        if (user.getIsSubscribed()) {
+            responseHandler.sendResponse(bot, USER_ALREADY_SUBSCRIBED, chatId);
             return;
         }
 
-        user.setIsSubscribed(String.valueOf(true));
+        user.setIsSubscribed(true);
         responseHandler.sendResponse(bot, SUCCESSFUL_SUBSCRIBE, user.getChatId());
         // TODO set scheduled service parameters
     }
