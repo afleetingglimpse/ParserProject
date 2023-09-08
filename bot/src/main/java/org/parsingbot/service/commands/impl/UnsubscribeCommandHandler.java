@@ -33,13 +33,12 @@ public class UnsubscribeCommandHandler implements CommandHandler {
         }
         User user = userOptional.get();
 
-        // TODO check is possible to store boolean in Postgres
-        if (user.getIsSubscribed().equals(String.valueOf(false))) {
+        if (!user.getIsSubscribed()) {
             responseHandler.sendResponse(bot, USER_NOT_SUBSCRIBED, chatId);
             return;
         }
 
-        user.setIsSubscribed(String.valueOf(false));
+        user.setIsSubscribed(false);
         responseHandler.sendResponse(bot, SUCCESSFUL_UNSUBSCRIBE, user.getChatId());
         // TODO set scheduled service parameters
     }
