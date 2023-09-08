@@ -7,8 +7,6 @@ import org.parsingbot.service.UserService;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.handlers.ResponseHandler;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Optional;

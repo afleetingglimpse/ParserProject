@@ -1,4 +1,4 @@
-package org.parsingbot.service.commands.impl;
+package org.parsingbot.service.commands.impl.hh;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,11 +11,12 @@ import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.bot.utils.VacancyPredicates;
 import org.parsingbot.service.commands.CommandHandler;
+import org.parsingbot.service.commands.CommandParser;
 import org.parsingbot.service.handlers.ResponseHandler;
-import org.parsingbot.utils.StringUtils;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -25,6 +26,7 @@ public class HhCommandHandler implements CommandHandler {
     private final ResponseHandler responseHandler;
     private final VacancyService vacancyService;
     private final UserService userService;
+    private final CommandParser commandParser;
 
     @Override
     public void handleCommand(TelegramBot bot, CommandDto command, Update update) {
@@ -38,13 +40,14 @@ public class HhCommandHandler implements CommandHandler {
 
         User user = userOptional.get();
 
-        List<String> commandParameters = StringUtils.parseHhCommand(command.getFullMessage());
+        Map<String, String> commandParameters = commandParser.parseCommand(command);
+        String vacancyToSearch = commandParameters.get("vacancyName");
+        int numberOfVacancies = Integer.parseInt(commandParameters.get("numberOfVacancies"));
+
         Parser parser = bot.getParser();
 
         List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
 
-        String vacancyToSearch = commandParameters.get(0);
-        int numberOfVacancies = Integer.parseInt(commandParameters.get(1));
         List<Vacancy> vacancies = parser.parse(
                 vacancyToSearch,
                 numberOfVacancies,
