@@ -1,6 +1,7 @@
 package org.parsingbot.configuration;
 
 import org.parsingbot.schedule.ScheduleService;
+import org.parsingbot.service.Parser;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.TelegramBot;
@@ -21,7 +22,12 @@ public class ScheduleConfiguration {
     ScheduleService scheduleService(TelegramBot bot,
                                     ResponseHandler responseHandler,
                                     UserService userService,
-                                    VacancyService vacancyService) {
-        return new ScheduleService(bot, responseHandler, userService, vacancyService);
+                                    VacancyService vacancyService,
+                                    Parser parser) {
+        return new ScheduleService(bot,
+                responseHandler,
+                userService,
+                vacancyService,
+                parser);
     }
 }

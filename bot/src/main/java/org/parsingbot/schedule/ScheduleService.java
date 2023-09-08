@@ -27,23 +27,20 @@ public class ScheduleService {
     private final ResponseHandler responseHandler;
     private final UserService userService;
     private final VacancyService vacancyService;
+    private final Parser parser;
 
     @Scheduled(fixedDelayString = "${scheduler.fixedDelayMS}")
     @Transactional
     public void sendDataEveryMinute() {
         List<User> subscribedUsers = userService.getSubscribedUsers();
-        subscribedUsers.forEach(user -> sendData(user, DEFAULT_PARSING_PARAMETERS));
+        subscribedUsers.forEach(user -> sendVacanciesToUser(user, DEFAULT_PARSING_PARAMETERS));
     }
 
-    private void sendData(User user, Map<String, String> parsingParameters) {
-        // TODO inject instead of declare
-        Parser parser = bot.getParser();
+    private void sendVacanciesToUser(User user, Map<String, String> parsingParameters) {
+        List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
 
         String vacancyToSearch = parsingParameters.get("vacancyToSearch");
         int numberOfVacancies = Integer.parseInt(parsingParameters.get("numberOfVacancies"));
-
-        List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
-
         List<Vacancy> vacancies = parser.parse(
                 vacancyToSearch,
                 numberOfVacancies,

@@ -9,6 +9,7 @@ import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.handlers.UpdateHandler;
 import org.parsingbot.service.handlers.impl.BaseResponseHandler;
 import org.parsingbot.service.handlers.impl.BaseUpdateHandler;
+import org.parsingbot.service.impl.HhParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
