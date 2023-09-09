@@ -13,5 +13,5 @@ public interface UpdateChecker {
      * @param update объект Update от юзера
      * @return сообщение об ошибке или null если update валидный
      */
-    String validate(Update update);
+    String checkUpdate(Update update);
 }

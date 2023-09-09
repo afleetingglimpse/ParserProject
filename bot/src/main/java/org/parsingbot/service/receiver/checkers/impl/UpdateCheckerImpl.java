@@ -10,7 +10,7 @@ public class UpdateCheckerImpl implements UpdateChecker {
     private static final String INVALID_UPDATE_ERROR = "userName or/and message not valid";
 
     @Override
-    public String validate(Update update) {
+    public String checkUpdate(Update update) {
         long chatId = update.getMessage().getChatId();
         String userName = update.getMessage().getChat().getUserName();
         String message = update.getMessage().getText();
