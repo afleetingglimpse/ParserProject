@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "select * from users where is_subscribed = 'true'", nativeQuery = true)
     List<User> getSubscribedUsers();
+
+    Optional<User> getUserByChatId(long chatId);
 }
