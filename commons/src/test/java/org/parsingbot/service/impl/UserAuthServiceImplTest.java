@@ -36,9 +36,10 @@ class UserAuthServiceImplTest {
 
     @Test
     void isAuthorisedUserIsPresentTest() {
-        User user = new User();
-        user.setUserName(USER_NAME);
-        user.setAuthorisation(MINIMUM_AUTHORISATION.getName());
+        User user = User.builder()
+                .userName(USER_NAME)
+                .authorisation(MINIMUM_AUTHORISATION.getName())
+                .build();
 
         when(userService.getUserByName(USER_NAME)).thenReturn(Optional.of(user));
         assertTrue(userAuthService.isAuthorised(USER_NAME, MINIMUM_AUTHORISATION));

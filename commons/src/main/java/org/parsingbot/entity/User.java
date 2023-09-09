@@ -1,14 +1,16 @@
 package org.parsingbot.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Data
 @Entity
-@Builder
+@Builder(toBuilder = true)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Setter
+@Getter
 @Table(name = "users")
 public class User {
 
@@ -20,7 +22,6 @@ public class User {
     private String authorisation;
     private Boolean isSubscribed;
     private long chatId;
-
     @ManyToMany
     @JoinTable(
             name = "users_vacancies",
