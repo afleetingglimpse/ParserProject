@@ -1,15 +1,16 @@
 package org.parsingbot.configuration;
 
 import org.parsingbot.service.Parser;
-import org.parsingbot.service.UserAuthService;
+import org.parsingbot.service.UserService;
 import org.parsingbot.service.bot.BotParametersProvider;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.service.handlers.ResponseHandler;
-import org.parsingbot.service.handlers.UpdateHandler;
 import org.parsingbot.service.handlers.impl.BaseResponseHandler;
-import org.parsingbot.service.handlers.impl.BaseUpdateHandler;
-import org.parsingbot.service.impl.HhParser;
+import org.parsingbot.service.receiver.UpdateReceiver;
+import org.parsingbot.service.receiver.checkers.CommandAuthorisationChecker;
+import org.parsingbot.service.receiver.checkers.UpdateChecker;
+import org.parsingbot.service.receiver.impl.UpdateReceiverImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -28,23 +29,25 @@ public class BotConfiguration {
     }
 
     @Bean
-    public UpdateHandler updateHandler(BotParametersProvider botParametersProvider,
-                                       CommandHandlerDispatcher commandHandlerDispatcher,
-                                       ResponseHandler responseHandler,
-                                       UserAuthService userAuthService) {
-        return new BaseUpdateHandler(
-                botParametersProvider,
-                commandHandlerDispatcher,
+    public UpdateReceiver updateReceiver(UserService userService,
+                                         UpdateChecker updateChecker,
+                                         ResponseHandler responseHandler,
+                                         CommandAuthorisationChecker commandAuthorisationChecker,
+                                         CommandHandlerDispatcher commandHandlerDispatcher) {
+        return new UpdateReceiverImpl(
+                userService,
+                updateChecker,
                 responseHandler,
-                userAuthService);
+                commandAuthorisationChecker,
+                commandHandlerDispatcher);
     }
 
     @Bean
     public TelegramBot bot(BotParametersProvider botParametersProvider,
-                           UpdateHandler updateHandler,
+                           UpdateReceiver updateReceiver,
                            Parser parser) {
         return new TelegramBot(botParametersProvider,
-                updateHandler,
+                updateReceiver,
                 parser);
     }
 

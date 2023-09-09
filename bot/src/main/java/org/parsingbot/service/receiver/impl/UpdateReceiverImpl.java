@@ -44,14 +44,14 @@ public class UpdateReceiverImpl implements UpdateReceiver {
         String updateError = updateChecker.checkUpdate(update);
         if (updateError != null) {
             log.error(INVALID_UPDATE_LOG, userName, chatId);
-            responseHandler.sendResponse(bot, INVALID_UPDATE_ERROR, chatId);
+            responseHandler.sendResponse(bot, updateError, chatId);
             return;
         }
 
         String commandAuthError = commandAuthorisationChecker.checkCommandAuthorisation(commandDto, user);
         if (commandAuthError != null) {
             log.error(NOT_AUTHORISED_FOR_COMMAND_LOG, userName, chatId, commandDto.getPrefix());
-            responseHandler.sendResponse(bot, NOT_AUTHORISED_FOR_COMMAND_ERROR, chatId);
+            responseHandler.sendResponse(bot, commandAuthError, chatId);
             return;
         }
 

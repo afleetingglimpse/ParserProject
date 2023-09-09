@@ -13,6 +13,7 @@ import org.parsingbot.service.bot.utils.VacancyPredicates;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandParser;
 import org.parsingbot.service.handlers.ResponseHandler;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class HhCommandHandler implements CommandHandler {
     private final CommandParser commandParser;
 
     @Override
+    @Transactional
     public void handleCommand(TelegramBot bot, CommandDto command, Update update) {
         Long chatId = update.getMessage().getChatId();
         String userName = update.getMessage().getChat().getUserName();

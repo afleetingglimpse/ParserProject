@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.service.Parser;
-import org.parsingbot.service.handlers.UpdateHandler;
+import org.parsingbot.service.receiver.UpdateReceiver;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -14,12 +14,12 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class TelegramBot extends TelegramLongPollingBot {
 
     private final BotParametersProvider parametersProvider;
-    private final UpdateHandler updateHandler;
+    private final UpdateReceiver updateReceiver;
     private final Parser parser;
 
     @Override
     public void onUpdateReceived(Update update) {
-        updateHandler.handleUpdate(this, update);
+        updateReceiver.handleUpdate(this, update);
     }
 
     @Override
@@ -32,7 +32,4 @@ public class TelegramBot extends TelegramLongPollingBot {
         return parametersProvider.getToken();
     }
 
-    public Parser getParser() {
-        return parser;
-    }
 }
