@@ -1,11 +1,11 @@
-package org.parsingbot.service.receiver;
+package org.parsingbot.service.receiver.checkers;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
  * Интерфейс валидатора входящего update
  */
-public interface UpdateValidator {
+public interface UpdateChecker {
 
     /**
      * Метод обработки входящего update

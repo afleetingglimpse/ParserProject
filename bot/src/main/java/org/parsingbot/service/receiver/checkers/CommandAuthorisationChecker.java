@@ -6,7 +6,7 @@ import org.parsingbot.entity.User;
 /**
  * Интерфейс сервиса проверки авторизации пользователя
  */
-public interface AuthorisationChecker {
+public interface CommandAuthorisationChecker {
 
     /**
      * Метод проверки авторизации пользователя для команды

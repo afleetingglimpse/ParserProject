@@ -1,11 +1,11 @@
-package org.parsingbot.service.receiver.impl;
+package org.parsingbot.service.receiver.checkers.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.parsingbot.service.receiver.UpdateValidator;
+import org.parsingbot.service.receiver.checkers.UpdateChecker;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Slf4j
-public class UpdateValidatorImpl implements UpdateValidator {
+public class UpdateCheckerImpl implements UpdateChecker {
 
     private static final String INVALID_UPDATE_ERROR = "userName or/and message not valid";
 
