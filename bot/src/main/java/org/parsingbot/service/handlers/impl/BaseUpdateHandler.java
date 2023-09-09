@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Slf4j
 @RequiredArgsConstructor
+@Deprecated(since = "09.09.2023")
 public class BaseUpdateHandler implements UpdateHandler {
 
     private static final String NOT_AUTHORISED_ERROR = "User {} not authorised";
