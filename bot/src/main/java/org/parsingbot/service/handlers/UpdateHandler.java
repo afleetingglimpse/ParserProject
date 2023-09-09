@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 /**
  * Интерфейс обработки событий бота
  */
+@Deprecated(since = "09.09.2023")
 public interface UpdateHandler {
 
     /**
