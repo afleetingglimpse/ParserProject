@@ -11,7 +11,7 @@ public interface UpdateReceiver {
     /**
      * Метод обработки входного update
      *
-     * @param bot объект бота, получающий update от пользователя
+     * @param bot    объект бота, получающий update от пользователя
      * @param update update от пользователя
      */
     void handleUpdate(TelegramBot bot, Update update);
