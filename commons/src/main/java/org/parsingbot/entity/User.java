@@ -1,12 +1,14 @@
 package org.parsingbot.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 @Entity
+@Builder
 @Table(name = "users")
 public class User {
 
@@ -17,7 +19,7 @@ public class User {
     private String userName;
     private String authorisation;
     private Boolean isSubscribed;
-    private int chatId;
+    private long chatId;
 
     @ManyToMany
     @JoinTable(

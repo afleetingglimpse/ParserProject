@@ -61,9 +61,9 @@ public class CommandHandlerConfiguration {
                                                          CommandHandler subscribeCommandHandler,
                                                          CommandHandler unsubscribeCommandHandler) {
         Map<String, CommandHandler> commandHandlerMap = new HashMap<>();
-        commandHandlerMap.put(CommandEnum.HH_COMMAND.getCommandDto().getPrefix(), hhCommandHandler);
-        commandHandlerMap.put(CommandEnum.SUBSCRIBE_COMMAND.getCommandDto().getPrefix(), subscribeCommandHandler);
-        commandHandlerMap.put(CommandEnum.UNSUBSCRIBE_COMMAND.getCommandDto().getPrefix(), unsubscribeCommandHandler);
+        commandHandlerMap.put(CommandEnum.HH_COMMAND.getPrefix(), hhCommandHandler);
+        commandHandlerMap.put(CommandEnum.SUBSCRIBE_COMMAND.getPrefix(), subscribeCommandHandler);
+        commandHandlerMap.put(CommandEnum.UNSUBSCRIBE_COMMAND.getPrefix(), unsubscribeCommandHandler);
         return commandHandlerMap;
     }
 
