@@ -5,7 +5,6 @@ import org.parsingbot.entity.User;
 import org.parsingbot.repository.UserRepository;
 import org.parsingbot.service.Authorisation;
 import org.parsingbot.service.UserService;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +15,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     @Override
@@ -43,5 +42,16 @@ public class UserServiceImpl implements UserService {
             user.setAuthorisation(Authorisation.asString(authorisation));
             userRepository.save(user);
         }
+    }
+
+    @Override
+    public Optional<User> getUserByChatId(long chatId) {
+        return userRepository.getUserByChatId(chatId);
+    }
+
+    @Override
+    public User getUserByChatIdCreateIfNotExist(long chatId, String userName) {
+        Optional<User> userOptional = this.getUserByChatId(chatId);
+        return userOptional.orElseGet(() -> this.save(User.builder().userName(userName).chatId(chatId).build()));
     }
 }

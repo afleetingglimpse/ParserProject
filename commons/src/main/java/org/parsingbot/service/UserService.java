@@ -12,8 +12,9 @@ public interface UserService {
 
     /**
      * @param user объект пользователя
+     * @return объект сохраненного пользователя
      */
-    void save(User user);
+    User save(User user);
 
     /**
      * @param userName имя пользователя
@@ -37,4 +38,16 @@ public interface UserService {
      * @param authorisation устанавливаемый уровень авторизации пользователя
      */
     void updateAuthorisationById(int id, Authorisation authorisation);
+
+    /**
+     * @param chatId id чата с пользователем
+     * @return Optional обертка над объектом пользователя
+     */
+    Optional<User> getUserByChatId(long chatId);
+
+    /**
+     * @param chatId id чата с пользователем
+     * @return объект пользователя
+     */
+    User getUserByChatIdCreateIfNotExist(long chatId, String userName);
 }
