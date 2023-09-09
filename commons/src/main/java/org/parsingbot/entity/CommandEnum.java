@@ -2,14 +2,28 @@ package org.parsingbot.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.parsingbot.service.Authorisation;
+
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
 public enum CommandEnum {
 
-    HH_COMMAND(new CommandDto("/hh")),
-    SUBSCRIBE_COMMAND(new CommandDto("/subscribe")),
-    UNSUBSCRIBE_COMMAND(new CommandDto("/unsubscribe"));
+    HH_COMMAND("/hh", Authorisation.USER),
+    SUBSCRIBE_COMMAND("/subscribe", Authorisation.USER),
+    UNSUBSCRIBE_COMMAND("/unsubscribe", Authorisation.USER);
 
-    private final CommandDto commandDto;
+    private final String prefix;
+    private final Authorisation minimumAuthorisation;
+
+    public static boolean contains(CommandDto commandDto) {
+        return Arrays.stream(CommandEnum.values()).anyMatch(commandEnum ->
+                commandEnum.prefix.equals(commandDto.getPrefix()));
+    }
+
+    public static boolean contains(String command) {
+        return Arrays.stream(CommandEnum.values()).anyMatch(commandEnum ->
+                commandEnum.prefix.equals(command));
+    }
 }

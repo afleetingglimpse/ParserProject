@@ -24,9 +24,9 @@ class UserServiceImplTest {
     @Test
     @Disabled
     void saveTest() {
-        User user = new User();
-        when(userRepository.save(user)).thenReturn(null);
-        // TODO no idea. Check how to mock DB
+//        User user = new User();
+//        when(userRepository.save(user)).thenReturn(null);
+//        // TODO no idea. Check how to mock DB
     }
 
     @Test
