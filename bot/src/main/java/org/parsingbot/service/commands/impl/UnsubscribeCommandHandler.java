@@ -39,6 +39,7 @@ public class UnsubscribeCommandHandler implements CommandHandler {
         }
 
         user.setIsSubscribed(false);
+        userService.save(user);
         responseHandler.sendResponse(bot, SUCCESSFUL_UNSUBSCRIBE, user.getChatId());
         // TODO set scheduled service parameters
     }

@@ -36,6 +36,7 @@ public class SubscribeCommandHandler implements CommandHandler {
         }
 
         user.setIsSubscribed(true);
+        userService.save(user);
         responseHandler.sendResponse(bot, SUCCESSFUL_SUBSCRIBE, user.getChatId());
         // TODO set scheduled service parameters
     }
