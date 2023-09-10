@@ -6,6 +6,7 @@ import org.parsingbot.repository.UserRepository;
 import org.parsingbot.service.Authorisation;
 import org.parsingbot.service.UserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,5 +54,13 @@ public class UserServiceImpl implements UserService {
     public User getUserByChatIdCreateIfNotExist(long chatId, String userName) {
         Optional<User> userOptional = this.getUserByChatId(chatId);
         return userOptional.orElseGet(() -> this.save(User.builder().userName(userName).chatId(chatId).build()));
+    }
+
+    @Override
+    public void updateNextSendDate(User user) {
+        long nextSendDateDelaySeconds = user.getNextSendDateDelaySeconds();
+        LocalDateTime nextSendDate = user.getNextSendDate();
+        user.setNextSendDate(nextSendDate.plusSeconds(nextSendDateDelaySeconds));
+        userRepository.save(user);
     }
 }
