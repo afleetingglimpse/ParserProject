@@ -3,11 +3,11 @@ package org.parsingbot.entity;
 import lombok.Getter;
 
 @Getter
-public class CommandDto {
+public class Command {
     private final String prefix;
     private final String fullMessage;
 
-    public CommandDto(String message) {
+    public Command(String message) {
         fullMessage = message;
         prefix = getPrefix(message);
     }

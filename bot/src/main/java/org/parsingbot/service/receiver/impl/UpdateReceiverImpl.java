@@ -2,7 +2,7 @@ package org.parsingbot.service.receiver.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.parsingbot.entity.CommandDto;
+import org.parsingbot.entity.Command;
 import org.parsingbot.entity.User;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.bot.TelegramBot;
@@ -39,7 +39,7 @@ public class UpdateReceiverImpl implements UpdateReceiver {
         String userName = update.getMessage().getChat().getUserName();
         String message = update.getMessage().getText();
         User user = userService.getUserByChatIdCreateIfNotExist(chatId, userName);
-        CommandDto commandDto = new CommandDto(message);
+        Command command = new Command(message);
 
         String updateError = updateChecker.checkUpdate(update);
         if (updateError != null) {
@@ -48,18 +48,18 @@ public class UpdateReceiverImpl implements UpdateReceiver {
             return;
         }
 
-        String commandAuthError = commandChecker.checkCommand(commandDto, user);
+        String commandAuthError = commandChecker.checkCommand(command, user);
         if (commandAuthError != null) {
-            log.error(NOT_AUTHORISED_FOR_COMMAND_LOG, userName, chatId, commandDto.getPrefix());
+            log.error(NOT_AUTHORISED_FOR_COMMAND_LOG, userName, chatId, command.getPrefix());
             responseHandler.sendResponse(bot, commandAuthError, chatId);
             return;
         }
 
-        CommandHandler commandHandler = commandHandlerDispatcher.getCommandHandler(commandDto);
+        CommandHandler commandHandler = commandHandlerDispatcher.getCommandHandler(command);
         if (commandHandler == null) {
             responseHandler.sendResponse(bot, NOT_A_COMMAND_ERROR, chatId);
             return;
         }
-        commandHandler.handleCommand(bot, commandDto, update);
+        commandHandler.handleCommand(bot, command, update);
     }
 }
