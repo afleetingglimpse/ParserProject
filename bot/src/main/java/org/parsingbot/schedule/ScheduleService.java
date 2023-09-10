@@ -12,6 +12,7 @@ import org.parsingbot.service.handlers.ResponseHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -29,16 +30,23 @@ public class ScheduleService {
     private final VacancyService vacancyService;
     private final Parser parser;
 
-    @Scheduled(fixedDelayString = "${scheduler.fixedDelayMS}")
+    @Scheduled(fixedDelayString = "${scheduler.checkSubscribedUsersSendDateDelayMS}")
     @Transactional
-    public void sendDataEveryMinute() {
+    public void checkSubscribedUsersSendDate() {
         List<User> subscribedUsers = userService.getSubscribedUsers();
-        subscribedUsers.forEach(user -> sendVacanciesToUser(user, DEFAULT_PARSING_PARAMETERS));
+        // TODO add custom params
+        Map<String, String> parsingParameters = DEFAULT_PARSING_PARAMETERS;
+        subscribedUsers.forEach(user -> sendVacanciesToUser(user, parsingParameters));
     }
 
     private void sendVacanciesToUser(User user, Map<String, String> parsingParameters) {
-        List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
+        LocalDateTime currentDate = LocalDateTime.now();
+        if (user.getNextSendDate().isAfter(currentDate)) {
+            return;
+        }
+        userService.updateNextSendDate(user);
 
+        List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
         String vacancyToSearch = parsingParameters.get("vacancyToSearch");
         int numberOfVacancies = Integer.parseInt(parsingParameters.get("numberOfVacancies"));
         List<Vacancy> vacancies = parser.parse(

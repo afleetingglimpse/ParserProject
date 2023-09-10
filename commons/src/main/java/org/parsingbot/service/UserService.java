@@ -50,4 +50,11 @@ public interface UserService {
      * @return объект пользователя
      */
     User getUserByChatIdCreateIfNotExist(long chatId, String userName);
+
+    /**
+     * Добавляет к user.next_send_date число user.next_send_date_delay_seconds
+     *
+     * @param user объект пользователя
+     */
+    void updateNextSendDate(User user);
 }

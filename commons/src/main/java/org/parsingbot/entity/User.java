@@ -3,6 +3,7 @@ package org.parsingbot.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,8 @@ public class User {
     private String authorisation;
     private Boolean isSubscribed;
     private long chatId;
+    private LocalDateTime nextSendDate;
+    private long nextSendDateDelaySeconds;
     @ManyToMany
     @JoinTable(
             name = "users_vacancies",
