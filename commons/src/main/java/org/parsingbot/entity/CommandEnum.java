@@ -17,9 +17,9 @@ public enum CommandEnum {
     private final String prefix;
     private final Authorisation minimumAuthorisation;
 
-    public static boolean contains(CommandDto commandDto) {
+    public static boolean contains(Command command) {
         return Arrays.stream(CommandEnum.values()).anyMatch(commandEnum ->
-                commandEnum.prefix.equals(commandDto.getPrefix()));
+                commandEnum.prefix.equals(command.getPrefix()));
     }
 
     public static boolean contains(String command) {

@@ -1,7 +1,7 @@
 package org.parsingbot.service.commands.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.parsingbot.entity.CommandDto;
+import org.parsingbot.entity.Command;
 import org.parsingbot.entity.User;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.bot.TelegramBot;
@@ -21,7 +21,7 @@ public class SubscribeCommandHandler implements CommandHandler {
     private final ResponseHandler responseHandler;
 
     @Override
-    public void handleCommand(TelegramBot bot, CommandDto commandDto, Update update) {
+    public void handleCommand(TelegramBot bot, Command command, Update update) {
         Long chatId = update.getMessage().getChatId();
         String userName = update.getMessage().getChat().getUserName();
         Optional<User> userOptional = userService.getUserByName(userName);

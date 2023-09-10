@@ -1,6 +1,6 @@
 package org.parsingbot.service.receiver.checkers;
 
-import org.parsingbot.entity.CommandDto;
+import org.parsingbot.entity.Command;
 import org.parsingbot.entity.User;
 
 /**
@@ -11,9 +11,9 @@ public interface CommandChecker {
     /**
      * Метод валидации команды от пользователя
      *
-     * @param commandDto обертка над сообщением-командой пользователя
+     * @param command обертка над сообщением-командой пользователя
      * @param user       объект пользователя
      * @return сообщение об ошибке или null
      */
-    String checkCommand(CommandDto commandDto, User user);
+    String checkCommand(Command command, User user);
 }

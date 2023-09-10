@@ -1,6 +1,6 @@
 package org.parsingbot.service.commands;
 
-import org.parsingbot.entity.CommandDto;
+import org.parsingbot.entity.Command;
 
 import java.util.Map;
 
@@ -13,5 +13,5 @@ public interface CommandParser {
      * @param command обертка над командой юзера
      * @return мапа параметров, найденных в команде
      */
-    Map<String, String> parseCommand(CommandDto command);
+    Map<String, String> parseCommand(Command command);
 }

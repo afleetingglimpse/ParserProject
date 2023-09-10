@@ -1,6 +1,6 @@
 package org.parsingbot.service.commands.impl.hh;
 
-import org.parsingbot.entity.CommandDto;
+import org.parsingbot.entity.Command;
 import org.parsingbot.service.commands.CommandParser;
 import org.parsingbot.utils.StringUtils;
 
@@ -17,7 +17,7 @@ public class HhCommandParser implements CommandParser {
 
     // TODO fields checks
     @Override
-    public Map<String, String> parseCommand(CommandDto command) {
+    public Map<String, String> parseCommand(Command command) {
         if (!StringUtils.checkString(command.getFullMessage())) {
             return DEFAULT_PARSED_COMMAND;
         }

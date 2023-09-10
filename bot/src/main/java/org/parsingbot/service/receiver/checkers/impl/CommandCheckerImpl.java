@@ -1,6 +1,6 @@
 package org.parsingbot.service.receiver.checkers.impl;
 
-import org.parsingbot.entity.CommandDto;
+import org.parsingbot.entity.Command;
 import org.parsingbot.entity.CommandEnum;
 import org.parsingbot.entity.User;
 import org.parsingbot.service.Authorisation;
@@ -15,9 +15,9 @@ public class CommandCheckerImpl implements CommandChecker {
     private static final String NOT_AUTHORISED_FOR_COMMAND_ERROR = "You are not authorised to use that command";
 
     @Override
-    public String checkCommand(CommandDto commandDto, User user) {
+    public String checkCommand(Command command, User user) {
         Optional<CommandEnum> commandOptional = Arrays.stream(CommandEnum.values())
-                .filter(commandEnum -> commandEnum.getPrefix().equals(commandDto.getPrefix()))
+                .filter(commandEnum -> commandEnum.getPrefix().equals(command.getPrefix()))
                 .findAny();
         if (commandOptional.isEmpty()) {
             return COMMAND_NOT_FOUND_ERROR;
