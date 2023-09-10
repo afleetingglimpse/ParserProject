@@ -8,7 +8,7 @@ import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.handlers.impl.BaseResponseHandler;
 import org.parsingbot.service.receiver.UpdateReceiver;
-import org.parsingbot.service.receiver.checkers.CommandAuthorisationChecker;
+import org.parsingbot.service.receiver.checkers.CommandChecker;
 import org.parsingbot.service.receiver.checkers.UpdateChecker;
 import org.parsingbot.service.receiver.impl.UpdateReceiverImpl;
 import org.springframework.context.annotation.Bean;
@@ -32,13 +32,13 @@ public class BotConfiguration {
     public UpdateReceiver updateReceiver(UserService userService,
                                          UpdateChecker updateChecker,
                                          ResponseHandler responseHandler,
-                                         CommandAuthorisationChecker commandAuthorisationChecker,
+                                         CommandChecker commandChecker,
                                          CommandHandlerDispatcher commandHandlerDispatcher) {
         return new UpdateReceiverImpl(
                 userService,
                 updateChecker,
                 responseHandler,
-                commandAuthorisationChecker,
+                commandChecker,
                 commandHandlerDispatcher);
     }
 

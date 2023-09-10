@@ -1,8 +1,8 @@
 package org.parsingbot.configuration;
 
-import org.parsingbot.service.receiver.checkers.CommandAuthorisationChecker;
+import org.parsingbot.service.receiver.checkers.CommandChecker;
 import org.parsingbot.service.receiver.checkers.UpdateChecker;
-import org.parsingbot.service.receiver.checkers.impl.CommandAuthorisationCheckerImpl;
+import org.parsingbot.service.receiver.checkers.impl.CommandCheckerImpl;
 import org.parsingbot.service.receiver.checkers.impl.UpdateCheckerImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ public class CheckersConfiguration {
     }
 
     @Bean
-    public CommandAuthorisationChecker commandAuthorisationChecker() {
-        return new CommandAuthorisationCheckerImpl();
+    public CommandChecker commandAuthorisationChecker() {
+        return new CommandCheckerImpl();
     }
 }
