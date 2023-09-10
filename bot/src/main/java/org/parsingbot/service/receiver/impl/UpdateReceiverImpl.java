@@ -10,7 +10,7 @@ import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.receiver.UpdateReceiver;
-import org.parsingbot.service.receiver.checkers.CommandAuthorisationChecker;
+import org.parsingbot.service.receiver.checkers.CommandChecker;
 import org.parsingbot.service.receiver.checkers.UpdateChecker;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -30,7 +30,7 @@ public class UpdateReceiverImpl implements UpdateReceiver {
     private final UserService userService;
     private final UpdateChecker updateChecker;
     private final ResponseHandler responseHandler;
-    private final CommandAuthorisationChecker commandAuthorisationChecker;
+    private final CommandChecker commandChecker;
     private final CommandHandlerDispatcher commandHandlerDispatcher;
 
     @Override
@@ -48,7 +48,7 @@ public class UpdateReceiverImpl implements UpdateReceiver {
             return;
         }
 
-        String commandAuthError = commandAuthorisationChecker.checkCommandAuthorisation(commandDto, user);
+        String commandAuthError = commandChecker.checkCommand(commandDto, user);
         if (commandAuthError != null) {
             log.error(NOT_AUTHORISED_FOR_COMMAND_LOG, userName, chatId, commandDto.getPrefix());
             responseHandler.sendResponse(bot, commandAuthError, chatId);

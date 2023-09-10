@@ -6,14 +6,14 @@ import org.parsingbot.entity.User;
 /**
  * Интерфейс сервиса проверки авторизации пользователя
  */
-public interface CommandAuthorisationChecker {
+public interface CommandChecker {
 
     /**
-     * Метод проверки авторизации пользователя для команды
+     * Метод валидации команды от пользователя
      *
      * @param commandDto обертка над сообщением-командой пользователя
      * @param user       объект пользователя
      * @return сообщение об ошибке или null
      */
-    String checkCommandAuthorisation(CommandDto commandDto, User user);
+    String checkCommand(CommandDto commandDto, User user);
 }
