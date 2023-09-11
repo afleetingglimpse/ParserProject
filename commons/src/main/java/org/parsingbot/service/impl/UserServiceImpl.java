@@ -1,6 +1,7 @@
 package org.parsingbot.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.parsingbot.entity.State;
 import org.parsingbot.entity.User;
 import org.parsingbot.repository.UserRepository;
 import org.parsingbot.service.Authorisation;
@@ -62,5 +63,15 @@ public class UserServiceImpl implements UserService {
         LocalDateTime nextSendDate = user.getNextSendDate();
         user.setNextSendDate(nextSendDate.plusSeconds(nextSendDateDelaySeconds));
         userRepository.save(user);
+    }
+
+    @Override
+    public void updateStatusByUserId(Integer userId, String status) {
+        userRepository.updateStatusByUserId(userId, status);
+    }
+
+    @Override
+    public void setDefaultStatusByUserId(Integer userId) {
+        userRepository.updateStatusByUserId(userId, State.NONE.toString());
     }
 }

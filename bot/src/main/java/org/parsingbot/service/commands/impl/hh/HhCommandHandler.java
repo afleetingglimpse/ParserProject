@@ -3,6 +3,7 @@ package org.parsingbot.service.commands.impl.hh;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.entity.Command;
+import org.parsingbot.entity.State;
 import org.parsingbot.entity.User;
 import org.parsingbot.entity.Vacancy;
 import org.parsingbot.service.Parser;
@@ -28,6 +29,8 @@ public class HhCommandHandler implements CommandHandler {
     private final VacancyService vacancyService;
     private final UserService userService;
     private final CommandParser commandParser;
+
+//    private static final State STATE_AFTER_COMPLETION = State.HH_1;
 
     @Override
     @Transactional
