@@ -25,6 +25,7 @@ public class User {
     private long chatId;
     private LocalDateTime nextSendDate;
     private long nextSendDateDelaySeconds;
+    private String state;
     @ManyToMany
     @JoinTable(
             name = "users_vacancies",

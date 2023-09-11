@@ -22,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> getSubscribedUsers();
 
     Optional<User> getUserByChatId(long chatId);
+
+    @Query(value = "update users set status = ?2 where id = ?1", nativeQuery = true)
+    void updateStatusByUserId(Integer userId, String status);
 }

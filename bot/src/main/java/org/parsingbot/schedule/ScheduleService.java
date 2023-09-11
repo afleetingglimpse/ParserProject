@@ -30,8 +30,8 @@ public class ScheduleService {
     private final VacancyService vacancyService;
     private final Parser parser;
 
-    @Scheduled(fixedDelayString = "${scheduler.checkSubscribedUsersSendDateDelayMS}")
     @Transactional
+    @Scheduled(fixedDelayString = "${scheduler.checkSubscribedUsersSendDateDelayMS}")
     public void checkSubscribedUsersSendDate() {
         List<User> subscribedUsers = userService.getSubscribedUsers();
         // TODO add custom params
@@ -46,19 +46,22 @@ public class ScheduleService {
         }
         userService.updateNextSendDate(user);
 
-        List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
-        String vacancyToSearch = parsingParameters.get("vacancyToSearch");
-        int numberOfVacancies = Integer.parseInt(parsingParameters.get("numberOfVacancies"));
-        List<Vacancy> vacancies = parser.parse(
-                vacancyToSearch,
-                numberOfVacancies,
-                VacancyPredicates.uniqueVacancy(userVacancies));
-
+        List<Vacancy> vacancies = getVacancies(user, parsingParameters);
         vacancies.forEach(vacancy -> {
             user.addVacancy(vacancy);
             responseHandler.sendResponse(bot, vacancy.getVacancyLink(), user.getChatId());
         });
         vacancyService.save(vacancies);
         userService.save(user);
+    }
+
+    private List<Vacancy> getVacancies(User user, Map<String, String> parsingParameters) {
+        List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
+        String vacancyToSearch = parsingParameters.get("vacancyToSearch");
+        int numberOfVacancies = Integer.parseInt(parsingParameters.get("numberOfVacancies"));
+        return parser.parse(
+                vacancyToSearch,
+                numberOfVacancies,
+                VacancyPredicates.uniqueVacancy(userVacancies));
     }
 }

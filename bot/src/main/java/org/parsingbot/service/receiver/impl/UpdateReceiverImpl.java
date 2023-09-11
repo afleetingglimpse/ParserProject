@@ -48,14 +48,14 @@ public class UpdateReceiverImpl implements UpdateReceiver {
             return;
         }
 
-        String commandAuthError = commandChecker.checkCommand(command, user);
-        if (commandAuthError != null) {
+        String commandError = commandChecker.checkCommand(command, user);
+        if (commandError != null) {
             log.error(NOT_AUTHORISED_FOR_COMMAND_LOG, userName, chatId, command.getPrefix());
-            responseHandler.sendResponse(bot, commandAuthError, chatId);
+            responseHandler.sendResponse(bot, commandError, chatId);
             return;
         }
 
-        CommandHandler commandHandler = commandHandlerDispatcher.getCommandHandler(command);
+        CommandHandler commandHandler = commandHandlerDispatcher.getCommandHandler(command, user);
         if (commandHandler == null) {
             responseHandler.sendResponse(bot, NOT_A_COMMAND_ERROR, chatId);
             return;

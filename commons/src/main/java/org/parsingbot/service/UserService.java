@@ -56,5 +56,17 @@ public interface UserService {
      *
      * @param user объект пользователя
      */
+    // TODO update from current date
     void updateNextSendDate(User user);
+
+    /**
+     * @param userId id пользователя
+     * @param status новый статус пользователя
+     */
+    void updateStatusByUserId(Integer userId, String status);
+
+    /**
+     * @param userId id пользователя
+     */
+    void setDefaultStatusByUserId(Integer userId);
 }
