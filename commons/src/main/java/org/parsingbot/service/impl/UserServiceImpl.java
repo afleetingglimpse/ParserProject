@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateNextSendDate(User user) {
         long nextSendDateDelaySeconds = user.getNextSendDateDelaySeconds();
-        LocalDateTime nextSendDate = user.getNextSendDate();
+        LocalDateTime nextSendDate = LocalDateTime.now();
         user.setNextSendDate(nextSendDate.plusSeconds(nextSendDateDelaySeconds));
         userRepository.save(user);
     }
@@ -68,6 +68,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateStatusByUserId(Integer userId, String status) {
         userRepository.updateStatusByUserId(userId, status);
+    }
+
+    @Override
+    public void updateStatusByUser(User user, String status) {
+        userRepository.updateStatusByUserId(user.getId(), status);
     }
 
     @Override

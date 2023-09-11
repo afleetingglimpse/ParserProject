@@ -66,6 +66,12 @@ public interface UserService {
     void updateStatusByUserId(Integer userId, String status);
 
     /**
+     * @param user объект пользователя
+     * @param status новый статус пользователя
+     */
+    void updateStatusByUser(User user, String status);
+
+    /**
      * @param userId id пользователя
      */
     void setDefaultStatusByUserId(Integer userId);
