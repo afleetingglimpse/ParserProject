@@ -56,7 +56,6 @@ public interface UserService {
      *
      * @param user объект пользователя
      */
-    // TODO update from current date
     void updateNextSendDate(User user);
 
     /**

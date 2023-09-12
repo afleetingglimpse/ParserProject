@@ -14,8 +14,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UnsubscribeCommandHandler implements CommandHandler {
 
-    // TODO think of uniting with subscribe service
-
     private static final String USER_NOT_SUBSCRIBED = "User is not subscribed";
     private static final String SUCCESSFUL_UNSUBSCRIBE = "You have been successfully unsubscribed";
 
