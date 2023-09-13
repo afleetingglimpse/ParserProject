@@ -11,30 +11,41 @@
 
     <artifactId>bot</artifactId>
 
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <parser.version>1.0-SNAPSHOT</parser.version>
+        <commons.version>1.0-SNAPSHOT</commons.version>
+        <telegrambots.version>6.5.0</telegrambots.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>6.5.0</version>
+            <version>${telegrambots.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.parsingbot</groupId>
             <artifactId>parser</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${parser.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.parsingbot</groupId>
             <artifactId>commons</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${commons.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
-            <version>3.1.0</version>
+            <version>${spring-boot.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -42,11 +53,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
 </project>
