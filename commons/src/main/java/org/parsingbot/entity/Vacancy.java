@@ -1,14 +1,18 @@
 package org.parsingbot.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 import java.util.Objects;
 
 
-@Data
 @Entity
+@Builder(toBuilder = true)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Setter
+@Getter
 @Table(name = "vacancies")
 public class Vacancy {
 

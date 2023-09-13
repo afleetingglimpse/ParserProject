@@ -41,9 +41,10 @@ public class HhVacancyBrowser implements VacancyBrowser {
                     String link = mainElements.attr(LINK_KEY);
 
                     // создание объекта вакансии и заполнение основных полей
-                    Vacancy temp = new Vacancy();
-                    temp.setVacancyName(vacancyName);
-                    temp.setVacancyLink(link);
+                    Vacancy temp = Vacancy.builder()
+                            .vacancyName(vacancyName)
+                            .vacancyLink(link)
+                            .build();
 
                     if (filter != null) {
                         if (filter.test(temp)) {
