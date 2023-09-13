@@ -31,7 +31,7 @@ class HhParserTest {
 
     @Test
     void parseValidTest() throws IOException {
-        List<Vacancy> expectedVacancies = List.of(new Vacancy());
+        List<Vacancy> expectedVacancies = List.of(Vacancy.builder().build());
         when(vacancyBrowser.browse(VACANCY_TO_SEARCH, NUMBER_OF_VACANCIES, FILTER)).thenReturn(expectedVacancies);
 
         List<Vacancy> actualVacancies = hhParser.parse(VACANCY_TO_SEARCH, NUMBER_OF_VACANCIES, FILTER);
