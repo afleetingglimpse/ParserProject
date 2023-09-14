@@ -37,4 +37,22 @@ public class User {
     public void addVacancy(Vacancy vacancy) {
         userVacancies.add(vacancy);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (chatId != user.chatId) return false;
+        return userName.equals(user.userName);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userName.hashCode();
+        result = 31 * result + (int) (chatId ^ (chatId >>> 32));
+        return result;
+    }
 }
