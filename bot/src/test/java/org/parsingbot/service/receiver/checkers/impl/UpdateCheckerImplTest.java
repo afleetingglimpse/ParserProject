@@ -35,6 +35,7 @@ class UpdateCheckerImplTest {
         Update update = createUpdate(userName, VALID_MESSAGE_TEXT);
         String actual = updateChecker.checkUpdate(update);
         assertEquals(INVALID_UPDATE_ERROR, actual);
+        // TODO intercept log
     }
 
     @ParameterizedTest
@@ -44,6 +45,7 @@ class UpdateCheckerImplTest {
         Update update = createUpdate(VALID_USER_NAME, messageText);
         String actual = updateChecker.checkUpdate(update);
         assertEquals(INVALID_UPDATE_ERROR, actual);
+        // TODO intercept log
     }
 
     @Test
