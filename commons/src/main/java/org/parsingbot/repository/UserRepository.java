@@ -2,11 +2,14 @@ package org.parsingbot.repository;
 
 import org.parsingbot.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "select vacancy_id from vacancies " +
@@ -18,11 +21,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByUserName(String userName);
 
-    @Query(value = "select * from users where is_subscribed = 'true'", nativeQuery = true)
+    @Query(value = "select * from users where is_subscribed = true", nativeQuery = true)
     List<User> getSubscribedUsers();
 
     Optional<User> getUserByChatId(long chatId);
 
-    @Query(value = "update users set status = ?2 where id = ?1", nativeQuery = true)
-    void updateStatusByUserId(Integer userId, String status);
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update users set state = ?2 where id = ?1", nativeQuery = true)
+    void updateStateByUserId(Integer userId, String state);
 }
