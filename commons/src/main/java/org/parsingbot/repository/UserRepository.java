@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "select vacancy_id from vacancies " +
@@ -26,6 +25,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> getUserByChatId(long chatId);
 
+    @Transactional
     @Modifying(clearAutomatically = true)
     @Query(value = "update users set state = ?2 where id = ?1", nativeQuery = true)
     void updateStateByUserId(Integer userId, String state);

@@ -8,9 +8,10 @@ import org.parsingbot.entity.User;
 import org.parsingbot.entity.Vacancy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@DisplayName("Тест репозитория пользователей UserRepository")
 @ActiveProfiles("test")
 @ContextConfiguration(classes = TestJpaConfiguration.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
+@DisplayName("Тест репозитория пользователей UserRepository")
 class UserRepositoryTest {
 
     private static final String USER_NAME = "gwynae";
