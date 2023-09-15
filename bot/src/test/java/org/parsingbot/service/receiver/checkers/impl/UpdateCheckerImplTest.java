@@ -1,11 +1,15 @@
 package org.parsingbot.service.receiver.checkers.impl;
 
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.parsingbot.service.receiver.checkers.UpdateChecker;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -33,9 +37,16 @@ class UpdateCheckerImplTest {
     @DisplayName("Тест метода checkUpdate с null/empty userName")
     void checkUpdate_nullUserNameTest(String userName) {
         Update update = createUpdate(userName, VALID_MESSAGE_TEXT);
+
+        ListAppender<ILoggingEvent> logWatcher = new ListAppender<>();
+        ((Logger) LoggerFactory.getLogger(UpdateCheckerImpl.class)).addAppender(logWatcher);
+        logWatcher.start();
+
         String actual = updateChecker.checkUpdate(update);
+
+        logWatcher.stop();
         assertEquals(INVALID_UPDATE_ERROR, actual);
-        // TODO intercept log
+        assertEquals(INVALID_UPDATE_ERROR, logWatcher.list.get(0).getFormattedMessage());
     }
 
     @ParameterizedTest
@@ -43,9 +54,16 @@ class UpdateCheckerImplTest {
     @DisplayName("Тест метода checkUpdate с null/empty messageText")
     void checkUpdate_nullMessageTextTest(String messageText) {
         Update update = createUpdate(VALID_USER_NAME, messageText);
+
+        ListAppender<ILoggingEvent> logWatcher = new ListAppender<>();
+        ((Logger) LoggerFactory.getLogger(UpdateCheckerImpl.class)).addAppender(logWatcher);
+        logWatcher.start();
+
         String actual = updateChecker.checkUpdate(update);
+
+        logWatcher.stop();
         assertEquals(INVALID_UPDATE_ERROR, actual);
-        // TODO intercept log
+        assertEquals(INVALID_UPDATE_ERROR, logWatcher.list.get(0).getFormattedMessage());
     }
 
     @Test
