@@ -26,6 +26,9 @@ public class UpdateReceiverImpl implements UpdateReceiver {
     // log messages
     private static final String INVALID_UPDATE_LOG = "Update object from user {} with chatId {} is not valid";
     private static final String NOT_AUTHORISED_FOR_COMMAND_LOG = "User {} with chatId {} is not authorised to use command {}";
+    private static final String COMMAND_DISPATCHER_NOT_FOUND =
+            "User {} with chatId {} attempted to call command dispatcher for unknown command {}";
+    private static final String PROCESSING_COMMAND = "User {} with chatId {} requested processing command {}";
 
     private final UserService userService;
     private final UpdateChecker updateChecker;
@@ -37,29 +40,32 @@ public class UpdateReceiverImpl implements UpdateReceiver {
     public void handleUpdate(TelegramBot bot, Update update) {
         long chatId = update.getMessage().getChatId();
         String userName = update.getMessage().getChat().getUserName();
-        String message = update.getMessage().getText();
+        String messageText = update.getMessage().getText();
         User user = userService.getUserByChatIdCreateIfNotExist(chatId, userName);
-        Command command = new Command(message);
+        Command command = new Command(messageText);
 
         String updateError = updateChecker.checkUpdate(update);
         if (updateError != null) {
-            log.error(INVALID_UPDATE_LOG, userName, chatId);
+            log.warn(INVALID_UPDATE_LOG, userName, chatId);
             responseHandler.sendResponse(bot, updateError, chatId);
             return;
         }
 
         String commandError = commandChecker.checkCommand(command, user);
         if (commandError != null) {
-            log.error(NOT_AUTHORISED_FOR_COMMAND_LOG, userName, chatId, command.getPrefix());
+            log.warn(NOT_AUTHORISED_FOR_COMMAND_LOG, userName, chatId, command.getPrefix());
             responseHandler.sendResponse(bot, commandError, chatId);
             return;
         }
 
         CommandHandler commandHandler = commandHandlerDispatcher.getCommandHandler(command, user);
         if (commandHandler == null) {
+            log.warn(COMMAND_DISPATCHER_NOT_FOUND, userName, chatId, command.getPrefix());
             responseHandler.sendResponse(bot, NOT_A_COMMAND_ERROR, chatId);
             return;
         }
+
+        log.info(PROCESSING_COMMAND, userName, chatId, command.getPrefix());
         commandHandler.handleCommand(bot, command, update);
     }
 }
