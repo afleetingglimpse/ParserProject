@@ -1,5 +1,6 @@
 package org.parsingbot.service.impl;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
@@ -48,12 +49,13 @@ class UserAuthServiceImplTest {
     @Test
     void isAuthorisedUserIsNotPresentTest() {
         ListAppender<ILoggingEvent> logWatcher = new ListAppender<>();
-        logWatcher.start();
         ((Logger) LoggerFactory.getLogger(UserAuthServiceImpl.class)).addAppender(logWatcher);
+        logWatcher.start();
 
         when(userService.getUserByName(USER_NAME)).thenReturn(Optional.empty());
         assertFalse(userAuthService.isAuthorised(USER_NAME, MINIMUM_AUTHORISATION));
         assertThat(logWatcher.list.get(0).getFormattedMessage()).contains(USER_NOT_FOUND_ERROR);
+        assertEquals(Level.WARN, logWatcher.list.get(0).getLevel());
         logWatcher.stop();
     }
 }

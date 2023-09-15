@@ -1,5 +1,6 @@
 package org.parsingbot.service.impl;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
@@ -56,6 +57,7 @@ class HhParserTest {
 
         assertEquals(String.format(PARSING_ERROR, VACANCY_TO_SEARCH, NUMBER_OF_VACANCIES),
                 logWatcher.list.get(0).getFormattedMessage());
+        assertEquals(Level.WARN, logWatcher.list.get(0).getLevel());
         assertEquals(expectedVacancies, actualVacancies);
         logWatcher.stop();
     }
