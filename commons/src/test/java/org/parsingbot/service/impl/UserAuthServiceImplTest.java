@@ -54,5 +54,6 @@ class UserAuthServiceImplTest {
         when(userService.getUserByName(USER_NAME)).thenReturn(Optional.empty());
         assertFalse(userAuthService.isAuthorised(USER_NAME, MINIMUM_AUTHORISATION));
         assertThat(logWatcher.list.get(0).getFormattedMessage()).contains(USER_NOT_FOUND_ERROR);
+        logWatcher.stop();
     }
 }
