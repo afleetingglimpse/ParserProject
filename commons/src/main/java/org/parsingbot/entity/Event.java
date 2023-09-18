@@ -11,6 +11,12 @@ public class Event {
     private User user;
     private Command command;
 
+    public Event(Update update, User user, String messageText) {
+        this.update = update;
+        this.user = user;
+        this.command = new Command(messageText);
+    }
+
     public long getChatId() {
         return update.getMessage().getChatId();
     }
