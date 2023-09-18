@@ -154,7 +154,7 @@ class UpdateReceiverImplTest {
         verify(updateChecker).checkUpdate(UPDATE);
         verify(commandChecker).checkCommand(any(), eq(USER));
         verify(commandHandlerDispatcher).getCommandHandler(any(), eq(USER));
-        verify(commandHandler).handleCommand(eq(BOT), any(), eq(UPDATE));
+        verify(commandHandler).handleCommand(any(), eq(UPDATE));
         verifyNoInteractions(responseHandler);
         logWatcher.stop();
     }
