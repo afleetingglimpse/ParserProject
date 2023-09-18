@@ -3,6 +3,7 @@ package org.parsingbot.service.receiver.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.entity.Command;
+import org.parsingbot.entity.Event;
 import org.parsingbot.entity.User;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.bot.TelegramBot;
@@ -12,6 +13,7 @@ import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.receiver.UpdateReceiver;
 import org.parsingbot.service.receiver.checkers.CommandChecker;
 import org.parsingbot.service.receiver.checkers.UpdateChecker;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -43,12 +45,15 @@ public class UpdateReceiverImpl implements UpdateReceiver {
     private final CommandHandlerDispatcher commandHandlerDispatcher;
 
     @Override
+    @Transactional
     public void handleUpdate(TelegramBot bot, Update update) {
-        long chatId = update.getMessage().getChatId();
-        String userName = update.getMessage().getChat().getUserName();
-        String messageText = update.getMessage().getText();
-        User user = userService.getUserByChatIdCreateIfNotExist(chatId, userName);
-        Command command = new Command(messageText);
+        Event event = createEvent(update);
+
+        // TODO replace all with Event
+        var userName = event.getUser().getUserName();
+        var chatId = event.getChatId();
+        var command = event.getCommand();
+        var user = event.getUser();
 
         String updateError = updateChecker.checkUpdate(update);
         if (updateError != null) {
@@ -72,7 +77,7 @@ public class UpdateReceiverImpl implements UpdateReceiver {
         }
 
         log.info(PROCESSING_COMMAND, userName, chatId, command.getPrefix());
-        List<PartialBotApiMethod<? extends Serializable>> botApiMethods = commandHandler.handleCommand(command, update);
+        List<PartialBotApiMethod<? extends Serializable>> botApiMethods = commandHandler.handleCommand(event);
         botApiMethods.forEach((method) -> {
             try {
                 bot.execute((SendMessage) method);
@@ -80,5 +85,19 @@ public class UpdateReceiverImpl implements UpdateReceiver {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    private Event createEvent(Update update) {
+        long chatId = update.getMessage().getChatId();
+        String userName = update.getMessage().getChat().getUserName();
+        String messageText = update.getMessage().getText();
+        User user = userService.getUserByChatIdCreateIfNotExist(chatId, userName);
+        Command command = new Command(messageText);
+
+        return Event.builder()
+                .update(update)
+                .user(user)
+                .command(command)
+                .build();
     }
 }

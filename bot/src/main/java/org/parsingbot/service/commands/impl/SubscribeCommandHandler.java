@@ -2,6 +2,7 @@ package org.parsingbot.service.commands.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.parsingbot.entity.Command;
+import org.parsingbot.entity.Event;
 import org.parsingbot.entity.User;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.commands.CommandHandler;
@@ -25,14 +26,9 @@ public class SubscribeCommandHandler implements CommandHandler {
     private final ResponseHandler responseHandler;
 
     @Override
-    public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Command command, Update update) {
-        long chatId = update.getMessage().getChatId();
-        String userName = update.getMessage().getChat().getUserName();
-        Optional<User> userOptional = userService.getUserByName(userName);
-        if (userOptional.isEmpty()) {
-            return null;
-        }
-        User user = userOptional.get();
+    public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Event event) {
+        long chatId = event.getChatId();
+        User user = event.getUser();
 
         if (user.getIsSubscribed()) {
             return List.of(BotUtils.createMessage(chatId, USER_ALREADY_SUBSCRIBED));
@@ -40,6 +36,6 @@ public class SubscribeCommandHandler implements CommandHandler {
 
         user.setIsSubscribed(true);
         userService.save(user);
-        return List.of(BotUtils.createMessage(chatId ,SUCCESSFUL_SUBSCRIBE));
+        return List.of(BotUtils.createMessage(chatId, SUCCESSFUL_SUBSCRIBE));
     }
 }
