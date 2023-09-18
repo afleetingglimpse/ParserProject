@@ -92,12 +92,7 @@ public class UpdateReceiverImpl implements UpdateReceiver {
         String userName = update.getMessage().getChat().getUserName();
         String messageText = update.getMessage().getText();
         User user = userService.getUserByChatIdCreateIfNotExist(chatId, userName);
-        Command command = new Command(messageText);
 
-        return Event.builder()
-                .update(update)
-                .user(user)
-                .command(command)
-                .build();
+        return new Event(update, user, messageText);
     }
 }
