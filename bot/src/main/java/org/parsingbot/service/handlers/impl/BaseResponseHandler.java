@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Slf4j
 @RequiredArgsConstructor
+@Deprecated(since = "18.09.2023", forRemoval = true)
 public class BaseResponseHandler implements ResponseHandler {
 
     private final static String MESSAGE_SENDING_ERROR = "Failed to send message";

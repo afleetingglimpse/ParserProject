@@ -26,6 +26,7 @@ import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
+@Deprecated(since = "18.09.2023", forRemoval = true)
 public class HhCommandHandler implements CommandHandler {
 
     private final VacancyService vacancyService;
