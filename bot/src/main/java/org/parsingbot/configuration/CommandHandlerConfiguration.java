@@ -1,6 +1,7 @@
 package org.parsingbot.configuration;
 
 import org.parsingbot.entity.CommandEnum;
+import org.parsingbot.service.Parser;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.commands.CommandHandler;
@@ -28,15 +29,15 @@ public class CommandHandlerConfiguration {
     }
 
     @Bean
-    public CommandHandler hhCommandHandler(ResponseHandler responseHandler,
-                                           VacancyService vacancyService,
+    public CommandHandler hhCommandHandler(VacancyService vacancyService,
                                            UserService userService,
-                                           CommandParser hhCommandParser) {
+                                           CommandParser hhCommandParser,
+                                           Parser parser) {
         return new HhCommandHandler(
-                responseHandler,
                 vacancyService,
                 userService,
-                hhCommandParser);
+                hhCommandParser,
+                parser);
     }
 
     @Bean

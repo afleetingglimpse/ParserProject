@@ -4,11 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.parsingbot.entity.Command;
 import org.parsingbot.entity.User;
 import org.parsingbot.service.UserService;
-import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.handlers.ResponseHandler;
+import org.parsingbot.util.BotUtils;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -21,23 +25,21 @@ public class SubscribeCommandHandler implements CommandHandler {
     private final ResponseHandler responseHandler;
 
     @Override
-    public void handleCommand(TelegramBot bot, Command command, Update update) {
-        Long chatId = update.getMessage().getChatId();
+    public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Command command, Update update) {
+        long chatId = update.getMessage().getChatId();
         String userName = update.getMessage().getChat().getUserName();
         Optional<User> userOptional = userService.getUserByName(userName);
-
         if (userOptional.isEmpty()) {
-            return;
+            return null;
         }
         User user = userOptional.get();
+
         if (user.getIsSubscribed()) {
-            responseHandler.sendResponse(bot, USER_ALREADY_SUBSCRIBED, chatId);
-            return;
+            return List.of(BotUtils.createMessage(chatId, USER_ALREADY_SUBSCRIBED));
         }
 
         user.setIsSubscribed(true);
         userService.save(user);
-        responseHandler.sendResponse(bot, SUCCESSFUL_SUBSCRIBE, user.getChatId());
-        // TODO set scheduled service parameters
+        return List.of(BotUtils.createMessage(chatId ,SUCCESSFUL_SUBSCRIBE));
     }
 }

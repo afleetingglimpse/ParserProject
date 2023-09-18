@@ -3,20 +3,23 @@ package org.parsingbot.service.commands.impl.hh;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.entity.Command;
-import org.parsingbot.entity.State;
 import org.parsingbot.entity.User;
 import org.parsingbot.entity.Vacancy;
 import org.parsingbot.service.Parser;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
-import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.bot.utils.VacancyPredicates;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandParser;
 import org.parsingbot.service.handlers.ResponseHandler;
+import org.parsingbot.util.BotUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,31 +28,27 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class HhCommandHandler implements CommandHandler {
 
-    private final ResponseHandler responseHandler;
     private final VacancyService vacancyService;
     private final UserService userService;
     private final CommandParser commandParser;
+    private final Parser parser;
 
 //    private static final State STATE_AFTER_COMPLETION = State.HH_1;
 
     @Override
     @Transactional
-    public void handleCommand(TelegramBot bot, Command command, Update update) {
-        Long chatId = update.getMessage().getChatId();
+    public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Command command, Update update) {
+        long chatId = update.getMessage().getChatId();
         String userName = update.getMessage().getChat().getUserName();
         Optional<User> userOptional = userService.getUserByName(userName);
-
         if (userOptional.isEmpty()) {
-            return;
+            return null;
         }
-
         User user = userOptional.get();
 
         Map<String, String> commandParameters = commandParser.parseCommand(command);
         String vacancyToSearch = commandParameters.get("vacancyName");
         int numberOfVacancies = Integer.parseInt(commandParameters.get("numberOfVacancies"));
-
-        Parser parser = bot.getParser();
 
         List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
 
@@ -58,11 +57,13 @@ public class HhCommandHandler implements CommandHandler {
                 numberOfVacancies,
                 VacancyPredicates.uniqueVacancy(userVacancies));
 
+        List<SendMessage> vacanciesToSend = new ArrayList<>();
         vacancies.forEach(vacancy -> {
             user.addVacancy(vacancy);
-            responseHandler.sendResponse(bot, vacancy.getVacancyLink(), chatId);
+            vacanciesToSend.add(BotUtils.createMessage(chatId, vacancy.getVacancyLink()));
         });
         vacancyService.save(vacancies);
         userService.save(user);
+        return List.copyOf(vacanciesToSend);
     }
 }

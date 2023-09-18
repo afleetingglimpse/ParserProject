@@ -24,4 +24,11 @@ public class BotUtils {
                 .callbackData(command)
                 .build();
     }
+
+    public static SendMessage createMessage(long chatId, String messageText) {
+        return SendMessage.builder()
+                .chatId(chatId)
+                .text(messageText)
+                .build();
+    }
 }

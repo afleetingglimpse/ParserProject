@@ -12,7 +12,13 @@ import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.receiver.UpdateReceiver;
 import org.parsingbot.service.receiver.checkers.CommandChecker;
 import org.parsingbot.service.receiver.checkers.UpdateChecker;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -66,6 +72,13 @@ public class UpdateReceiverImpl implements UpdateReceiver {
         }
 
         log.info(PROCESSING_COMMAND, userName, chatId, command.getPrefix());
-        commandHandler.handleCommand(bot, command, update);
+        List<PartialBotApiMethod<? extends Serializable>> botApiMethods = commandHandler.handleCommand(command, update);
+        botApiMethods.forEach((method) -> {
+            try {
+                bot.execute((SendMessage) method);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
