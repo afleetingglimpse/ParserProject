@@ -5,6 +5,7 @@ import org.parsingbot.service.bot.TelegramBot;
 /**
  * Интерфейс отправки ответов на запросы пользователя
  */
+@Deprecated(since = "18.09.2023", forRemoval = true)
 public interface ResponseHandler {
 
     /**
