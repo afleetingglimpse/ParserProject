@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.parsingbot.entity.Command;
+import org.parsingbot.entity.Event;
 import org.parsingbot.entity.User;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.bot.TelegramBot;
@@ -39,6 +40,8 @@ class UpdateReceiverImplTest {
     private static final Command COMMAND = new Command(MESSAGE_TEXT);
     private static final Update UPDATE = createUpdate();
     private static final User USER = User.builder().userName(USER_NAME).chatId(CHAT_ID).build();
+    private static final Event EVENT = Event.builder().update(UPDATE).user(USER).command(COMMAND).build();
+
     private static final String INVALID_UPDATE_LOG = "Update object from user %s with chatId %s is not valid";
     private static final String NOT_AUTHORISED_FOR_COMMAND_LOG = "User %s with chatId %s is not authorised to use command %s";
     private static final String NOT_A_COMMAND_ERROR = "Your message is not a command. Type /help to see the commands list";
@@ -154,7 +157,7 @@ class UpdateReceiverImplTest {
         verify(updateChecker).checkUpdate(UPDATE);
         verify(commandChecker).checkCommand(any(), eq(USER));
         verify(commandHandlerDispatcher).getCommandHandler(any(), eq(USER));
-        verify(commandHandler).handleCommand(any(), eq(UPDATE));
+        verify(commandHandler).handleCommand(any());
         verifyNoInteractions(responseHandler);
         logWatcher.stop();
     }

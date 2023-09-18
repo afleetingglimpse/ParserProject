@@ -17,6 +17,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <commons.version>1.0-SNAPSHOT</commons.version>
+        <telegrambots.version>6.5.0</telegrambots.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>${telegrambots.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -3,6 +3,7 @@ package org.parsingbot.service.commands.impl.hh;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.entity.Command;
+import org.parsingbot.entity.Event;
 import org.parsingbot.entity.User;
 import org.parsingbot.entity.Vacancy;
 import org.parsingbot.service.Parser;
@@ -38,16 +39,11 @@ public class HhCommandHandler implements CommandHandler {
 
     @Override
     @Transactional
-    public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Command command, Update update) {
-        long chatId = update.getMessage().getChatId();
-        String userName = update.getMessage().getChat().getUserName();
-        Optional<User> userOptional = userService.getUserByName(userName);
-        if (userOptional.isEmpty()) {
-            return null;
-        }
-        User user = userOptional.get();
+    public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Event event) {
+        long chatId = event.getChatId();
+        User user = event.getUser();
 
-        Map<String, String> commandParameters = commandParser.parseCommand(command);
+        Map<String, String> commandParameters = commandParser.parseCommand(event.getCommand());
         String vacancyToSearch = commandParameters.get("vacancyName");
         int numberOfVacancies = Integer.parseInt(commandParameters.get("numberOfVacancies"));
 
