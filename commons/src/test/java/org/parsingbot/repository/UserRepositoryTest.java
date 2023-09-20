@@ -34,6 +34,10 @@ class UserRepositoryTest {
     private static final LocalDateTime NEXT_SEND_DATE = LocalDateTime.now();
     private static final long NEXT_SEND_DATE_DELAY_SECONDS = 60;
     private static final String STATE = State.NONE.toString();
+    private static final String VACANCY_NAME_DB = "vacancyName";
+    private static final long NUMBER_OF_VACANCIES_DB = 10;
+    private static final String KEYWORDS = "На недельку до второго я уеду в Комарово";
+
     private static final List<Vacancy> USER_VACANCIES = new ArrayList<>();
 
     private static final User VALID_USER = User.builder()
@@ -45,6 +49,9 @@ class UserRepositoryTest {
             .nextSendDateDelaySeconds(NEXT_SEND_DATE_DELAY_SECONDS)
             .state(STATE)
             .userVacancies(USER_VACANCIES)
+            .vacancyName(VACANCY_NAME_DB)
+            .numberOfVacancies(NUMBER_OF_VACANCIES_DB)
+            .keywords(KEYWORDS)
             .build();
 
     private static final String VACANCY_NAME = "vacancyName";
@@ -66,13 +73,13 @@ class UserRepositoryTest {
     private VacancyRepository vacancyRepository;
 
     @Test
-    @DisplayName("Тест метода getUserVacanciesIds")
-    void getUserVacanciesIdsTest() {
+    @DisplayName("Тест метода findUserVacanciesIds")
+    void findUserVacanciesIdsTest() {
         vacancyRepository.save(VALID_VACANCY);
         User user = VALID_USER;
         user.addVacancy(VALID_VACANCY);
         userRepository.save(user);
-        List<Integer> ids = userRepository.getUserVacanciesIds(user.getId());
+        List<Integer> ids = userRepository.findUserVacanciesIds(user.getId());
         assertEquals(List.of(1), ids);
     }
 
@@ -96,28 +103,28 @@ class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("Тест метода getSubscribedUsers")
-    void getSubscribedUsersTest() {
+    @DisplayName("Тест метода findfindSubscribedUsers")
+    void findSubscribedUsersTest() {
         userRepository.save(VALID_USER);
-        List<User> subscribedUsers = userRepository.getSubscribedUsers();
+        List<User> subscribedUsers = userRepository.findSubscribedUsers();
         assertEquals(1, subscribedUsers.size());
     }
 
     @Test
-    @DisplayName("Тест метода getUserByChatIdTest. Пользователь есть в базе")
-    void getUserByChatId_UserExistsTest() {
+    @DisplayName("Тест метода findUserByChatIdTest. Пользователь есть в базе")
+    void findUserByChatId_UserExistsTest() {
         userRepository.save(VALID_USER);
-        Optional<User> userOptional = userRepository.getUserByChatId(VALID_USER.getChatId());
+        Optional<User> userOptional = userRepository.findUserByChatId(VALID_USER.getChatId());
         assertTrue(userOptional.isPresent());
         assertEquals(VALID_USER, userOptional.get());
     }
 
     @Test
     @DisplayName("Тест метода getUserByChatIdTest. Пользователя нет в базе")
-    void getUserByChatId_UserNotExistsTest() {
+    void findUserByChatId_UserNotExistsTest() {
         userRepository.save(VALID_USER);
         long incorrectChatId = 2;
-        Optional<User> userOptional = userRepository.getUserByChatId(incorrectChatId);
+        Optional<User> userOptional = userRepository.findUserByChatId(incorrectChatId);
         assertFalse(userOptional.isPresent());
         assertEquals(Optional.empty(), userOptional);
     }
@@ -131,5 +138,29 @@ class UserRepositoryTest {
         Optional<User> userOptional = userRepository.findById(VALID_USER.getId());
         assertTrue(userOptional.isPresent());
         assertEquals(state, userOptional.get().getState());
+    }
+
+    @Test
+    @DisplayName("Тест метода findVacancyNameByUserId")
+    void findVacancyNameByUserIdTest() {
+        User user = userRepository.save(VALID_USER);
+        String actual = userRepository.findVacancyNameByUserId(user.getId());
+        assertEquals(VACANCY_NAME_DB, actual);
+    }
+
+    @Test
+    @DisplayName("Тест метода findNumberOfVacanciesByUserId")
+    void findNumberOfVacanciesByUserIdTest() {
+        User user = userRepository.save(VALID_USER);
+        long actual = userRepository.findNumberOfVacanciesByUserId(user.getId());
+        assertEquals(NUMBER_OF_VACANCIES_DB, actual);
+    }
+
+    @Test
+    @DisplayName("Тест метода findKeywordsByUserId")
+    void findKeywordsByUserIdTest() {
+        User user = userRepository.save(VALID_USER);
+        String actual = userRepository.findKeywordsByUserId(user.getId());
+        assertEquals(KEYWORDS, actual);
     }
 }

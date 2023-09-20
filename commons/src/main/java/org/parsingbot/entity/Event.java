@@ -1,11 +1,13 @@
 package org.parsingbot.entity;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-@Data
-@Builder
+@Builder(toBuilder = true)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Setter
+@Getter
 public class Event {
     private Update update;
     private User user;
