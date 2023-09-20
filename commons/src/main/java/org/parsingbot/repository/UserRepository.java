@@ -24,7 +24,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "join users on users_vacancies.user_id = users.id " +
             "where users.id = ?1",
             nativeQuery = true)
-    List<Integer> findUserVacanciesIds(Integer userId);
+    List<Integer> findUserVacanciesIds(long userId);
 
     /**
      * @param userName имя пользователя
@@ -51,7 +51,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(value = "update users set state = ?2 where id = ?1", nativeQuery = true)
-    void updateStateByUserId(Integer userId, String state);
+    void updateStateByUserId(long userId, String state);
 
     /**
      * @param userId id пользователя
