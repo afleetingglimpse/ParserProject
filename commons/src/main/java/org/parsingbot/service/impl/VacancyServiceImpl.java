@@ -32,7 +32,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<Vacancy> getVacanciesByUserId(Integer userId) {
-        List<Integer> userVacanciesIds = userRepository.getUserVacanciesIds(userId);
+        List<Integer> userVacanciesIds = userRepository.findUserVacanciesIds(userId);
         return getVacanciesByIds(userVacanciesIds);
     }
 

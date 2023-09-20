@@ -74,4 +74,22 @@ public interface UserService {
      * @param userId id пользователя
      */
     void setDefaultStatusByUserId(Integer userId);
+
+    /**
+     * @param userId id пользователя
+     * @return имя вакансии для поиска
+     */
+    String getVacancyNameByUserId(long userId);
+
+    /**
+     * @param userId id пользователя
+     * @return количество вакансий для поиска
+     */
+    long getNumberOfVacanciesByUserId(long userId);
+
+    /**
+     * @param userId id пользователя
+     * @return ключевые слова в виде строки для поиска вакансий
+     */
+    String getKeywordsByUserId(long userId);
 }

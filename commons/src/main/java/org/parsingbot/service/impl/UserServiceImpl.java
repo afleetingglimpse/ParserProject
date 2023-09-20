@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getSubscribedUsers() {
-        return userRepository.getSubscribedUsers();
+        return userRepository.findSubscribedUsers();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserByChatId(long chatId) {
-        return userRepository.getUserByChatId(chatId);
+        return userRepository.findUserByChatId(chatId);
     }
 
     @Override
@@ -78,5 +78,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void setDefaultStatusByUserId(Integer userId) {
         userRepository.updateStateByUserId(userId, State.NONE.toString());
+    }
+
+    @Override
+    public String getVacancyNameByUserId(long userId) {
+        return userRepository.findVacancyNameByUserId(userId);
+    }
+
+    @Override
+    public long getNumberOfVacanciesByUserId(long userId) {
+        return userRepository.findNumberOfVacanciesByUserId(userId);
+    }
+
+    @Override
+    public String getKeywordsByUserId(long userId) {
+        return userRepository.findKeywordsByUserId(userId);
     }
 }
