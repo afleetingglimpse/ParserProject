@@ -9,8 +9,6 @@ import org.parsingbot.service.bot.BotParametersProvider;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.service.receiver.UpdateReceiver;
-import org.parsingbot.service.receiver.checkers.CommandChecker;
-import org.parsingbot.service.receiver.checkers.UpdateChecker;
 import org.parsingbot.service.receiver.impl.UpdateReceiverImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,13 +29,9 @@ public class BotConfiguration {
 
     @Bean
     public UpdateReceiver updateReceiver(UserService userService,
-                                         UpdateChecker updateChecker,
-                                         CommandChecker commandChecker,
                                          CommandHandlerDispatcher commandHandlerDispatcher) {
         return new UpdateReceiverImpl(
                 userService,
-                updateChecker,
-                commandChecker,
                 commandHandlerDispatcher);
     }
 

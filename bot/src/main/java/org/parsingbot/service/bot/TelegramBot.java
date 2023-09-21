@@ -6,7 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.service.Parser;
 import org.parsingbot.service.receiver.UpdateReceiver;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Slf4j
 @Getter
@@ -19,7 +25,8 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        updateReceiver.handleUpdate(this, update);
+        var botApiMethods = updateReceiver.handleUpdate(update);
+        processMethods(botApiMethods);
     }
 
     @Override
@@ -32,4 +39,13 @@ public class TelegramBot extends TelegramLongPollingBot {
         return parametersProvider.getToken();
     }
 
+    private void processMethods(List<PartialBotApiMethod<? extends Serializable>> botApiMethods) {
+        botApiMethods.forEach((method) -> {
+            try {
+                execute((SendMessage) method);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 }
