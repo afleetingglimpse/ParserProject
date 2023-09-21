@@ -66,17 +66,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateStatusByUserId(Integer userId, String status) {
-        userRepository.updateStateByUserId(userId, status);
+    public void updateStateByUserId(long userId, State state) {
+        userRepository.updateStateByUserId(userId, state.toString());
     }
 
     @Override
-    public void updateStatusByUser(User user, String status) {
-        userRepository.updateStateByUserId(user.getId(), status);
+    public void updateStateByUser(User user, State state) {
+        userRepository.updateStateByUserId(user.getId(), state.toString());
     }
 
     @Override
-    public void setDefaultStatusByUserId(Integer userId) {
+    public void setDefaultStateByUserId(long userId) {
         userRepository.updateStateByUserId(userId, State.NONE.toString());
     }
 

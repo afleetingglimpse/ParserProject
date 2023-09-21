@@ -1,5 +1,6 @@
 package org.parsingbot.service;
 
+import org.parsingbot.entity.State;
 import org.parsingbot.entity.User;
 
 import java.util.List;
@@ -60,20 +61,20 @@ public interface UserService {
 
     /**
      * @param userId id пользователя
-     * @param status новый статус пользователя
+     * @param state новый статус пользователя
      */
-    void updateStatusByUserId(Integer userId, String status);
+    void updateStateByUserId(long userId, State state);
 
     /**
      * @param user объект пользователя
-     * @param status новый статус пользователя
+     * @param state новый статус пользователя
      */
-    void updateStatusByUser(User user, String status);
+    void updateStateByUser(User user, State state);
 
     /**
      * @param userId id пользователя
      */
-    void setDefaultStatusByUserId(Integer userId);
+    void setDefaultStateByUserId(long userId);
 
     /**
      * @param userId id пользователя
