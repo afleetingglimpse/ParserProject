@@ -3,17 +3,16 @@ package org.parsingbot.configuration;
 import org.parsingbot.entity.CommandEnum;
 import org.parsingbot.entity.State;
 import org.parsingbot.parser.service.ParserService;
-import org.parsingbot.service.Parser;
 import org.parsingbot.service.UserService;
-import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
-import org.parsingbot.service.commands.CommandParser;
 import org.parsingbot.service.commands.impl.CommandHandlerDispatcherImpl;
 import org.parsingbot.service.commands.impl.SubscribeCommandHandler;
 import org.parsingbot.service.commands.impl.UnsubscribeCommandHandler;
-import org.parsingbot.service.commands.impl.hh.*;
-import org.parsingbot.service.handlers.ResponseHandler;
+import org.parsingbot.service.commands.impl.hh.HhKeywordsSelect3CommandHandler;
+import org.parsingbot.service.commands.impl.hh.HhNumberOfVacanciesSelect2CommandHandler;
+import org.parsingbot.service.commands.impl.hh.HhStart0CommandHandler;
+import org.parsingbot.service.commands.impl.hh.HhVacancySelect1CommandHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,19 +46,15 @@ public class CommandHandlerConfiguration {
     }
 
     @Bean
-    public CommandHandler subscribeCommandHandler(UserService userService,
-                                                  ResponseHandler responseHandler) {
+    public CommandHandler subscribeCommandHandler(UserService userService) {
         return new SubscribeCommandHandler(
-                userService,
-                responseHandler);
+                userService);
     }
 
     @Bean
-    public CommandHandler unsubscribeCommandHandler(UserService userService,
-                                                    ResponseHandler responseHandler) {
+    public CommandHandler unsubscribeCommandHandler(UserService userService) {
         return new UnsubscribeCommandHandler(
-                userService,
-                responseHandler);
+                userService);
     }
 
     @Bean

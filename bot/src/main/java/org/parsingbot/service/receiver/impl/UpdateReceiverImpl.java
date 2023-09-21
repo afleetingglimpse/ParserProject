@@ -2,14 +2,12 @@ package org.parsingbot.service.receiver.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.parsingbot.entity.Command;
 import org.parsingbot.entity.Event;
 import org.parsingbot.entity.User;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
-import org.parsingbot.service.handlers.ResponseHandler;
 import org.parsingbot.service.receiver.UpdateReceiver;
 import org.parsingbot.service.receiver.checkers.CommandChecker;
 import org.parsingbot.service.receiver.checkers.UpdateChecker;
@@ -40,7 +38,6 @@ public class UpdateReceiverImpl implements UpdateReceiver {
 
     private final UserService userService;
     private final UpdateChecker updateChecker;
-    private final ResponseHandler responseHandler;
     private final CommandChecker commandChecker;
     private final CommandHandlerDispatcher commandHandlerDispatcher;
 
@@ -55,12 +52,12 @@ public class UpdateReceiverImpl implements UpdateReceiver {
         var command = event.getCommand();
         var user = event.getUser();
 
-        String updateError = updateChecker.checkUpdate(update);
-        if (updateError != null) {
-            log.warn(INVALID_UPDATE_LOG, userName, chatId);
-            responseHandler.sendResponse(bot, updateError, chatId);
-            return;
-        }
+//        String updateError = updateChecker.checkUpdate(update);
+//        if (updateError != null) {
+//            log.warn(INVALID_UPDATE_LOG, userName, chatId);
+//            responseHandler.sendResponse(bot, updateError, chatId);
+//            return;
+//        }
 
 //        String commandError = commandChecker.checkCommand(command, user);
 //        if (commandError != null) {
@@ -70,11 +67,11 @@ public class UpdateReceiverImpl implements UpdateReceiver {
 //        }
 //
         CommandHandler commandHandler = commandHandlerDispatcher.getCommandHandler(command, user);
-        if (commandHandler == null) {
-            log.warn(COMMAND_DISPATCHER_NOT_FOUND, userName, chatId, command.getPrefix());
-            responseHandler.sendResponse(bot, NOT_A_COMMAND_ERROR, chatId);
-            return;
-        }
+//        if (commandHandler == null) {
+//            log.warn(COMMAND_DISPATCHER_NOT_FOUND, userName, chatId, command.getPrefix());
+//            responseHandler.sendResponse(bot, NOT_A_COMMAND_ERROR, chatId);
+//            return;
+//        }
 
         log.info(PROCESSING_COMMAND, userName, chatId, command.getPrefix());
         List<PartialBotApiMethod<? extends Serializable>> botApiMethods = commandHandler.handleCommand(event);
