@@ -32,20 +32,13 @@ public class BotConfiguration {
     }
 
     @Bean
-    public ResponseHandler responseHandler() {
-        return new BaseResponseHandler();
-    }
-
-    @Bean
     public UpdateReceiver updateReceiver(UserService userService,
                                          UpdateChecker updateChecker,
-                                         ResponseHandler responseHandler,
                                          CommandChecker commandChecker,
                                          CommandHandlerDispatcher commandHandlerDispatcher) {
         return new UpdateReceiverImpl(
                 userService,
                 updateChecker,
-                responseHandler,
                 commandChecker,
                 commandHandlerDispatcher);
     }

@@ -8,7 +8,6 @@ import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.bot.utils.VacancyPredicates;
-import org.parsingbot.service.handlers.ResponseHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +24,6 @@ public class ScheduleService {
     );
 
     private final TelegramBot bot;
-    private final ResponseHandler responseHandler;
     private final UserService userService;
     private final VacancyService vacancyService;
     private final Parser parser;
@@ -49,7 +47,7 @@ public class ScheduleService {
         List<Vacancy> vacancies = getVacancies(user, parsingParameters);
         vacancies.forEach(vacancy -> {
             user.addVacancy(vacancy);
-            responseHandler.sendResponse(bot, vacancy.getVacancyLink(), user.getChatId());
+            // responseHandler.sendResponse(bot, vacancy.getVacancyLink(), user.getChatId());
         });
         vacancyService.save(vacancies);
         userService.save(user);
