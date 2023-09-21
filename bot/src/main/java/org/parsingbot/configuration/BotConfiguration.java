@@ -8,8 +8,6 @@ import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.BotParametersProvider;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
-import org.parsingbot.service.handlers.ResponseHandler;
-import org.parsingbot.service.handlers.impl.BaseResponseHandler;
 import org.parsingbot.service.receiver.UpdateReceiver;
 import org.parsingbot.service.receiver.checkers.CommandChecker;
 import org.parsingbot.service.receiver.checkers.UpdateChecker;
