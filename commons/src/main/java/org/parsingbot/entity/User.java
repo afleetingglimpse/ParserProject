@@ -42,6 +42,10 @@ public class User {
         userVacancies.add(vacancy);
     }
 
+    public void addAllVacancies(List<Vacancy> vacancies) {
+        vacancies.forEach(this::addVacancy);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -12,19 +12,26 @@ import org.parsingbot.util.BotUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class ParserServiceImpl implements ParserService {
 
+    private static final String VACANCY_NAME_PARAMETER = "vacancyName";
+    private static final String NUMBER_OF_VACANCIES_PARAMETER = "numberOfVacancies";
+    private static final String KEYWORDS_PARAMETER = "keywords";
     private final Parser parser;
     private final VacancyService vacancyService;
 
     @Override
     public List<SendMessage> getVacanciesMessageList(Event event) {
-        return getVacancies(event).stream()
-                .map(vacancy -> BotUtils.createMessage(event.getChatId(), vacancy.getVacancyLink()))
-                .collect(Collectors.toList());
+        return getVacanciesMessageListFromVacanciesList(event.getChatId(), getVacancies(event));
+    }
+
+    @Override
+    public List<SendMessage> getVacanciesMessageList(User user, Map<String, String> parsingParameters) {
+        return getVacanciesMessageListFromVacanciesList(user.getChatId(), getVacancies(user, parsingParameters));
     }
 
     @Override
@@ -33,12 +40,16 @@ public class ParserServiceImpl implements ParserService {
         return BotUtils.createMessage(event.getChatId(), String.join("\n", vacanciesLinks));
     }
 
-    private List<Vacancy> getVacancies(Event event) {
-        User user = event.getUser();
+    private List<SendMessage> getVacanciesMessageListFromVacanciesList(Long chatId, List<Vacancy> vacancies) {
+        return vacancies.stream()
+                .map(vacancy -> BotUtils.createMessage(chatId, vacancy.getVacancyLink()))
+                .collect(Collectors.toList());
+    }
 
-        String vacancyName = user.getVacancyName();
-        long numberOfVacancies = user.getNumberOfVacancies();
-        String keywords = user.getKeywords();
+    public List<Vacancy> getVacancies(User user, Map<String, String> parsingParameters) {
+        String vacancyName = parsingParameters.get(VACANCY_NAME_PARAMETER);
+        long numberOfVacancies = Long.parseLong(parsingParameters.get(NUMBER_OF_VACANCIES_PARAMETER));
+        String keywords = parsingParameters.get(KEYWORDS_PARAMETER);
 
         List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
 
@@ -46,5 +57,15 @@ public class ParserServiceImpl implements ParserService {
                 vacancyName,
                 (int) numberOfVacancies,
                 VacancyPredicates.uniqueVacancy(userVacancies));
+    }
+
+    public List<Vacancy> getVacancies(Event event) {
+        User user = event.getUser();
+        Map<String, String> parsingParameters = Map.of(
+                VACANCY_NAME_PARAMETER, user.getVacancyName(),
+                NUMBER_OF_VACANCIES_PARAMETER, String.valueOf(user.getNumberOfVacancies()),
+                KEYWORDS_PARAMETER, user.getKeywords()
+        );
+        return getVacancies(user, parsingParameters);
     }
 }
