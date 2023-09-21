@@ -20,6 +20,6 @@ public interface UserAuthService {
      * @param id            id пользователя
      * @param authorisation устанавливаемая авторизация
      */
-    void setAuthorisedById(int id, Authorisation authorisation);
+    void setAuthorisedById(Long id, Authorisation authorisation);
 
 }

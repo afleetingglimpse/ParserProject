@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserById(int id) {
+    public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
 
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateAuthorisationById(int id, Authorisation authorisation) {
+    public void updateAuthorisationById(Long id, Authorisation authorisation) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -47,26 +47,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByChatId(long chatId) {
+    public Optional<User> getUserByChatId(Long chatId) {
         return userRepository.findUserByChatId(chatId);
     }
 
     @Override
-    public User getUserByChatIdCreateIfNotExist(long chatId, String userName) {
+    public User getUserByChatIdCreateIfNotExist(Long chatId, String userName) {
         Optional<User> userOptional = this.getUserByChatId(chatId);
         return userOptional.orElseGet(() -> this.save(User.builder().userName(userName).chatId(chatId).build()));
     }
 
     @Override
     public void updateNextSendDate(User user) {
-        long nextSendDateDelaySeconds = user.getNextSendDateDelaySeconds();
+        Long nextSendDateDelaySeconds = user.getNextSendDateDelaySeconds();
         LocalDateTime nextSendDate = LocalDateTime.now();
         user.setNextSendDate(nextSendDate.plusSeconds(nextSendDateDelaySeconds));
         userRepository.save(user);
     }
 
     @Override
-    public void updateStateByUserId(long userId, State state) {
+    public void updateStateByUserId(Long userId, State state) {
         userRepository.updateStateByUserId(userId, state.toString());
     }
 
@@ -76,22 +76,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void setDefaultStateByUserId(long userId) {
+    public void setDefaultStateByUserId(Long userId) {
         userRepository.updateStateByUserId(userId, State.NONE.toString());
     }
 
     @Override
-    public String getVacancyNameByUserId(long userId) {
+    public String getVacancyNameByUserId(Long userId) {
         return userRepository.findVacancyNameByUserId(userId);
     }
 
     @Override
-    public long getNumberOfVacanciesByUserId(long userId) {
+    public Long getNumberOfVacanciesByUserId(Long userId) {
         return userRepository.findNumberOfVacanciesByUserId(userId);
     }
 
     @Override
-    public String getKeywordsByUserId(long userId) {
+    public String getKeywordsByUserId(Long userId) {
         return userRepository.findKeywordsByUserId(userId);
     }
 }

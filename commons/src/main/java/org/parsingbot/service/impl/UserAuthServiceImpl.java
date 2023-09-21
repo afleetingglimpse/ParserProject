@@ -31,7 +31,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
-    public void setAuthorisedById(int id, Authorisation authorisation) {
+    public void setAuthorisedById(Long id, Authorisation authorisation) {
         userService.updateAuthorisationById(id, authorisation);
     }
 }

@@ -31,7 +31,7 @@ public interface VacancyService {
      * @param userId id пользователя
      * @return список вакансий, на которые подписан пользователь
      */
-    List<Vacancy> getVacanciesByUserId(Integer userId);
+    List<Vacancy> getVacanciesByUserId(Long userId);
 
     /**
      * @param user объект пользователя
