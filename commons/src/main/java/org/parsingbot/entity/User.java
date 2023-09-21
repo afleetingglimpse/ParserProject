@@ -18,17 +18,17 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     private String userName;
     private String authorisation;
     private Boolean isSubscribed;
-    private long chatId;
+    private Long chatId;
     private LocalDateTime nextSendDate;
-    private long nextSendDateDelaySeconds;
+    private Long nextSendDateDelaySeconds;
     private String state;
     private String vacancyName;
-    private long numberOfVacancies;
+    private Long numberOfVacancies;
     private String keywords;
     @ManyToMany
     @JoinTable(
@@ -49,14 +49,14 @@ public class User {
 
         User user = (User) o;
 
-        if (chatId != user.chatId) return false;
-        return userName.equals(user.userName);
+        if (!userName.equals(user.userName)) return false;
+        return chatId.equals(user.chatId);
     }
 
     @Override
     public int hashCode() {
         int result = userName.hashCode();
-        result = 31 * result + (int) (chatId ^ (chatId >>> 32));
+        result = 31 * result + chatId.hashCode();
         return result;
     }
 }

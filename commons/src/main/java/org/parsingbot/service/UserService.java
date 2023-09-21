@@ -27,7 +27,7 @@ public interface UserService {
      * @param id id пользователя
      * @return Optional обертка над объектом пользователя
      */
-    Optional<User> getUserById(int id);
+    Optional<User> getUserById(Long id);
 
     /**
      * @return список пользователей, у которых is_subscribed = true
@@ -38,19 +38,19 @@ public interface UserService {
      * @param id            id пользователя
      * @param authorisation устанавливаемый уровень авторизации пользователя
      */
-    void updateAuthorisationById(int id, Authorisation authorisation);
+    void updateAuthorisationById(Long id, Authorisation authorisation);
 
     /**
      * @param chatId id чата с пользователем
      * @return Optional обертка над объектом пользователя
      */
-    Optional<User> getUserByChatId(long chatId);
+    Optional<User> getUserByChatId(Long chatId);
 
     /**
      * @param chatId id чата с пользователем
      * @return объект пользователя
      */
-    User getUserByChatIdCreateIfNotExist(long chatId, String userName);
+    User getUserByChatIdCreateIfNotExist(Long chatId, String userName);
 
     /**
      * Добавляет к user.next_send_date число user.next_send_date_delay_seconds
@@ -63,7 +63,7 @@ public interface UserService {
      * @param userId id пользователя
      * @param state новый статус пользователя
      */
-    void updateStateByUserId(long userId, State state);
+    void updateStateByUserId(Long userId, State state);
 
     /**
      * @param user объект пользователя
@@ -74,23 +74,23 @@ public interface UserService {
     /**
      * @param userId id пользователя
      */
-    void setDefaultStateByUserId(long userId);
+    void setDefaultStateByUserId(Long userId);
 
     /**
      * @param userId id пользователя
      * @return имя вакансии для поиска
      */
-    String getVacancyNameByUserId(long userId);
+    String getVacancyNameByUserId(Long userId);
 
     /**
      * @param userId id пользователя
      * @return количество вакансий для поиска
      */
-    long getNumberOfVacanciesByUserId(long userId);
+    Long getNumberOfVacanciesByUserId(Long userId);
 
     /**
      * @param userId id пользователя
      * @return ключевые слова в виде строки для поиска вакансий
      */
-    String getKeywordsByUserId(long userId);
+    String getKeywordsByUserId(Long userId);
 }
