@@ -47,23 +47,6 @@ public class CommandHandlerConfiguration {
     }
 
     @Bean
-    public CommandParser hhCommandParser() {
-        return new HhCommandParser();
-    }
-
-    @Bean
-    public CommandHandler hhCommandHandler(VacancyService vacancyService,
-                                           UserService userService,
-                                           CommandParser hhCommandParser,
-                                           Parser parser) {
-        return new HhCommandHandler(
-                vacancyService,
-                userService,
-                hhCommandParser,
-                parser);
-    }
-
-    @Bean
     public CommandHandler subscribeCommandHandler(UserService userService,
                                                   ResponseHandler responseHandler) {
         return new SubscribeCommandHandler(

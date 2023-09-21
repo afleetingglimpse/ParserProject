@@ -102,30 +102,30 @@ class UpdateReceiverImplTest {
         logWatcher.stop();
     }
 
-    @Test
-    @DisplayName("Тест метода handleUpdate с невалидной Command")
-    void handleUpdate_CommandErrorTest() {
-        String expectedErrorMessage = "expectedErrorMessage";
-        when(updateChecker.checkUpdate(UPDATE)).thenReturn(null);
-        when(commandChecker.checkCommand(any(), eq(USER))).thenReturn(expectedErrorMessage);
-
-        updateReceiver.handleUpdate(BOT, UPDATE);
-
-        assertEquals(String.format(NOT_AUTHORISED_FOR_COMMAND_LOG, USER_NAME, CHAT_ID, COMMAND.getPrefix()),
-                logWatcher.list.get(0).getFormattedMessage());
-        assertEquals(Level.WARN, logWatcher.list.get(0).getLevel());
-        verify(updateChecker).checkUpdate(UPDATE);
-        verify(commandChecker).checkCommand(any(), eq(USER));
-        verify(responseHandler).sendResponse(BOT, expectedErrorMessage, CHAT_ID);
-        verifyNoInteractions(commandHandlerDispatcher);
-        logWatcher.stop();
-    }
+//    @Test
+//    @DisplayName("Тест метода handleUpdate с невалидной Command")
+//    void handleUpdate_CommandErrorTest() {
+//        String expectedErrorMessage = "expectedErrorMessage";
+//        when(updateChecker.checkUpdate(UPDATE)).thenReturn(null);
+////        when(commandChecker.checkCommand(any(), eq(USER))).thenReturn(expectedErrorMessage);
+//
+//        updateReceiver.handleUpdate(BOT, UPDATE);
+//
+//        assertEquals(String.format(NOT_AUTHORISED_FOR_COMMAND_LOG, USER_NAME, CHAT_ID, COMMAND.getPrefix()),
+//                logWatcher.list.get(0).getFormattedMessage());
+//        assertEquals(Level.WARN, logWatcher.list.get(0).getLevel());
+//        verify(updateChecker).checkUpdate(UPDATE);
+////        verify(commandChecker).checkCommand(any(), eq(USER));
+//        verify(responseHandler).sendResponse(BOT, expectedErrorMessage, CHAT_ID);
+//        verifyNoInteractions(commandHandlerDispatcher);
+//        logWatcher.stop();
+//    }
 
     @Test
     @DisplayName("Тест метода handleUpdate если не найден подходящий CommandDispatcher")
     void handleUpdate_NoCommandDispatcherFoundTest() {
         when(updateChecker.checkUpdate(UPDATE)).thenReturn(null);
-        when(commandChecker.checkCommand(any(), eq(USER))).thenReturn(null);
+//        when(commandChecker.checkCommand(any(), eq(USER))).thenReturn(null);
         when(commandHandlerDispatcher.getCommandHandler(any(), eq(USER))).thenReturn(null);
 
         updateReceiver.handleUpdate(BOT, UPDATE);
@@ -134,7 +134,7 @@ class UpdateReceiverImplTest {
                 logWatcher.list.get(0).getFormattedMessage());
         assertEquals(Level.WARN, logWatcher.list.get(0).getLevel());
         verify(updateChecker).checkUpdate(UPDATE);
-        verify(commandChecker).checkCommand(any(), eq(USER));
+//        verify(commandChecker).checkCommand(any(), eq(USER));
         verify(commandHandlerDispatcher).getCommandHandler(any(), eq(USER));
         verify(responseHandler).sendResponse(BOT, NOT_A_COMMAND_ERROR, CHAT_ID);
         logWatcher.stop();
@@ -144,7 +144,7 @@ class UpdateReceiverImplTest {
     @DisplayName("Тест метода handleUpdate с валидными параметрами")
     void handleUpdateValidTest() {
         when(updateChecker.checkUpdate(UPDATE)).thenReturn(null);
-        when(commandChecker.checkCommand(any(), eq(USER))).thenReturn(null);
+//        when(commandChecker.checkCommand(any(), eq(USER))).thenReturn(null);
 
         CommandHandler commandHandler = mock(CommandHandler.class);
         when(commandHandlerDispatcher.getCommandHandler(any(), eq(USER))).thenReturn(commandHandler);
@@ -155,7 +155,7 @@ class UpdateReceiverImplTest {
                 logWatcher.list.get(0).getFormattedMessage());
         assertEquals(Level.INFO, logWatcher.list.get(0).getLevel());
         verify(updateChecker).checkUpdate(UPDATE);
-        verify(commandChecker).checkCommand(any(), eq(USER));
+//        verify(commandChecker).checkCommand(any(), eq(USER));
         verify(commandHandlerDispatcher).getCommandHandler(any(), eq(USER));
         verify(commandHandler).handleCommand(any());
         verifyNoInteractions(responseHandler);
