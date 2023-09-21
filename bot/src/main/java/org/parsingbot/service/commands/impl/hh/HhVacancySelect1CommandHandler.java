@@ -37,8 +37,8 @@ public class HhVacancySelect1CommandHandler implements CommandHandler {
         List<SendMessage> messagesToUser = new ArrayList<>();
         messagesToUser.add(BotUtils.createMessage(event.getChatId(), GREETING_TEXT_2));
 
-        long numberOfVacancies = userService.getNumberOfVacanciesByUserId(user.getId());
-        if (numberOfVacancies != 0) {
+        Long numberOfVacancies = userService.getNumberOfVacanciesByUserId(user.getId());
+        if (numberOfVacancies != null) {
             messagesToUser.add(BotUtils.createMessage(event.getChatId(), GREETING_TEXT_2_NUMBER_OF_VACANCIES_NOT_NULL));
         }
 

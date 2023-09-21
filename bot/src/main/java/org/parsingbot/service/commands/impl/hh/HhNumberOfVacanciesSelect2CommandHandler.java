@@ -27,8 +27,8 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
     public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Event event) {
         User user = event.getUser();
 
-        long numberOfVacancies = Long.parseLong(event.getCommand().getFullMessage());
-        if (numberOfVacancies != 0) {
+        Long numberOfVacancies = Long.parseLong(event.getCommand().getFullMessage());
+        if (numberOfVacancies != null) {
             user.setNumberOfVacancies(numberOfVacancies);
             userService.save(user);
         }

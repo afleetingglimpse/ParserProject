@@ -1,7 +1,10 @@
 package org.parsingbot.configuration;
 
+import org.parsingbot.parser.service.ParserService;
+import org.parsingbot.parser.service.impl.ParserServiceImpl;
 import org.parsingbot.service.Parser;
 import org.parsingbot.service.UserService;
+import org.parsingbot.service.VacancyService;
 import org.parsingbot.service.bot.BotParametersProvider;
 import org.parsingbot.service.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
@@ -22,6 +25,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         ParserConfiguration.class,
         CommonConfiguration.class})
 public class BotConfiguration {
+
+    @Bean
+    public ParserService parserService(Parser parser, VacancyService vacancyService) {
+        return new ParserServiceImpl(parser, vacancyService);
+    }
 
     @Bean
     public ResponseHandler responseHandler() {
