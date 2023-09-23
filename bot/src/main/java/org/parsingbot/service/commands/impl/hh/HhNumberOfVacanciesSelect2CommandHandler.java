@@ -20,7 +20,7 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
 
     private static final String GREETING_TEXT_3 = "Введите ключевые слова для поиска (с любым разделителем)";
     private static final String GREETING_TEXT_3_KEYWORDS_NOT_NULL =
-            "Оставьте пустым, чтобы увидеть вакансии с такими ключевыми словами, которые вы искали в прошлый раз (%d)";
+            "Оставьте пустым, чтобы увидеть вакансии с такими ключевыми словами, которые вы искали в прошлый раз (%s)";
     private final UserService userService;
 
     @Override
@@ -38,7 +38,9 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
 
         String keywords = userService.getKeywordsByUserId(user.getId());
         if (StringUtils.isNotBlank(keywords)) {
-            messagesToUser.add(BotUtils.createMessage(event.getChatId(), GREETING_TEXT_3_KEYWORDS_NOT_NULL));
+            messagesToUser.add(BotUtils.createMessage(
+                    event.getChatId(), String.format(GREETING_TEXT_3_KEYWORDS_NOT_NULL, keywords))
+            );
         }
 
         userService.updateStateByUser(user, State.HH_KEYWORDS_SELECT_3);

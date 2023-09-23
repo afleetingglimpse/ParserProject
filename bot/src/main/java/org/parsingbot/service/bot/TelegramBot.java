@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.service.Parser;
 import org.parsingbot.service.receiver.UpdateReceiver;
+import org.parsingbot.util.BotUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -40,11 +41,17 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     private void processMethods(List<PartialBotApiMethod<? extends Serializable>> botApiMethods) {
+        if (botApiMethods == null) {
+            return;
+        }
+
         botApiMethods.forEach((method) -> {
-            try {
-                execute((SendMessage) method);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
+            if (method != null) {
+                try {
+                    execute((SendMessage) method);
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
