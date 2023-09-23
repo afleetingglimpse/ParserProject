@@ -1,4 +1,4 @@
-package org.parsingbot.service.bot;
+package org.parsingbot.bot;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

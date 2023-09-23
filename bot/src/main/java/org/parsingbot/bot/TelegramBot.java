@@ -1,11 +1,9 @@
-package org.parsingbot.service.bot;
+package org.parsingbot.bot;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.parsingbot.service.Parser;
 import org.parsingbot.service.receiver.UpdateReceiver;
-import org.parsingbot.util.BotUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

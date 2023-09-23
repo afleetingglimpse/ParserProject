@@ -6,7 +6,7 @@ import org.parsingbot.entity.Vacancy;
 import org.parsingbot.parser.service.ParserService;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
-import org.parsingbot.service.bot.TelegramBot;
+import org.parsingbot.bot.TelegramBot;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

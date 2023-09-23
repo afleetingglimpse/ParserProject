@@ -7,7 +7,7 @@ import org.parsingbot.entity.Vacancy;
 import org.parsingbot.parser.service.ParserService;
 import org.parsingbot.service.Parser;
 import org.parsingbot.service.VacancyService;
-import org.parsingbot.service.bot.utils.VacancyPredicates;
+import org.parsingbot.parser.utils.VacancyPredicates;
 import org.parsingbot.util.BotUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
