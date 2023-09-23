@@ -39,7 +39,9 @@ public class HhVacancySelect1CommandHandler implements CommandHandler {
 
         Long numberOfVacancies = userService.getNumberOfVacanciesByUserId(user.getId());
         if (numberOfVacancies != null) {
-            messagesToUser.add(BotUtils.createMessage(event.getChatId(), GREETING_TEXT_2_NUMBER_OF_VACANCIES_NOT_NULL));
+            messagesToUser.add(BotUtils.createMessage(
+                    event.getChatId(), String.format(GREETING_TEXT_2_NUMBER_OF_VACANCIES_NOT_NULL, numberOfVacancies))
+            );
         }
 
         userService.updateStateByUser(user, State.HH_NUMBER_OF_VACANCIES_SELECT_2);
