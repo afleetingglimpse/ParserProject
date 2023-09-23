@@ -36,7 +36,10 @@ public class HhKeywordsSelect3CommandHandler implements CommandHandler {
         }
 
         List<SendMessage> messagesToUser = new ArrayList<>();
-        messagesToUser.add(BotUtils.createMessage(event.getChatId(), FINAL_MESSAGE));
+        messagesToUser.add(BotUtils.createMessage(
+                event.getChatId(),
+                String.format(FINAL_MESSAGE, user.getVacancyName(), user.getNumberOfVacancies(), user.getKeywords()))
+        );
 
         List<SendMessage> vacancies = parserService.getVacanciesMessageList(event);
         messagesToUser.addAll(vacancies);

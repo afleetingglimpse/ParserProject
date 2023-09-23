@@ -10,6 +10,8 @@ import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.util.BotUtils;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class HhVacancySelect1CommandHandler implements CommandHandler {
 
     private static final String GREETING_TEXT_2 = "Введите количество вакансий для поиска";
     private static final String GREETING_TEXT_2_NUMBER_OF_VACANCIES_NOT_NULL =
-            "Оставьте пустым, чтобы увидеть такое количество вакансий, которые вы искали в прошлый раз (%d)";
+            "Или выберите количество вакансий, которое вы искали в прошлый раз";
 
     private final UserService userService;
 
@@ -39,8 +41,13 @@ public class HhVacancySelect1CommandHandler implements CommandHandler {
 
         Long numberOfVacancies = userService.getNumberOfVacanciesByUserId(user.getId());
         if (numberOfVacancies != null) {
-            messagesToUser.add(BotUtils.createMessage(
-                    event.getChatId(), String.format(GREETING_TEXT_2_NUMBER_OF_VACANCIES_NOT_NULL, numberOfVacancies))
+            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+            List<InlineKeyboardButton> inlineKeyboardButtonsRowOne =
+                    List.of(BotUtils.createInlineKeyboardButton(numberOfVacancies, numberOfVacancies));
+            inlineKeyboardMarkup.setKeyboard(List.of(inlineKeyboardButtonsRowOne));
+
+            messagesToUser.add(
+                    BotUtils.createMessageTemplate(event.getChatId(), GREETING_TEXT_2_NUMBER_OF_VACANCIES_NOT_NULL, inlineKeyboardMarkup)
             );
         }
 

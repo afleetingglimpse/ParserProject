@@ -10,6 +10,8 @@ import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.util.BotUtils;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,9 +20,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler {
 
-    private static final String GREETING_TEXT_3 = "Введите ключевые слова для поиска (с любым разделителем)";
+    private static final String GREETING_TEXT_3 =
+            "ПОКА НЕ РАБОТАЕТ!! Введите ключевые слова для поиска (с любым разделителем)";
     private static final String GREETING_TEXT_3_KEYWORDS_NOT_NULL =
-            "Оставьте пустым, чтобы увидеть вакансии с такими ключевыми словами, которые вы искали в прошлый раз (%s)";
+            "Или выберите те ключевые слова, с которыми вы искали в прошлый раз";
     private final UserService userService;
 
     @Override
@@ -38,8 +41,13 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
 
         String keywords = userService.getKeywordsByUserId(user.getId());
         if (StringUtils.isNotBlank(keywords)) {
-            messagesToUser.add(BotUtils.createMessage(
-                    event.getChatId(), String.format(GREETING_TEXT_3_KEYWORDS_NOT_NULL, keywords))
+            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+            List<InlineKeyboardButton> inlineKeyboardButtonsRowOne =
+                    List.of(BotUtils.createInlineKeyboardButton(keywords, keywords));
+            inlineKeyboardMarkup.setKeyboard(List.of(inlineKeyboardButtonsRowOne));
+
+            messagesToUser.add(
+                    BotUtils.createMessageTemplate(event.getChatId(), GREETING_TEXT_3_KEYWORDS_NOT_NULL, inlineKeyboardMarkup)
             );
         }
 
