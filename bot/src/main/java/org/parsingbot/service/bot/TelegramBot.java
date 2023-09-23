@@ -22,7 +22,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private final BotParametersProvider parametersProvider;
     private final UpdateReceiver updateReceiver;
-    private final Parser parser;
 
     @Override
     public void onUpdateReceived(Update update) {

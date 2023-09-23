@@ -37,11 +37,9 @@ public class BotConfiguration {
 
     @Bean
     public TelegramBot bot(BotParametersProvider botParametersProvider,
-                           UpdateReceiver updateReceiver,
-                           Parser parser) {
+                           UpdateReceiver updateReceiver) {
         return new TelegramBot(botParametersProvider,
-                updateReceiver,
-                parser);
+                updateReceiver);
     }
 
     @Bean
