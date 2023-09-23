@@ -11,7 +11,7 @@ import org.parsingbot.entity.Command;
 import org.parsingbot.entity.Event;
 import org.parsingbot.entity.User;
 import org.parsingbot.service.UserService;
-import org.parsingbot.service.bot.TelegramBot;
+import org.parsingbot.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;

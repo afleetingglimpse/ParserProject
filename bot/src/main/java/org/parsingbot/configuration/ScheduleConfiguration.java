@@ -4,7 +4,7 @@ import org.parsingbot.parser.service.ParserService;
 import org.parsingbot.schedule.ScheduleService;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
-import org.parsingbot.service.bot.TelegramBot;
+import org.parsingbot.bot.TelegramBot;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

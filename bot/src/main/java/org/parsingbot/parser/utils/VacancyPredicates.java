@@ -1,4 +1,4 @@
-package org.parsingbot.service.bot.utils;
+package org.parsingbot.parser.utils;
 
 import org.parsingbot.entity.Vacancy;
 
