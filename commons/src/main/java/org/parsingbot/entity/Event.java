@@ -10,16 +10,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Getter
 public class Event {
     private Update update;
+    private Long chatId;
     private User user;
     private Command command;
 
-    public Event(Update update, User user, String messageText) {
+    public Event(Update update, Long chatId, User user, String messageText) {
         this.update = update;
+        this.chatId = chatId;
         this.user = user;
         this.command = new Command(messageText);
-    }
-
-    public long getChatId() {
-        return update.getMessage().getChatId();
     }
 }

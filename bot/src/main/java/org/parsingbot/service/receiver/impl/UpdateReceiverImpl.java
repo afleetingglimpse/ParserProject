@@ -11,6 +11,7 @@ import org.parsingbot.service.receiver.UpdateReceiver;
 import org.parsingbot.util.BotUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.Serializable;
@@ -49,12 +50,21 @@ public class UpdateReceiverImpl implements UpdateReceiver {
     }
 
     private Event createEvent(Update update) {
-        long chatId = update.getMessage().getChatId();
-        String userName = update.getMessage().getChat().getUserName();
-        String messageText = update.getMessage().getText();
+        Message message = update.getMessage();
+        String text;
+        if (message == null) {
+            message = update.getCallbackQuery().getMessage();
+            text = update.getCallbackQuery().getData();
+        } else {
+            text = message.getText();
+        }
+
+        long chatId = message.getChatId();
+        String userName = message.getChat().getUserName();
+        String messageText = text;
         User user = userService.getUserByChatIdCreateIfNotExist(chatId, userName);
 
-        return new Event(update, user, messageText);
+        return new Event(update, chatId, user, messageText);
     }
 
     private List<PartialBotApiMethod<? extends Serializable>> returnInvalidCommandResponse(Event event) {

@@ -3,29 +3,29 @@ package org.parsingbot.util;
 import lombok.experimental.UtilityClass;
 import org.parsingbot.entity.User;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 @UtilityClass
 public class BotUtils {
-    public static SendMessage createMessageTemplate(User user) {
-        return createMessageTemplate(String.valueOf(user.getChatId()));
-    }
 
-    public static SendMessage createMessageTemplate(String chatId) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.enableMarkdown(true);
-        return sendMessage;
-    }
-
-    public static InlineKeyboardButton createInlineKeyboardButton(String text, String command) {
-        return InlineKeyboardButton.builder()
+    public static SendMessage createMessageTemplate(Long chatId, String text, ReplyKeyboard replyKeyboard) {
+        return SendMessage.builder()
+                .chatId(chatId)
                 .text(text)
-                .callbackData(command)
+                .replyMarkup(replyKeyboard)
                 .build();
     }
 
-    public static SendMessage createMessage(long chatId, String messageText) {
+    public static InlineKeyboardButton createInlineKeyboardButton(Object text, Object callbackData) {
+        return InlineKeyboardButton.builder()
+                .text(text.toString())
+                .callbackData(callbackData.toString())
+                .build();
+    }
+
+    public static SendMessage createMessage(Long chatId, String messageText) {
         return SendMessage.builder()
                 .chatId(chatId)
                 .text(messageText)
