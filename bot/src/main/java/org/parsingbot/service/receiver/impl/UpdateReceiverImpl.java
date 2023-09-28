@@ -29,8 +29,6 @@ public class UpdateReceiverImpl implements UpdateReceiver {
     // log messages
     private static final String INVALID_UPDATE_LOG = "Update object from user {} with chatId {} is not valid";
     private static final String NOT_AUTHORISED_FOR_COMMAND_LOG = "User {} with chatId {} is not authorised to use command {}";
-    private static final String COMMAND_DISPATCHER_NOT_FOUND =
-            "User with chatId {} attempted to call command dispatcher for unknown command {}";
     private static final String INVOKED_COMMAND_HANDLER = "User with chatId {} invoked commandHandler: {}";
 
     private final UserService userService;
@@ -45,8 +43,7 @@ public class UpdateReceiverImpl implements UpdateReceiver {
             log.info(INVOKED_COMMAND_HANDLER, event.getChatId(), commandHandler.getClass().getSimpleName());
             return commandHandler.handleCommand(event);
         }
-        log.warn(COMMAND_DISPATCHER_NOT_FOUND, event.getChatId(), event.getCommand().getFullMessage());
-        return returnInvalidCommandResponse(event);
+        return invalidCommandResponse(event);
     }
 
     private Event createEvent(Update update) {
@@ -67,7 +64,7 @@ public class UpdateReceiverImpl implements UpdateReceiver {
         return new Event(update, chatId, user, messageText);
     }
 
-    private List<PartialBotApiMethod<? extends Serializable>> returnInvalidCommandResponse(Event event) {
+    private List<PartialBotApiMethod<? extends Serializable>> invalidCommandResponse(Event event) {
         return List.of(BotUtils.createMessage(event.getChatId(), NOT_A_COMMAND_ERROR));
     }
 }
