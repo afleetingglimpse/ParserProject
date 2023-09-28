@@ -13,6 +13,7 @@ public enum CommandEnum {
     HH_COMMAND("/hh", Authorisation.USER),
     SUBSCRIBE_COMMAND("/subscribe", Authorisation.USER),
     UNSUBSCRIBE_COMMAND("/unsubscribe", Authorisation.USER),
+    DROP_COMMAND("/drop", Authorisation.ADMIN),
     HELP_COMMAND("/help", Authorisation.USER);
 
     private final String prefix;
