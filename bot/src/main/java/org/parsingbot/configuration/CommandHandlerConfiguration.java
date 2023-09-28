@@ -7,6 +7,7 @@ import org.parsingbot.service.UserService;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.service.commands.impl.CommandHandlerDispatcherImpl;
+import org.parsingbot.service.commands.impl.HelpCommandHandler;
 import org.parsingbot.service.commands.impl.SubscribeCommandHandler;
 import org.parsingbot.service.commands.impl.UnsubscribeCommandHandler;
 import org.parsingbot.service.commands.impl.hh.HhKeywordsSelect3CommandHandler;
@@ -58,14 +59,21 @@ public class CommandHandlerConfiguration {
     }
 
     @Bean
+    public CommandHandler helpCommandHandler() {
+        return new HelpCommandHandler();
+    }
+
+    @Bean
     @Qualifier("startCommandHandlerMap")
     public Map<String, CommandHandler> startCommandHandlerMap(CommandHandler hhStart0CommandHandler,
                                                               CommandHandler subscribeCommandHandler,
-                                                              CommandHandler unsubscribeCommandHandler) {
+                                                              CommandHandler unsubscribeCommandHandler,
+                                                              CommandHandler helpCommandHandler) {
         Map<String, CommandHandler> startCommandHandlerMap = new HashMap<>();
         startCommandHandlerMap.put(CommandEnum.HH_COMMAND.getPrefix(), hhStart0CommandHandler);
         startCommandHandlerMap.put(CommandEnum.SUBSCRIBE_COMMAND.getPrefix(), subscribeCommandHandler);
         startCommandHandlerMap.put(CommandEnum.UNSUBSCRIBE_COMMAND.getPrefix(), unsubscribeCommandHandler);
+        startCommandHandlerMap.put(CommandEnum.HELP_COMMAND.getPrefix(), helpCommandHandler);
         return startCommandHandlerMap;
     }
 

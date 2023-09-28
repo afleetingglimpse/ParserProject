@@ -12,7 +12,8 @@ public enum CommandEnum {
 
     HH_COMMAND("/hh", Authorisation.USER),
     SUBSCRIBE_COMMAND("/subscribe", Authorisation.USER),
-    UNSUBSCRIBE_COMMAND("/unsubscribe", Authorisation.USER);
+    UNSUBSCRIBE_COMMAND("/unsubscribe", Authorisation.USER),
+    HELP_COMMAND("/help", Authorisation.USER);
 
     private final String prefix;
     private final Authorisation minimumAuthorisation;
