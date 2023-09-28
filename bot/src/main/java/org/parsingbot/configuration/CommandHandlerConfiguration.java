@@ -6,10 +6,7 @@ import org.parsingbot.parser.service.ParserService;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
-import org.parsingbot.service.commands.impl.CommandHandlerDispatcherImpl;
-import org.parsingbot.service.commands.impl.HelpCommandHandler;
-import org.parsingbot.service.commands.impl.SubscribeCommandHandler;
-import org.parsingbot.service.commands.impl.UnsubscribeCommandHandler;
+import org.parsingbot.service.commands.impl.*;
 import org.parsingbot.service.commands.impl.hh.HhKeywordsSelect3CommandHandler;
 import org.parsingbot.service.commands.impl.hh.HhNumberOfVacanciesSelect2CommandHandler;
 import org.parsingbot.service.commands.impl.hh.HhStart0CommandHandler;
@@ -48,14 +45,17 @@ public class CommandHandlerConfiguration {
 
     @Bean
     public CommandHandler subscribeCommandHandler(UserService userService) {
-        return new SubscribeCommandHandler(
-                userService);
+        return new SubscribeCommandHandler(userService);
     }
 
     @Bean
     public CommandHandler unsubscribeCommandHandler(UserService userService) {
-        return new UnsubscribeCommandHandler(
-                userService);
+        return new UnsubscribeCommandHandler(userService);
+    }
+
+    @Bean
+    public CommandHandler dropStateCommandHandler(UserService userService) {
+        return new DropStateCommandHandler(userService);
     }
 
     @Bean
@@ -68,11 +68,13 @@ public class CommandHandlerConfiguration {
     public Map<String, CommandHandler> startCommandHandlerMap(CommandHandler hhStart0CommandHandler,
                                                               CommandHandler subscribeCommandHandler,
                                                               CommandHandler unsubscribeCommandHandler,
+                                                              CommandHandler dropStateCommandHandler,
                                                               CommandHandler helpCommandHandler) {
         Map<String, CommandHandler> startCommandHandlerMap = new HashMap<>();
         startCommandHandlerMap.put(CommandEnum.HH_COMMAND.getPrefix(), hhStart0CommandHandler);
         startCommandHandlerMap.put(CommandEnum.SUBSCRIBE_COMMAND.getPrefix(), subscribeCommandHandler);
         startCommandHandlerMap.put(CommandEnum.UNSUBSCRIBE_COMMAND.getPrefix(), unsubscribeCommandHandler);
+        startCommandHandlerMap.put(CommandEnum.DROP_COMMAND.getPrefix(), dropStateCommandHandler);
         startCommandHandlerMap.put(CommandEnum.HELP_COMMAND.getPrefix(), helpCommandHandler);
         return startCommandHandlerMap;
     }
