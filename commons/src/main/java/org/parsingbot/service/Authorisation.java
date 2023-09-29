@@ -9,10 +9,10 @@ import java.util.Objects;
 @Getter
 @RequiredArgsConstructor
 public enum Authorisation {
-    DUNGEON_MASTER("DUNGEON_MASTER"),
-    ADMIN("ADMIN"),
+    UNKNOWN("UNKNOWN"),
     USER("USER"),
-    UNKNOWN("UNKNOWN");
+    ADMIN("ADMIN"),
+    DUNGEON_MASTER("DUNGEON_MASTER");
 
     private final String name;
 

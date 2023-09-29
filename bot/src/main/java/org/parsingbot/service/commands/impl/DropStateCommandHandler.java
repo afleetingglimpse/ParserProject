@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.parsingbot.entity.Event;
 import org.parsingbot.entity.State;
 import org.parsingbot.entity.User;
+import org.parsingbot.service.Authorisation;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.util.BotUtils;
@@ -39,5 +40,10 @@ public class DropStateCommandHandler implements CommandHandler {
     @Override
     public State getRequiredState() {
         return State.ANY;
+    }
+
+    @Override
+    public Authorisation getRequiredAuthorisation() {
+        return Authorisation.ADMIN;
     }
 }
