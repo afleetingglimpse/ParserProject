@@ -2,6 +2,7 @@ package org.parsingbot.service.commands;
 
 import org.parsingbot.entity.Event;
 import org.parsingbot.entity.State;
+import org.parsingbot.service.Authorisation;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 
 import java.io.Serializable;
@@ -26,5 +27,12 @@ public interface CommandHandler {
      */
     default State getRequiredState() {
         return State.NONE;
+    }
+
+    /**
+     * @return авторизация пользователя, необходимая для вызова обработчика команд
+     */
+    default Authorisation getRequiredAuthorisation() {
+        return Authorisation.USER;
     }
 }
