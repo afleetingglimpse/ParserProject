@@ -5,9 +5,10 @@ import org.parsingbot.entity.Event;
 import org.parsingbot.entity.User;
 import org.parsingbot.entity.Vacancy;
 import org.parsingbot.parser.service.ParserService;
-import org.parsingbot.service.Parser;
-import org.parsingbot.service.VacancyService;
 import org.parsingbot.parser.utils.VacancyPredicates;
+import org.parsingbot.service.Parser;
+import org.parsingbot.service.UserService;
+import org.parsingbot.service.VacancyService;
 import org.parsingbot.util.BotUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -21,6 +22,7 @@ public class ParserServiceImpl implements ParserService {
     private static final String VACANCY_NAME_PARAMETER = "vacancyName";
     private static final String NUMBER_OF_VACANCIES_PARAMETER = "numberOfVacancies";
     private static final String KEYWORDS_PARAMETER = "keywords";
+
     private final Parser parser;
     private final VacancyService vacancyService;
 
@@ -52,11 +54,11 @@ public class ParserServiceImpl implements ParserService {
         String keywords = parsingParameters.get(KEYWORDS_PARAMETER);
 
         List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
+        List<Vacancy> vacancies = parser.parse(vacancyName, (int) numberOfVacancies, VacancyPredicates.uniqueVacancy(userVacancies));
+        user.addAllVacancies(vacancies);
 
-        return parser.parse(
-                vacancyName,
-                (int) numberOfVacancies,
-                VacancyPredicates.uniqueVacancy(userVacancies));
+        vacancyService.save(vacancies);
+        return vacancies;
     }
 
     public List<Vacancy> getVacancies(Event event) {

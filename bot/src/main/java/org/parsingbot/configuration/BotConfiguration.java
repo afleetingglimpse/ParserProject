@@ -1,12 +1,12 @@
 package org.parsingbot.configuration;
 
+import org.parsingbot.bot.BotParametersProvider;
+import org.parsingbot.bot.TelegramBot;
 import org.parsingbot.parser.service.ParserService;
 import org.parsingbot.parser.service.impl.ParserServiceImpl;
 import org.parsingbot.service.Parser;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.VacancyService;
-import org.parsingbot.bot.BotParametersProvider;
-import org.parsingbot.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.service.receiver.UpdateReceiver;
 import org.parsingbot.service.receiver.impl.UpdateReceiverImpl;

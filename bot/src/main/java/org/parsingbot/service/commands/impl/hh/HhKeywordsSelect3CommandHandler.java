@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.parsingbot.entity.Event;
 import org.parsingbot.entity.State;
 import org.parsingbot.entity.User;
+import org.parsingbot.entity.Vacancy;
 import org.parsingbot.parser.service.ParserService;
 import org.parsingbot.service.UserService;
 import org.parsingbot.service.commands.CommandHandler;
