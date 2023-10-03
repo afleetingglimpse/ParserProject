@@ -10,6 +10,8 @@ import org.parsingbot.bot.TelegramBot;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.service.receiver.UpdateReceiver;
 import org.parsingbot.service.receiver.impl.UpdateReceiverImpl;
+import org.parsingbot.service.validation.CommandHandlerValidator;
+import org.parsingbot.service.validation.impl.CommandHandlerValidatorImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -28,11 +30,18 @@ public class BotConfiguration {
     }
 
     @Bean
+    public CommandHandlerValidator commandHandlerValidator() {
+        return new CommandHandlerValidatorImpl();
+    }
+
+    @Bean
     public UpdateReceiver updateReceiver(UserService userService,
-                                         CommandHandlerDispatcher commandHandlerDispatcher) {
+                                         CommandHandlerDispatcher commandHandlerDispatcher,
+                                         CommandHandlerValidator commandHandlerValidator) {
         return new UpdateReceiverImpl(
                 userService,
-                commandHandlerDispatcher);
+                commandHandlerDispatcher,
+                commandHandlerValidator);
     }
 
     @Bean
