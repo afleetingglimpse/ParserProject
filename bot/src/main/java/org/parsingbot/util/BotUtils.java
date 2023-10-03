@@ -1,14 +1,15 @@
 package org.parsingbot.util;
 
 import lombok.experimental.UtilityClass;
-import org.parsingbot.entity.User;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 @UtilityClass
 public class BotUtils {
+
+    private static final String NOT_AUTHORISED_FOR_COMMAND_ERROR = "You are not authorised to use that command";
+    private static final String NOT_A_COMMAND_ERROR = "Your message is not a command. Type /help to see the commands list";
 
     public static SendMessage createMessageTemplate(Long chatId, String text, ReplyKeyboard replyKeyboard) {
         return SendMessage.builder()
@@ -30,5 +31,13 @@ public class BotUtils {
                 .chatId(chatId)
                 .text(messageText)
                 .build();
+    }
+
+    public static SendMessage userUnauthorisedMessage(Long chatId) {
+        return createMessage(chatId, NOT_AUTHORISED_FOR_COMMAND_ERROR);
+    }
+
+    public static SendMessage commandNotFoundError(Long chatId) {
+        return createMessage(chatId, NOT_A_COMMAND_ERROR);
     }
 }
