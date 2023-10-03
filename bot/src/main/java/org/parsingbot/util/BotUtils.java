@@ -10,6 +10,7 @@ public class BotUtils {
 
     private static final String NOT_AUTHORISED_FOR_COMMAND_ERROR = "You are not authorised to use that command";
     private static final String NOT_A_COMMAND_ERROR = "Your message is not a command. Type /help to see the commands list";
+    private static final String INVALID_STATE_ERROR = "You can't call that command right now";
 
     public static SendMessage createMessageTemplate(Long chatId, String text, ReplyKeyboard replyKeyboard) {
         return SendMessage.builder()
@@ -39,5 +40,9 @@ public class BotUtils {
 
     public static SendMessage commandNotFoundError(Long chatId) {
         return createMessage(chatId, NOT_A_COMMAND_ERROR);
+    }
+
+    public static SendMessage userIsNotInRequiredState(Long chatId) {
+        return createMessage(chatId, INVALID_STATE_ERROR);
     }
 }

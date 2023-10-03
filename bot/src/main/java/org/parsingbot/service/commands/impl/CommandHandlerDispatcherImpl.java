@@ -6,7 +6,6 @@ import org.parsingbot.entity.Command;
 import org.parsingbot.entity.Event;
 import org.parsingbot.entity.State;
 import org.parsingbot.entity.User;
-import org.parsingbot.service.Authorisation;
 import org.parsingbot.service.commands.CommandHandler;
 import org.parsingbot.service.commands.CommandHandlerDispatcher;
 
@@ -21,37 +20,12 @@ public class CommandHandlerDispatcherImpl implements CommandHandlerDispatcher {
 
     @Override
     public CommandHandler getCommandHandler(Event event) {
-        Command command = event.getCommand();
         User user = event.getUser();
+        Command command = event.getCommand();
 
         if (startCommandHandlerMap.containsKey(command.getPrefix())) {
-            CommandHandler commandHandler = startCommandHandlerMap.get(command.getPrefix());
-            if (isUserAbleToInvokeCommandHandler(commandHandler, user)) {
-                return commandHandler;
-            }
-            return null;
+            return startCommandHandlerMap.get(command.getPrefix());
         }
         return commandHandlerMap.getOrDefault(State.valueOf(user.getState()), null);
-    }
-
-    private boolean isUserAbleToInvokeCommandHandler(CommandHandler commandHandler, User user) {
-        State userState = State.valueOf(user.getState());
-        Authorisation userAuthorisation = Authorisation.valueOf(user.getAuthorisation());
-        if (Authorisation.compare(userAuthorisation, commandHandler.getRequiredAuthorisation()) < 0) {
-            log.warn("User with chatId {} not authorised to call command dispatcher {}", user.getChatId(), commandHandler);
-            return false;
-        }
-        if (commandHandler.getRequiredState() == State.ANY) {
-            return true;
-        }
-        if (!commandHandler.getRequiredState().equals(userState)) {
-            log.warn("User with chatId {} attempted to call command dispatcher {} (state {}) with state {}",
-                    user.getChatId(),
-                    commandHandler.getClass().getSimpleName(),
-                    commandHandler.getRequiredState(),
-                    user.getState());
-            return false;
-        }
-        return true;
     }
 }
