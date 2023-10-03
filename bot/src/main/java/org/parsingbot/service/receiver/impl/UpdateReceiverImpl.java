@@ -21,16 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UpdateReceiverImpl implements UpdateReceiver {
 
-    // messages for user
-    private static final String INVALID_UPDATE_ERROR = "userName or/and message not valid";
-    private static final String NOT_AUTHORISED_FOR_COMMAND_ERROR = "You are not authorised to use that command";
-    private static final String NOT_A_COMMAND_ERROR = "Your message is not a command. Type /help to see the commands list";
-
-    // log messages
-    private static final String INVALID_UPDATE_LOG = "Update object from user {} with chatId {} is not valid";
-    private static final String NOT_AUTHORISED_FOR_COMMAND_LOG = "User {} with chatId {} is not authorised to use command {}";
-    private static final String INVOKED_COMMAND_HANDLER = "User with chatId {} invoked commandHandler: {}";
-
     private final UserService userService;
     private final CommandHandlerDispatcher commandHandlerDispatcher;
 
@@ -40,10 +30,11 @@ public class UpdateReceiverImpl implements UpdateReceiver {
         Event event = createEvent(update);
         CommandHandler commandHandler = commandHandlerDispatcher.getCommandHandler(event);
         if (commandHandler != null) {
-            log.info(INVOKED_COMMAND_HANDLER, event.getChatId(), commandHandler.getClass().getSimpleName());
+            log.info("User with chatId {} invoked commandHandler: {}",
+                    event.getChatId(), commandHandler.getClass().getSimpleName());
             return commandHandler.handleCommand(event);
         }
-        return invalidCommandResponse(event);
+        return List.of(BotUtils.commandNotFoundError(event.getChatId()));
     }
 
     private Event createEvent(Update update) {
@@ -62,9 +53,5 @@ public class UpdateReceiverImpl implements UpdateReceiver {
         User user = userService.getUserByChatIdCreateIfNotExist(chatId, userName);
 
         return new Event(update, chatId, user, messageText);
-    }
-
-    private List<PartialBotApiMethod<? extends Serializable>> invalidCommandResponse(Event event) {
-        return List.of(BotUtils.createMessage(event.getChatId(), NOT_A_COMMAND_ERROR));
     }
 }
