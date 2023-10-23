@@ -13,6 +13,7 @@
         <module>parser</module>
         <module>bot</module>
         <module>commons</module>
+        <module>database</module>
     </modules>
 
     <properties>

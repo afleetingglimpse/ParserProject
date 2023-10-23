@@ -2,10 +2,12 @@ package org.parsingbot.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.parsingbot.configuration.TestJpaConfiguration;
-import org.parsingbot.entity.State;
-import org.parsingbot.entity.User;
-import org.parsingbot.entity.Vacancy;
+import org.parsingbot.commons.configuration.TestJpaConfiguration;
+import org.parsingbot.commons.entity.State;
+import org.parsingbot.commons.entity.User;
+import org.parsingbot.commons.entity.Vacancy;
+import org.parsingbot.commons.repository.UserRepository;
+import org.parsingbot.commons.repository.VacancyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
