@@ -54,7 +54,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByChatIdCreateIfNotExist(Long chatId, String userName) {
         Optional<User> userOptional = this.getUserByChatId(chatId);
-        return userOptional.orElseGet(() -> this.save(User.builder().userName(userName).chatId(chatId).build()));
+        return userOptional.orElseGet(() -> this.save(
+                User.builder()
+                        .userName(userName)
+                        .chatId(chatId)
+                        .state(State.NONE.toString())
+                        .build())
+        );
     }
 
     @Override

@@ -40,4 +40,6 @@ start.bat
 mvnw
 mvnw.cmd
 src/main/output/logs/
-*.properties
+bot.properties
+application.properties
+insert_users_admin.sql

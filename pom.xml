@@ -30,6 +30,7 @@
         <h2.version>2.1.214</h2.version>
         <hibernate.version>6.1.7.Final</hibernate.version>
         <lombok.version>1.18.26</lombok.version>
+        <liquibase.version>4.17.2</liquibase.version>
     </properties>
 
     <dependencies>
