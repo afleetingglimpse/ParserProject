@@ -22,7 +22,16 @@
     </changeSet>
 
     <changeSet id="003" author="invernes">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0"> select * from users where user_name = 'innvernes'</sqlCheck>
+        </preConditions>
         <sqlFile path="changesets/insert_users_admin.sql"
+                 encoding="UTF-8"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="004" author="invernes">
+        <sqlFile path="changesets/create_table_search_history.sql"
                  encoding="UTF-8"
                  relativeToChangelogFile="true"/>
     </changeSet>
