@@ -53,7 +53,10 @@ public class ParserServiceImpl implements ParserService {
         String keywords = parsingParameters.get(KEYWORDS_PARAMETER);
 
         List<Vacancy> userVacancies = vacancyService.getVacanciesByUser(user);
-        List<Vacancy> vacancies = parser.parse(vacancyName, (int) numberOfVacancies, VacancyPredicates.uniqueVacancy(userVacancies));
+        List<Vacancy> vacancies = parser.parse(
+                vacancyName,
+                (int) numberOfVacancies,
+                VacancyPredicates.uniqueAndNonAddVacancy(userVacancies));
         user.addAllVacancies(vacancies);
 
         vacancyService.save(vacancies);
