@@ -20,7 +20,7 @@ public class SearchHistory {
     private Integer numberOfVacancies;
     private String keywords;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

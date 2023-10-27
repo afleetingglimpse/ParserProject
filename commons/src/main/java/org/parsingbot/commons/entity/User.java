@@ -37,15 +37,20 @@ public class User {
     )
     private List<Vacancy> userVacancies;
 
-    @OneToMany(mappedBy = "user")
-    private List<SearchHistory> searchHistories;
-
     public void addVacancy(Vacancy vacancy) {
         userVacancies.add(vacancy);
     }
-
     public void addAllVacancies(List<Vacancy> vacancies) {
         vacancies.forEach(this::addVacancy);
+    }
+
+    @OneToMany(mappedBy = "user")
+    private List<SearchHistory> searchHistories;
+    public void addSearchHistory(SearchHistory searchHistory) {
+        searchHistories.add(searchHistory);
+    }
+    public void addAllSearchHistories(List<SearchHistory> searchHistories) {
+        this.searchHistories.addAll(searchHistories);
     }
 
     @Override
