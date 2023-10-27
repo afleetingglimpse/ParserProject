@@ -37,6 +37,9 @@ public class User {
     )
     private List<Vacancy> userVacancies;
 
+    @OneToMany(mappedBy = "user")
+    private List<SearchHistory> searchHistories;
+
     public void addVacancy(Vacancy vacancy) {
         userVacancies.add(vacancy);
     }
