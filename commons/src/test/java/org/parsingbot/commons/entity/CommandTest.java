@@ -1,4 +1,4 @@
-package org.parsingbot.entity;
+package org.parsingbot.commons.entity;
 
 import org.junit.jupiter.api.Test;
 import org.parsingbot.commons.entity.Command;

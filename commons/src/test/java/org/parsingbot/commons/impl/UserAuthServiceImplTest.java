@@ -1,4 +1,4 @@
-package org.parsingbot.core.service.impl;
+package org.parsingbot.commons.impl;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;

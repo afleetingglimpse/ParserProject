@@ -1,5 +1,6 @@
 package org.parsingbot.commons.configuration;
 
+import org.parsingbot.commons.repository.SearchHistoryRepository;
 import org.parsingbot.commons.service.UserAuthService;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.commons.service.VacancyService;
@@ -24,8 +25,8 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public UserService userService(VacancyRepository vacancyRepository, UserRepository userRepository) {
-        return new UserServiceImpl(userRepository);
+    public UserService userService( UserRepository userRepository, SearchHistoryRepository searchHistoryRepository) {
+        return new UserServiceImpl(userRepository, searchHistoryRepository);
     }
 
     @Bean
