@@ -8,5 +8,5 @@ public interface SearchHistoryRepository extends JpaRepository<SearchHistory, In
 
     @Query(value = "select * from search_history where user_id = ?",
             nativeQuery = true)
-    SearchHistory getSearchHistoryByUserId(Long userId);
+    SearchHistory findSearchHistoryByUserId(Long userId);
 }
