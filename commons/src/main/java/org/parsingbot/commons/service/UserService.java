@@ -1,5 +1,6 @@
 package org.parsingbot.commons.service;
 
+import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
 
@@ -93,4 +94,10 @@ public interface UserService {
      * @return ключевые слова в виде строки для поиска вакансий
      */
     String getKeywordsByUserId(Long userId);
+
+    /**
+     * @param user объект пользователя
+     * @return SearchHistory пользователя
+     */
+    SearchHistory getUserSearchHistory(User user);
 }
