@@ -3,6 +3,7 @@ package org.parsingbot.core.service.commands.impl.hh;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.parsingbot.commons.entity.Event;
+import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.service.UserService;
@@ -39,7 +40,8 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
         List<SendMessage> messagesToUser = new ArrayList<>();
         messagesToUser.add(BotUtils.createMessage(event.getChatId(), GREETING_TEXT_3));
 
-        String keywords = userService.getKeywordsByUserId(user.getId());
+        SearchHistory searchHistory = userService.getUserSearchHistory(user);
+        String keywords = searchHistory.getKeywords();
         if (StringUtils.isNotBlank(keywords)) {
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
             List<InlineKeyboardButton> inlineKeyboardButtonsRowOne =
