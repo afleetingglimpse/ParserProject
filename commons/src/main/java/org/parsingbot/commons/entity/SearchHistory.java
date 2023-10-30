@@ -19,7 +19,7 @@ public class SearchHistory {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     private String vacancyName;
-    private Integer numberOfVacancies;
+    private Long numberOfVacancies;
     private String keywords;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -134,56 +134,10 @@ class UserServiceImplTest {
     @DisplayName("Тест метода setDefaultStateByUser")
     void setDefaultStateByUser() {
         User user = createUser();
-        Long userId = user.getId();
 
         sut.setDefaultStateByUser(user);
 
         verify(userRepository).save(user);
-        verifyNoMoreInteractions(userRepository);
-        verifyNoInteractions(searchHistoryRepository);
-    }
-
-    @Test
-    @DisplayName("Тест метода getVacancyNameByUserId")
-    void getVacancyNameByUserId() {
-        Long userId = RND.nextLong();
-
-        String expected = randomFromUuid();
-        when(userRepository.findVacancyNameByUserId(userId)).thenReturn(expected);
-
-        String actual = sut.getVacancyNameByUserId(userId);
-
-        assertEquals(expected, actual);
-        verifyNoMoreInteractions(userRepository);
-        verifyNoInteractions(searchHistoryRepository);
-    }
-
-    @Test
-    @DisplayName("Тест метода getNumberOfVacanciesByUserId")
-    void getNumberOfVacanciesByUserId() {
-        Long userId = RND.nextLong();
-
-        Long expected = RND.nextLong();
-        when(userRepository.findNumberOfVacanciesByUserId(userId)).thenReturn(expected);
-
-        Long actual = sut.getNumberOfVacanciesByUserId(userId);
-
-        assertEquals(expected, actual);
-        verifyNoMoreInteractions(userRepository);
-        verifyNoInteractions(searchHistoryRepository);
-    }
-
-    @Test
-    @DisplayName("Тест метода getKeywordsByUserId")
-    void getKeywordsByUserId() {
-        Long userId = RND.nextLong();
-
-        String expected = randomFromUuid();
-        when(userRepository.findKeywordsByUserId(userId)).thenReturn(expected);
-
-        String actual = sut.getKeywordsByUserId(userId);
-
-        assertEquals(expected, actual);
         verifyNoMoreInteractions(userRepository);
         verifyNoInteractions(searchHistoryRepository);
     }

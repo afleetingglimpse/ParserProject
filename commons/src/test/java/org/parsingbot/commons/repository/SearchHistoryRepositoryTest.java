@@ -70,7 +70,7 @@ class SearchHistoryRepositoryTest {
     @DisplayName("Тест метода findSearchHistoryByUserId")
     void findSearchHistoryByUserIdTest() {
         String vacancyName = randomFromUuid();
-        Integer numberOfVacancies = RND.nextInt();
+        Long numberOfVacancies = RND.nextLong();
         String keywords = randomFromUuid();
         SearchHistory searchHistory = SearchHistory.builder()
                 .vacancyName(vacancyName)

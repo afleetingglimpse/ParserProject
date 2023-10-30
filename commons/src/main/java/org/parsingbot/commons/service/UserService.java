@@ -47,24 +47,6 @@ public interface UserService {
     void setDefaultStateByUser(User user);
 
     /**
-     * @param userId id пользователя
-     * @return имя вакансии для поиска
-     */
-    String getVacancyNameByUserId(Long userId);
-
-    /**
-     * @param userId id пользователя
-     * @return количество вакансий для поиска
-     */
-    Long getNumberOfVacanciesByUserId(Long userId);
-
-    /**
-     * @param userId id пользователя
-     * @return ключевые слова в виде строки для поиска вакансий
-     */
-    String getKeywordsByUserId(Long userId);
-
-    /**
      * @param user объект пользователя
      * @return SearchHistory пользователя
      */
