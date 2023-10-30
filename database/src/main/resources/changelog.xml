@@ -35,4 +35,10 @@
                  encoding="UTF-8"
                  relativeToChangelogFile="true"/>
     </changeSet>
+
+    <changeSet id="005" author="invernes">
+        <sqlFile path="changesets/alter_table_users.sql"
+                 encoding="UTF-8"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>

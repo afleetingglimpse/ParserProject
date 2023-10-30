@@ -25,8 +25,8 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public UserService userService(UserRepository userRepository, SearchHistoryRepository searchHistoryRepository) {
-        return new UserServiceImpl(userRepository, searchHistoryRepository);
+    public UserService userService(UserRepository userRepository) {
+        return new UserServiceImpl(userRepository);
     }
 
     @Bean

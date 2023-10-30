@@ -1,10 +1,8 @@
 package org.parsingbot.commons.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
-import org.parsingbot.commons.repository.SearchHistoryRepository;
 import org.parsingbot.commons.repository.UserRepository;
 import org.parsingbot.commons.service.UserService;
 
@@ -16,7 +14,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final SearchHistoryRepository searchHistoryRepository;
 
     @Override
     public User save(User user) {
@@ -57,10 +54,5 @@ public class UserServiceImpl implements UserService {
     public void setDefaultStateByUser(User user) {
         user.setState(State.NONE.toString());
         save(user);
-    }
-
-    @Override
-    public SearchHistory getUserSearchHistory(User user) {
-        return searchHistoryRepository.findSearchHistoryByUserId(user.getId());
     }
 }

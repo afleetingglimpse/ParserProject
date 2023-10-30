@@ -26,9 +26,6 @@ public class User {
     private LocalDateTime nextSendDate;
     private Long nextSendDateDelaySeconds;
     private String state;
-    private String vacancyName;
-    private Long numberOfVacancies;
-    private String keywords;
     @ManyToMany
     @JoinTable(
             name = "users_vacancies",

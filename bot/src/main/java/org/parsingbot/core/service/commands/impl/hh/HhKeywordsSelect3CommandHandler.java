@@ -3,10 +3,12 @@ package org.parsingbot.core.service.commands.impl.hh;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.parsingbot.commons.entity.Event;
+import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
-import org.parsingbot.core.parser.service.ParserService;
+import org.parsingbot.commons.repository.SearchHistoryRepository;
 import org.parsingbot.commons.service.UserService;
+import org.parsingbot.core.parser.service.ParserService;
 import org.parsingbot.core.service.commands.CommandHandler;
 import org.parsingbot.core.util.BotUtils;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -24,26 +26,30 @@ public class HhKeywordsSelect3CommandHandler implements CommandHandler {
 
     private final UserService userService;
     private final ParserService parserService;
+    private final SearchHistoryRepository searchHistoryRepository;
 
     @Override
     public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Event event) {
         User user = event.getUser();
 
+        SearchHistory searchHistory = user.getSearchHistories().get(user.getSearchHistories().size() - 1);
         String keywords = event.getCommand().getFullMessage();
         if (StringUtils.isNotBlank(keywords)) {
-            user.setKeywords(keywords);
-            userService.save(user);
+            searchHistory.setKeywords(keywords);
         }
 
         List<SendMessage> messagesToUser = new ArrayList<>();
         messagesToUser.add(BotUtils.createMessage(
                 event.getChatId(),
-                String.format(FINAL_MESSAGE, user.getVacancyName(), user.getNumberOfVacancies(), user.getKeywords()))
+                String.format(FINAL_MESSAGE,
+                        searchHistory.getVacancyName(),
+                        searchHistory.getNumberOfVacancies(),
+                        searchHistory.getKeywords()))
         );
 
         List<SendMessage> vacancies = parserService.getVacanciesMessageList(event);
         messagesToUser.addAll(vacancies);
-
+        searchHistoryRepository.save(searchHistory);
         userService.setDefaultStateByUser(user);
         return List.copyOf(messagesToUser);
     }
