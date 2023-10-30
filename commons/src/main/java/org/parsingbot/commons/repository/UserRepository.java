@@ -26,12 +26,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<Integer> findUserVacanciesIds(Long userId);
 
     /**
-     * @param userName имя пользователя
-     * @return Optional обертка над объектом пользователя
-     */
-    Optional<User> findByUserName(String userName);
-
-    /**
      * @param chatId id чата с пользователем
      * @return Optional обертка над объектом пользователя
      */

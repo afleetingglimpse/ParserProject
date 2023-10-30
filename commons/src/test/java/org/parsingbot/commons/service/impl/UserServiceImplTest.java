@@ -14,7 +14,6 @@ import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.entity.Vacancy;
 import org.parsingbot.commons.repository.SearchHistoryRepository;
 import org.parsingbot.commons.repository.UserRepository;
-import org.parsingbot.commons.service.Authorisation;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -52,40 +51,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("Тест метода getUserByName")
-    void getUserByName() {
-        User user = createUser();
-        String userName = user.getUserName();
-        Optional<User> expected = Optional.of(user);
-
-        when(userRepository.findByUserName(userName)).thenReturn(expected);
-
-        Optional<User> actual = sut.getUserByName(userName);
-
-        assertEquals(expected, actual);
-
-        verifyNoMoreInteractions(userRepository);
-        verifyNoInteractions(searchHistoryRepository);
-    }
-
-    @Test
-    @DisplayName("Тест метода getUserById")
-    void getUserById() {
-        User user = createUser();
-        Long id = user.getId();
-        Optional<User> expected = Optional.of(user);
-
-        when(userRepository.findById(id)).thenReturn(expected);
-
-        Optional<User> actual = sut.getUserById(id);
-
-        assertEquals(expected, actual);
-
-        verifyNoMoreInteractions(userRepository);
-        verifyNoInteractions(searchHistoryRepository);
-    }
-
-    @Test
     @DisplayName("Тест метода getSubscribedUsers")
     void getSubscribedUsers() {
         User userSubscribed = createUser();
@@ -98,29 +63,6 @@ class UserServiceImplTest {
 
         assertEquals(expected, actual);
 
-        verifyNoMoreInteractions(userRepository);
-        verifyNoInteractions(searchHistoryRepository);
-    }
-
-    @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    @DisplayName("Тест метода updateAuthorisationById")
-    void updateAuthorisationById(boolean isPresent) {
-        User user = createUser();
-        Long id = user.getId();
-        Authorisation authorisation = Authorisation.DUNGEON_MASTER;
-
-        if (isPresent) {
-            when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        } else {
-            when(userRepository.findById(id)).thenReturn(Optional.empty());
-        }
-
-        sut.updateAuthorisationById(id, authorisation);
-
-        if (isPresent) {
-            verify(userRepository).save(user);
-        }
         verifyNoMoreInteractions(userRepository);
         verifyNoInteractions(searchHistoryRepository);
     }
@@ -189,40 +131,14 @@ class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("Тест метода updateStateByUserId")
-    void updateStateByUserId() {
-        Long userId = RND.nextLong();
-        State state = State.ANY;
-
-        sut.updateStateByUserId(userId, state);
-
-        verify(userRepository).updateStateByUserId(userId, state.toString());
-        verifyNoMoreInteractions(userRepository);
-        verifyNoInteractions(searchHistoryRepository);
-    }
-
-    @Test
-    @DisplayName("Тест метода updateStateByUser")
-    void updateStateByUser() {
+    @DisplayName("Тест метода setDefaultStateByUser")
+    void setDefaultStateByUser() {
         User user = createUser();
         Long userId = user.getId();
-        State state = State.ANY;
 
-        sut.updateStateByUser(user, state);
+        sut.setDefaultStateByUser(user);
 
-        verify(userRepository).updateStateByUserId(userId, state.toString());
-        verifyNoMoreInteractions(userRepository);
-        verifyNoInteractions(searchHistoryRepository);
-    }
-
-    @Test
-    @DisplayName("Тест метода setDefaultStateByUserId")
-    void setDefaultStateByUserId() {
-        Long userId = RND.nextLong();
-
-        sut.setDefaultStateByUserId(userId);
-
-        verify(userRepository).updateStateByUserId(userId, State.NONE.toString());
+        verify(userRepository).save(user);
         verifyNoMoreInteractions(userRepository);
         verifyNoInteractions(searchHistoryRepository);
     }

@@ -1,7 +1,6 @@
 package org.parsingbot.commons.service;
 
 import org.parsingbot.commons.entity.SearchHistory;
-import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
 
 import java.util.List;
@@ -19,27 +18,9 @@ public interface UserService {
     User save(User user);
 
     /**
-     * @param userName имя пользователя
-     * @return Optional обертка над объектом пользователя
-     */
-    Optional<User> getUserByName(String userName);
-
-    /**
-     * @param id id пользователя
-     * @return Optional обертка над объектом пользователя
-     */
-    Optional<User> getUserById(Long id);
-
-    /**
      * @return список пользователей, у которых is_subscribed = true
      */
     List<User> getSubscribedUsers();
-
-    /**
-     * @param id            id пользователя
-     * @param authorisation устанавливаемый уровень авторизации пользователя
-     */
-    void updateAuthorisationById(Long id, Authorisation authorisation);
 
     /**
      * @param chatId id чата с пользователем
@@ -61,21 +42,9 @@ public interface UserService {
     void updateNextSendDate(User user);
 
     /**
-     * @param userId id пользователя
-     * @param state новый статус пользователя
-     */
-    void updateStateByUserId(Long userId, State state);
-
-    /**
      * @param user объект пользователя
-     * @param state новый статус пользователя
      */
-    void updateStateByUser(User user, State state);
-
-    /**
-     * @param userId id пользователя
-     */
-    void setDefaultStateByUserId(Long userId);
+    void setDefaultStateByUser(User user);
 
     /**
      * @param userId id пользователя

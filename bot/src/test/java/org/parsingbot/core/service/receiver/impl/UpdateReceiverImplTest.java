@@ -23,7 +23,7 @@ class UpdateReceiverImplTest {
 
     private final static TelegramBot BOT = null;
     private static final long CHAT_ID = 1;
-    private static final String USER_NAME = "gwynae";
+    private static final String USER_NAME = "innvernes";
     private static final String MESSAGE_TEXT = "Мороз и солнце, день чудесный..";
     private static final Command COMMAND = new Command(MESSAGE_TEXT);
     private static final Update UPDATE = createUpdate();

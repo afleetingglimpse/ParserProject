@@ -1,15 +1,15 @@
 package org.parsingbot.commons.repository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.parsingbot.commons.configuration.TestJpaConfiguration;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.entity.Vacancy;
-import org.parsingbot.commons.repository.UserRepository;
-import org.parsingbot.commons.repository.VacancyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,11 +25,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @ActiveProfiles("test")
 @ContextConfiguration(classes = TestJpaConfiguration.class)
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
 @DisplayName("Тест репозитория пользователей UserRepository")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class UserRepositoryTest {
 
-    private static final String USER_NAME = "gwynae";
+    private static final String USER_NAME = "innvernes";
     private static final String AUTHORISATION = "authorisation";
     private static final Boolean IS_SUBSCRIBED = true;
     private static final long CHAT_ID = 1;
@@ -74,10 +74,14 @@ class UserRepositoryTest {
     @Autowired
     private VacancyRepository vacancyRepository;
 
+    @BeforeEach
+    void saveVacancy() {
+        vacancyRepository.save(VALID_VACANCY);
+    }
+
     @Test
     @DisplayName("Тест метода findUserVacanciesIds")
     void findUserVacanciesIdsTest() {
-        vacancyRepository.save(VALID_VACANCY);
         User user = VALID_USER;
         user.addVacancy(VALID_VACANCY);
         userRepository.save(user);
@@ -86,30 +90,12 @@ class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("Тест метода findByUserName. Пользователь есть в базе")
-    void findByUserName_UserExistsTest() {
-        userRepository.save(VALID_USER);
-        Optional<User> userOptional = userRepository.findByUserName(VALID_USER.getUserName());
-        assertTrue(userOptional.isPresent());
-        assertEquals(VALID_USER, userOptional.get());
-    }
-
-    @Test
-    @DisplayName("Тест метода findByUserName. Пользователя нет в базе")
-    void findByUserName_UserNotExistsTest() {
-        userRepository.save(VALID_USER);
-        String invalidUserName = "invalidUserName";
-        Optional<User> userOptional = userRepository.findByUserName(invalidUserName);
-        assertFalse(userOptional.isPresent());
-        assertEquals(Optional.empty(), userOptional);
-    }
-
-    @Test
-    @DisplayName("Тест метода findfindSubscribedUsers")
+    @DisplayName("Тест метода findSubscribedUsers")
     void findSubscribedUsersTest() {
         userRepository.save(VALID_USER);
         List<User> subscribedUsers = userRepository.findSubscribedUsers();
         assertEquals(1, subscribedUsers.size());
+        assertEquals(VALID_USER, subscribedUsers.get(0));
     }
 
     @Test
@@ -129,17 +115,6 @@ class UserRepositoryTest {
         Optional<User> userOptional = userRepository.findUserByChatId(incorrectChatId);
         assertFalse(userOptional.isPresent());
         assertEquals(Optional.empty(), userOptional);
-    }
-
-    @Test
-    @DisplayName("Тест метода updateStatusByUserId")
-    void updateStatusByUserId() {
-        User user = userRepository.save(VALID_USER);
-        String state = "HH";
-        userRepository.updateStateByUserId(user.getId(), state);
-        Optional<User> userOptional = userRepository.findById(VALID_USER.getId());
-        assertTrue(userOptional.isPresent());
-        assertEquals(state, userOptional.get().getState());
     }
 
     @Test

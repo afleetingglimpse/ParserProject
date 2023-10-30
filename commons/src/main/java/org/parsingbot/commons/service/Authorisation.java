@@ -15,10 +15,9 @@ public enum Authorisation {
 
     private final String name;
 
-    public static String asString(Authorisation authorisation) {
-        return authorisation.getName().toLowerCase();
-    }
-
+    /**
+     * Возвращает число меньше 0 если а1 < a2, 0 если равны, больше 0 если a1 > a2
+     */
     public static int compare(Authorisation a1, Authorisation a2) {
         if (!Arrays.asList(Authorisation.values()).contains(a1)) {
             a1 = Authorisation.UNKNOWN;

@@ -3,6 +3,7 @@ package org.parsingbot.core.service.commands.impl.hh;
 import lombok.RequiredArgsConstructor;
 import org.parsingbot.commons.entity.Event;
 import org.parsingbot.commons.entity.State;
+import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.core.service.commands.CommandHandler;
 import org.parsingbot.core.util.BotUtils;
@@ -43,7 +44,9 @@ public class HhStart0CommandHandler implements CommandHandler {
                 BotUtils.createMessageTemplate(event.getChatId(), POPULAR_VACANCIES_TEXT, inlineKeyboardMarkup)
         );
 
-        userService.updateStateByUser(event.getUser(), State.HH_VACANCY_SELECT_1);
+        User user = event.getUser();
+        user.setState(State.HH_VACANCY_SELECT_1.toString());
+        userService.save(user);
         return List.copyOf(messagesToUser);
     }
 }
