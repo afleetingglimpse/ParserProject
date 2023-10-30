@@ -50,8 +50,8 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
                     BotUtils.createMessageTemplate(event.getChatId(), GREETING_TEXT_3_KEYWORDS_NOT_NULL, inlineKeyboardMarkup)
             );
         }
-
-        userService.updateStateByUser(user, State.HH_KEYWORDS_SELECT_3);
+        user.setState(State.HH_KEYWORDS_SELECT_3.toString());
+        userService.save(user);
         return List.copyOf(messagesToUser);
     }
 

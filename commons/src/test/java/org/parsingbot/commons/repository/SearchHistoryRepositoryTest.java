@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SearchHistoryRepositoryTest {
 
     private static final Random RND = new Random();
-    private static final String USER_NAME = "gwynae";
+    private static final String USER_NAME = "innvernes";
     private static final String AUTHORISATION = "authorisation";
     private static final Boolean IS_SUBSCRIBED = true;
     private static final long CHAT_ID = 1;

@@ -44,7 +44,7 @@ public class HhKeywordsSelect3CommandHandler implements CommandHandler {
         List<SendMessage> vacancies = parserService.getVacanciesMessageList(event);
         messagesToUser.addAll(vacancies);
 
-        userService.updateStateByUser(event.getUser(), State.NONE);
+        userService.setDefaultStateByUser(user);
         return List.copyOf(messagesToUser);
     }
 

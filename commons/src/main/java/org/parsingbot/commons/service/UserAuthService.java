@@ -1,5 +1,7 @@
 package org.parsingbot.commons.service;
 
+import org.parsingbot.commons.entity.User;
+
 /**
  * Сервис авторизации пользователей
  */
@@ -8,18 +10,18 @@ public interface UserAuthService {
     /**
      * Проверка авторизации пользователей
      *
-     * @param userName      имя пользователя
+     * @param user                 объект пользователя
      * @param minimumAuthorisation необходимая авторизация
      * @return true/false если у пользователя есть/нет прав для просмотра
      */
-    boolean isAuthorised(String userName, Authorisation minimumAuthorisation);
+    boolean isAuthorised(User user, Authorisation minimumAuthorisation);
 
     /**
      * Установка авторизации пользователя по id
      *
-     * @param id            id пользователя
+     * @param user          объект пользователя
      * @param authorisation устанавливаемая авторизация
      */
-    void setAuthorisedById(Long id, Authorisation authorisation);
+    void setAuthorisedById(User user, Authorisation authorisation);
 
 }

@@ -2,12 +2,12 @@ package org.parsingbot.commons.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.parsingbot.commons.entity.SearchHistory;
-import org.parsingbot.commons.repository.SearchHistoryRepository;
-import org.parsingbot.commons.repository.UserRepository;
-import org.parsingbot.commons.service.UserService;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
+import org.parsingbot.commons.repository.SearchHistoryRepository;
+import org.parsingbot.commons.repository.UserRepository;
 import org.parsingbot.commons.service.Authorisation;
+import org.parsingbot.commons.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,28 +25,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByName(String userName) {
-        return userRepository.findByUserName(userName);
-    }
-
-    @Override
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
-
-    @Override
     public List<User> getSubscribedUsers() {
         return userRepository.findSubscribedUsers();
-    }
-
-    @Override
-    public void updateAuthorisationById(Long id, Authorisation authorisation) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setAuthorisation(Authorisation.asString(authorisation));
-            userRepository.save(user);
-        }
     }
 
     @Override
@@ -56,8 +36,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByChatIdCreateIfNotExist(Long chatId, String userName) {
-        Optional<User> userOptional = this.getUserByChatId(chatId);
-        return userOptional.orElseGet(() -> this.save(
+        Optional<User> userOptional = getUserByChatId(chatId);
+        return userOptional.orElseGet(() -> save(
                 User.builder()
                         .userName(userName)
                         .chatId(chatId)
@@ -75,18 +55,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateStateByUserId(Long userId, State state) {
-        userRepository.updateStateByUserId(userId, state.toString());
-    }
-
-    @Override
-    public void updateStateByUser(User user, State state) {
-        userRepository.updateStateByUserId(user.getId(), state.toString());
-    }
-
-    @Override
-    public void setDefaultStateByUserId(Long userId) {
-        userRepository.updateStateByUserId(userId, State.NONE.toString());
+    public void setDefaultStateByUser(User user) {
+        user.setState(State.NONE.toString());
+        save(user);
     }
 
     @Override
