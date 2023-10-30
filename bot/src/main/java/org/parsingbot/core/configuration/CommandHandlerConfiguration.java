@@ -2,6 +2,7 @@ package org.parsingbot.core.configuration;
 
 import org.parsingbot.commons.entity.CommandEnum;
 import org.parsingbot.commons.entity.State;
+import org.parsingbot.commons.repository.SearchHistoryRepository;
 import org.parsingbot.core.parser.service.ParserService;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.core.service.commands.CommandHandler;
@@ -23,24 +24,25 @@ import java.util.Map;
 public class CommandHandlerConfiguration {
 
     @Bean
-    public CommandHandler hhStart0CommandHandler(UserService userService) {
-        return new HhStart0CommandHandler(userService);
+    public CommandHandler hhStart0CommandHandler(UserService userService, SearchHistoryRepository searchHistoryRepository) {
+        return new HhStart0CommandHandler(userService, searchHistoryRepository);
     }
 
     @Bean
-    public CommandHandler hhVacancySelect1CommandHandler(UserService userService) {
-        return new HhVacancySelect1CommandHandler(userService);
+    public CommandHandler hhVacancySelect1CommandHandler(UserService userService, SearchHistoryRepository searchHistoryRepository) {
+        return new HhVacancySelect1CommandHandler(userService, searchHistoryRepository);
     }
 
     @Bean
-    public CommandHandler hhNumberOfVacanciesSelect2CommandHandler(UserService userService) {
-        return new HhNumberOfVacanciesSelect2CommandHandler(userService);
+    public CommandHandler hhNumberOfVacanciesSelect2CommandHandler(UserService userService, SearchHistoryRepository searchHistoryRepository) {
+        return new HhNumberOfVacanciesSelect2CommandHandler(userService, searchHistoryRepository);
     }
 
     @Bean
     public CommandHandler hhKeywordsSelect3CommandHandler(UserService userService,
-                                                          ParserService parserService) {
-        return new HhKeywordsSelect3CommandHandler(userService, parserService);
+                                                          ParserService parserService,
+                                                          SearchHistoryRepository searchHistoryRepository) {
+        return new HhKeywordsSelect3CommandHandler(userService, parserService, searchHistoryRepository);
     }
 
     @Bean

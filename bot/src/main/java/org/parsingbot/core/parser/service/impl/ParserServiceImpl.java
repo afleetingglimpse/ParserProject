@@ -2,6 +2,7 @@ package org.parsingbot.core.parser.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.parsingbot.commons.entity.Event;
+import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.entity.Vacancy;
 import org.parsingbot.core.parser.service.ParserService;
@@ -65,10 +66,19 @@ public class ParserServiceImpl implements ParserService {
 
     public List<Vacancy> getVacancies(Event event) {
         User user = event.getUser();
+        String vacancyName = "Java";
+        String numberOfVacancies = String.valueOf(5);
+        String keywords = "sdfsd";
+        if (!user.getSearchHistories().isEmpty()) {
+            SearchHistory searchHistory = user.getSearchHistories().get(user.getSearchHistories().size() - 1);
+            vacancyName = searchHistory.getVacancyName();
+            numberOfVacancies = String.valueOf(searchHistory.getNumberOfVacancies());
+            keywords = searchHistory.getKeywords();
+        }
         Map<String, String> parsingParameters = Map.of(
-                VACANCY_NAME_PARAMETER, user.getVacancyName(),
-                NUMBER_OF_VACANCIES_PARAMETER, String.valueOf(user.getNumberOfVacancies()),
-                KEYWORDS_PARAMETER, user.getKeywords()
+                VACANCY_NAME_PARAMETER, vacancyName,
+                NUMBER_OF_VACANCIES_PARAMETER, numberOfVacancies,
+                KEYWORDS_PARAMETER, keywords
         );
         return getVacancies(user, parsingParameters);
     }

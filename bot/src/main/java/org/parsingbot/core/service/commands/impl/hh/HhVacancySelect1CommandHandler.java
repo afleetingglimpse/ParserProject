@@ -6,6 +6,7 @@ import org.parsingbot.commons.entity.Event;
 import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
+import org.parsingbot.commons.repository.SearchHistoryRepository;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.core.service.commands.CommandHandler;
 import org.parsingbot.core.util.BotUtils;
@@ -26,21 +27,21 @@ public class HhVacancySelect1CommandHandler implements CommandHandler {
             "Или выберите количество вакансий, которое вы искали в прошлый раз";
 
     private final UserService userService;
+    private final SearchHistoryRepository searchHistoryRepository;
 
     @Override
     public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Event event) {
         User user = event.getUser();
 
+        SearchHistory searchHistory = user.getSearchHistories().get(user.getSearchHistories().size() - 1);
         String vacancyName = event.getCommand().getFullMessage();
         if (StringUtils.isNotBlank(vacancyName)) {
-            user.setVacancyName(vacancyName);
-            userService.save(user);
+            searchHistory.setVacancyName(vacancyName);
         }
 
         List<SendMessage> messagesToUser = new ArrayList<>();
         messagesToUser.add(BotUtils.createMessage(event.getChatId(), GREETING_TEXT_2));
 
-        SearchHistory searchHistory = userService.getUserSearchHistory(user);
         Long numberOfVacancies = searchHistory.getNumberOfVacancies();
         if (numberOfVacancies != null) {
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
@@ -52,7 +53,9 @@ public class HhVacancySelect1CommandHandler implements CommandHandler {
                     BotUtils.createMessageTemplate(event.getChatId(), GREETING_TEXT_2_NUMBER_OF_VACANCIES_NOT_NULL, inlineKeyboardMarkup)
             );
         }
+
         user.setState(State.HH_NUMBER_OF_VACANCIES_SELECT_2.toString());
+        searchHistoryRepository.save(searchHistory);
         userService.save(user);
         return List.copyOf(messagesToUser);
     }

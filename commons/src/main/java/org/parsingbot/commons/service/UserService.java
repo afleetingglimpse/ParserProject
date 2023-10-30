@@ -45,10 +45,4 @@ public interface UserService {
      * @param user объект пользователя
      */
     void setDefaultStateByUser(User user);
-
-    /**
-     * @param user объект пользователя
-     * @return SearchHistory пользователя
-     */
-    SearchHistory getUserSearchHistory(User user);
 }
