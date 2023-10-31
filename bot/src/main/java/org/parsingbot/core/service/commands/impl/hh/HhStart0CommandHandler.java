@@ -5,8 +5,9 @@ import org.parsingbot.commons.entity.Event;
 import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
-import org.parsingbot.commons.repository.SearchHistoryRepository;
+import org.parsingbot.commons.service.SearchHistoryService;
 import org.parsingbot.commons.service.UserService;
+import org.parsingbot.commons.utils.SearchHistoryUtils;
 import org.parsingbot.core.service.commands.CommandHandler;
 import org.parsingbot.core.util.BotUtils;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -30,7 +31,7 @@ public class HhStart0CommandHandler implements CommandHandler {
     );
 
     private final UserService userService;
-    private final SearchHistoryRepository searchHistoryRepository;
+    private final SearchHistoryService searchHistoryService;
 
     @Override
     public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Event event) {
@@ -48,23 +49,9 @@ public class HhStart0CommandHandler implements CommandHandler {
         );
 
         User user = event.getUser();
-        List<SearchHistory> searchHistories = user.getSearchHistories();
-
-        SearchHistory newSearchHistory;
-        if (searchHistories.isEmpty()) {
-            newSearchHistory = SearchHistory.builder()
-                    .vacancyName("none")
-                    .numberOfVacancies(0L)
-                    .keywords("none")
-                    .user(user)
-                    .build();
-        } else {
-            newSearchHistory = searchHistories.get(searchHistories.size() - 1);
-        }
-
-        user.addSearchHistory(newSearchHistory);
+        SearchHistory newSearchHistory = SearchHistoryUtils.getLastSearchHistoryOrCreateNew(user);
         user.setState(State.HH_VACANCY_SELECT_1.toString());
-        searchHistoryRepository.save(newSearchHistory);
+        searchHistoryService.save(newSearchHistory);
         userService.save(user);
         return List.copyOf(messagesToUser);
     }

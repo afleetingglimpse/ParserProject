@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Builder(toBuilder = true)
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
@@ -25,6 +25,13 @@ public class SearchHistory {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public SearchHistory(SearchHistory searchHistory) {
+        this.vacancyName = searchHistory.getVacancyName();
+        this.numberOfVacancies = searchHistory.getNumberOfVacancies();
+        this.keywords = searchHistory.getKeywords();
+        this.user = searchHistory.getUser();
+    }
 
     @Override
     public boolean equals(Object o) {
