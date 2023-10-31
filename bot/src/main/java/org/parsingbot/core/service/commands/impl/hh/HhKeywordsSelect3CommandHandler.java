@@ -7,7 +7,9 @@ import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.repository.SearchHistoryRepository;
+import org.parsingbot.commons.service.SearchHistoryService;
 import org.parsingbot.commons.service.UserService;
+import org.parsingbot.commons.utils.SearchHistoryUtils;
 import org.parsingbot.core.parser.service.ParserService;
 import org.parsingbot.core.service.commands.CommandHandler;
 import org.parsingbot.core.util.BotUtils;
@@ -26,13 +28,13 @@ public class HhKeywordsSelect3CommandHandler implements CommandHandler {
 
     private final UserService userService;
     private final ParserService parserService;
-    private final SearchHistoryRepository searchHistoryRepository;
+    private final SearchHistoryService searchHistoryService;
 
     @Override
     public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Event event) {
         User user = event.getUser();
 
-        SearchHistory searchHistory = user.getSearchHistories().get(user.getSearchHistories().size() - 1);
+        SearchHistory searchHistory = SearchHistoryUtils.getLastSearchHistoryOrCreateNew(user);
         String keywords = event.getCommand().getFullMessage();
         if (StringUtils.isNotBlank(keywords)) {
             searchHistory.setKeywords(keywords);
@@ -49,7 +51,13 @@ public class HhKeywordsSelect3CommandHandler implements CommandHandler {
 
         List<SendMessage> vacancies = parserService.getVacanciesMessageList(event);
         messagesToUser.addAll(vacancies);
-        searchHistoryRepository.save(searchHistory);
+
+        searchHistoryService.save(searchHistory);
+        SearchHistory newSearchHistory = new SearchHistory(searchHistory);
+        user.addSearchHistory(newSearchHistory);
+        searchHistoryService.save(searchHistory);
+        searchHistoryService.save(newSearchHistory);
+
         userService.setDefaultStateByUser(user);
         return List.copyOf(messagesToUser);
     }

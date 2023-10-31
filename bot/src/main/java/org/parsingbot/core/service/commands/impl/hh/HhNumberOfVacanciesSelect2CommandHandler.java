@@ -7,7 +7,9 @@ import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.repository.SearchHistoryRepository;
+import org.parsingbot.commons.service.SearchHistoryService;
 import org.parsingbot.commons.service.UserService;
+import org.parsingbot.commons.utils.SearchHistoryUtils;
 import org.parsingbot.core.service.commands.CommandHandler;
 import org.parsingbot.core.util.BotUtils;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -28,13 +30,13 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
             "Или выберите те ключевые слова, с которыми вы искали в прошлый раз";
 
     private final UserService userService;
-    private final SearchHistoryRepository searchHistoryRepository;
+    private final SearchHistoryService searchHistoryService;
 
     @Override
     public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Event event) {
         User user = event.getUser();
 
-        SearchHistory searchHistory = user.getSearchHistories().get(user.getSearchHistories().size() - 1);
+        SearchHistory searchHistory = SearchHistoryUtils.getLastSearchHistoryOrCreateNew(user);
         Long numberOfVacancies = Long.parseLong(event.getCommand().getFullMessage());
         if (numberOfVacancies != null) {
             searchHistory.setNumberOfVacancies(numberOfVacancies);
@@ -56,7 +58,7 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
         }
 
         user.setState(State.HH_KEYWORDS_SELECT_3.toString());
-        searchHistoryRepository.save(searchHistory);
+        searchHistoryService.save(searchHistory);
         userService.save(user);
         return List.copyOf(messagesToUser);
     }

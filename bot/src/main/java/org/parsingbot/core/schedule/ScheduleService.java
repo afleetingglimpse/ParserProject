@@ -6,6 +6,7 @@ import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.entity.Vacancy;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.commons.service.VacancyService;
+import org.parsingbot.commons.utils.SearchHistoryUtils;
 import org.parsingbot.core.bot.TelegramBot;
 import org.parsingbot.core.parser.service.ParserService;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -67,20 +68,12 @@ public class ScheduleService {
     }
 
     private Map<String, String> getUserParsingParameters(User user) {
-        String vacancyName = "Java";
-        String numberOfVacancies = String.valueOf(5);
-        String keywords = "sdfsd";
-        if (!user.getSearchHistories().isEmpty()) {
-            SearchHistory searchHistory = user.getSearchHistories().get(user.getSearchHistories().size() - 1);
-            vacancyName = searchHistory.getVacancyName();
-            numberOfVacancies = String.valueOf(searchHistory.getNumberOfVacancies());
-            keywords = searchHistory.getKeywords();
-        }
+        SearchHistory searchHistory = SearchHistoryUtils.getLastSearchHistoryOrCreateNew(user);
 
         Map<String, String> parsingParameters = new HashMap<>();
-        parsingParameters.put(VACANCY_NAME_PARAMETER, vacancyName);
-        parsingParameters.put(NUMBER_OF_VACANCIES_PARAMETER, numberOfVacancies);
-        parsingParameters.put(KEYWORDS_PARAMETER, keywords);
+        parsingParameters.put(VACANCY_NAME_PARAMETER, searchHistory.getVacancyName());
+        parsingParameters.put(NUMBER_OF_VACANCIES_PARAMETER, String.valueOf(searchHistory.getNumberOfVacancies()));
+        parsingParameters.put(KEYWORDS_PARAMETER, searchHistory.getKeywords());
         parsingParameters.forEach((k, v) -> {
             if (v == null) {
                 parsingParameters.put(k, DEFAULT_PARSING_PARAMETERS.get(k));
