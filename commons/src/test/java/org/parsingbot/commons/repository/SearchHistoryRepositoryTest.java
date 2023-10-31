@@ -37,9 +37,6 @@ class SearchHistoryRepositoryTest {
     private static final LocalDateTime NEXT_SEND_DATE = LocalDateTime.now();
     private static final long NEXT_SEND_DATE_DELAY_SECONDS = 60;
     private static final String STATE = State.NONE.toString();
-    private static final String VACANCY_NAME_DB = "vacancyName";
-    private static final long NUMBER_OF_VACANCIES_DB = 10;
-    private static final String KEYWORDS = "На недельку до второго я уеду в Комарово";
 
     private static final List<Vacancy> USER_VACANCIES = new ArrayList<>();
     private static final List<SearchHistory> SEARCH_HISTORY = new ArrayList<>();
@@ -55,9 +52,6 @@ class SearchHistoryRepositoryTest {
             .state(STATE)
             .userVacancies(USER_VACANCIES)
             .searchHistories(SEARCH_HISTORY)
-            .vacancyName(VACANCY_NAME_DB)
-            .numberOfVacancies(NUMBER_OF_VACANCIES_DB)
-            .keywords(KEYWORDS)
             .build();
 
     @Autowired
