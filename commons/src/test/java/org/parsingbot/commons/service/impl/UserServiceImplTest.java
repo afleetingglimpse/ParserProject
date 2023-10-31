@@ -142,23 +142,6 @@ class UserServiceImplTest {
         verifyNoInteractions(searchHistoryRepository);
     }
 
-    @Test
-    @DisplayName("Тест метода getUserSearchHistory")
-    void getUserSearchHistory() {
-        User user = createUser();
-        Long id = user.getId();
-
-        SearchHistory expected = SearchHistory.builder().build();
-        when(searchHistoryRepository.findSearchHistoryByUserId(id)).thenReturn(expected);
-
-        SearchHistory actual = sut.getUserSearchHistory(user);
-
-        assertEquals(expected, actual);
-
-        verifyNoMoreInteractions(userRepository);
-        verifyNoMoreInteractions(searchHistoryRepository);
-    }
-
     private String randomFromUuid() {
         return UUID.randomUUID().toString();
     }
@@ -172,9 +155,6 @@ class UserServiceImplTest {
         LocalDateTime nextSendDate = LocalDateTime.now();
         Long nextSendDateDelaySeconds = RND.nextLong(100); // to not go out of LocalDate bounds
         String state = randomFromUuid();
-        String vacancyName = randomFromUuid();
-        Long numberOfVacancies = RND.nextLong();
-        String keywords = randomFromUuid();
         List<Vacancy> userVacancies = new ArrayList<>();
         List<SearchHistory> searchHistories = new ArrayList<>();
         return User.builder()
@@ -186,9 +166,6 @@ class UserServiceImplTest {
                 .nextSendDate(nextSendDate)
                 .nextSendDateDelaySeconds(nextSendDateDelaySeconds)
                 .state(state)
-                .vacancyName(vacancyName)
-                .numberOfVacancies(numberOfVacancies)
-                .keywords(keywords)
                 .userVacancies(userVacancies)
                 .searchHistories(searchHistories)
                 .build();

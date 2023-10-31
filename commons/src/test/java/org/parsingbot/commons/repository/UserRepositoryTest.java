@@ -36,9 +36,6 @@ class UserRepositoryTest {
     private static final LocalDateTime NEXT_SEND_DATE = LocalDateTime.now();
     private static final long NEXT_SEND_DATE_DELAY_SECONDS = 60;
     private static final String STATE = State.NONE.toString();
-    private static final String VACANCY_NAME_DB = "vacancyName";
-    private static final long NUMBER_OF_VACANCIES_DB = 10;
-    private static final String KEYWORDS = "На недельку до второго я уеду в Комарово";
 
     private static final List<Vacancy> USER_VACANCIES = new ArrayList<>();
 
@@ -51,9 +48,6 @@ class UserRepositoryTest {
             .nextSendDateDelaySeconds(NEXT_SEND_DATE_DELAY_SECONDS)
             .state(STATE)
             .userVacancies(USER_VACANCIES)
-            .vacancyName(VACANCY_NAME_DB)
-            .numberOfVacancies(NUMBER_OF_VACANCIES_DB)
-            .keywords(KEYWORDS)
             .build();
 
     private static final String VACANCY_NAME = "vacancyName";
@@ -115,29 +109,5 @@ class UserRepositoryTest {
         Optional<User> userOptional = userRepository.findUserByChatId(incorrectChatId);
         assertFalse(userOptional.isPresent());
         assertEquals(Optional.empty(), userOptional);
-    }
-
-    @Test
-    @DisplayName("Тест метода findVacancyNameByUserId")
-    void findVacancyNameByUserIdTest() {
-        User user = userRepository.save(VALID_USER);
-        String actual = userRepository.findVacancyNameByUserId(user.getId());
-        assertEquals(VACANCY_NAME_DB, actual);
-    }
-
-    @Test
-    @DisplayName("Тест метода findNumberOfVacanciesByUserId")
-    void findNumberOfVacanciesByUserIdTest() {
-        User user = userRepository.save(VALID_USER);
-        long actual = userRepository.findNumberOfVacanciesByUserId(user.getId());
-        assertEquals(NUMBER_OF_VACANCIES_DB, actual);
-    }
-
-    @Test
-    @DisplayName("Тест метода findKeywordsByUserId")
-    void findKeywordsByUserIdTest() {
-        User user = userRepository.save(VALID_USER);
-        String actual = userRepository.findKeywordsByUserId(user.getId());
-        assertEquals(KEYWORDS, actual);
     }
 }
