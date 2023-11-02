@@ -1,6 +1,5 @@
 package org.parsingbot.commons.service;
 
-import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.User;
 
 import java.util.List;
