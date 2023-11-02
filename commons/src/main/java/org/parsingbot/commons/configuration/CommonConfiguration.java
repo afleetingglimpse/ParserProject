@@ -22,8 +22,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class CommonConfiguration {
 
     @Bean
-    public VacancyService vacancyService(VacancyRepository vacancyRepository, UserRepository userRepository) {
-        return new VacancyServiceImpl(vacancyRepository, userRepository);
+    public VacancyService vacancyService(VacancyRepository vacancyRepository) {
+        return new VacancyServiceImpl(vacancyRepository);
     }
 
     @Bean
