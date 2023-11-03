@@ -41,18 +41,4 @@ public class UserServiceImpl implements UserService {
                         .build())
         );
     }
-
-    @Override
-    public void updateNextSendDate(User user) {
-        Long nextSendDateDelaySeconds = user.getNextSendDateDelaySeconds();
-        LocalDateTime nextSendDate = LocalDateTime.now();
-        user.setNextSendDate(nextSendDate.plusSeconds(nextSendDateDelaySeconds));
-        userRepository.save(user);
-    }
-
-    @Override
-    public void setDefaultStateByUser(User user) {
-        user.setState(State.NONE.toString());
-        save(user);
-    }
 }
