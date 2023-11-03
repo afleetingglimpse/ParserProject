@@ -46,7 +46,7 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
         messagesToUser.add(BotUtils.createMessage(event.getChatId(), GREETING_TEXT_3));
 
         String keywords = searchHistory.getKeywords();
-        if (StringUtils.isNotBlank(keywords)) {
+        if (StringUtils.isNotBlank(keywords) && !keywords.equals(SearchHistoryUtils.DEFAULT_KEYWORDS)) {
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
             List<InlineKeyboardButton> inlineKeyboardButtonsRowOne =
                     List.of(BotUtils.createInlineKeyboardButton(keywords, keywords));

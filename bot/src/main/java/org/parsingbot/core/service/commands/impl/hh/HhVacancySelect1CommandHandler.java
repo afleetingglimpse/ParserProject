@@ -45,7 +45,7 @@ public class HhVacancySelect1CommandHandler implements CommandHandler {
         messagesToUser.add(BotUtils.createMessage(event.getChatId(), GREETING_TEXT_2));
 
         Long numberOfVacancies = searchHistory.getNumberOfVacancies();
-        if (numberOfVacancies != null) {
+        if (numberOfVacancies != null && !numberOfVacancies.equals(SearchHistoryUtils.DEFAULT_NUMBER_OF_VACANCIES)) {
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
             List<InlineKeyboardButton> inlineKeyboardButtonsRowOne =
                     List.of(BotUtils.createInlineKeyboardButton(numberOfVacancies, numberOfVacancies));
