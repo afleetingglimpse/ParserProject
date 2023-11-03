@@ -7,6 +7,7 @@ import org.parsingbot.commons.entity.Vacancy;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.commons.service.VacancyService;
 import org.parsingbot.commons.utils.SearchHistoryUtils;
+import org.parsingbot.commons.utils.UserUtils;
 import org.parsingbot.core.bot.TelegramBot;
 import org.parsingbot.core.parser.service.ParserService;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -50,7 +51,7 @@ public class ScheduleService {
         if (user.getNextSendDate().isAfter(currentDate)) {
             return;
         }
-        userService.updateNextSendDate(user);
+        UserUtils.updateUserNextSendDate(user);
 
         List<Vacancy> vacancies = parserService.getVacancies(user, parsingParameters);
         user.addAllVacancies(vacancies);

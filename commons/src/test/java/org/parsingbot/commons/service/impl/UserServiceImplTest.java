@@ -118,30 +118,6 @@ class UserServiceImplTest {
         verifyNoInteractions(searchHistoryRepository);
     }
 
-    @Test
-    @DisplayName("Тест метода updateNextSendDate")
-    void updateNextSendDate() {
-        User user = createUser();
-
-        sut.updateNextSendDate(user);
-
-        verify(userRepository).save(user);
-        verifyNoMoreInteractions(userRepository);
-        verifyNoInteractions(searchHistoryRepository);
-    }
-
-    @Test
-    @DisplayName("Тест метода setDefaultStateByUser")
-    void setDefaultStateByUser() {
-        User user = createUser();
-
-        sut.setDefaultStateByUser(user);
-
-        verify(userRepository).save(user);
-        verifyNoMoreInteractions(userRepository);
-        verifyNoInteractions(searchHistoryRepository);
-    }
-
     private String randomFromUuid() {
         return UUID.randomUUID().toString();
     }

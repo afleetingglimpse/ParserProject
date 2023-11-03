@@ -58,7 +58,8 @@ public class HhKeywordsSelect3CommandHandler implements CommandHandler {
         searchHistoryService.save(searchHistory);
         searchHistoryService.save(newSearchHistory);
 
-        userService.setDefaultStateByUser(user);
+        user.setState(State.NONE.toString());
+        userService.save(user);
         return List.copyOf(messagesToUser);
     }
 
