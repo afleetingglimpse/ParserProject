@@ -7,6 +7,7 @@ import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.State;
 import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.entity.Vacancy;
+import org.parsingbot.commons.utils.TestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -18,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -63,9 +63,9 @@ class SearchHistoryRepositoryTest {
     @Test
     @DisplayName("Тест метода findSearchHistoryByUserId")
     void findSearchHistoryByUserIdTest() {
-        String vacancyName = randomFromUuid();
+        String vacancyName = TestHelper.randomFromUuid();
         Long numberOfVacancies = RND.nextLong();
-        String keywords = randomFromUuid();
+        String keywords = TestHelper.randomFromUuid();
         SearchHistory searchHistory = SearchHistory.builder()
                 .vacancyName(vacancyName)
                 .numberOfVacancies(numberOfVacancies)
@@ -79,9 +79,5 @@ class SearchHistoryRepositoryTest {
 
         SearchHistory actual = searchHistoryRepository.findSearchHistoryByUserId(1L);
         assertEquals(searchHistory, actual);
-    }
-
-    private String randomFromUuid() {
-        return UUID.randomUUID().toString();
     }
 }

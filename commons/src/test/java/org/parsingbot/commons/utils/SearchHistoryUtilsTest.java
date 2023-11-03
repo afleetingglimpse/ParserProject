@@ -8,7 +8,6 @@ import org.parsingbot.commons.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -70,9 +69,9 @@ class SearchHistoryUtilsTest {
                 .userName("innvernes")
                 .build();
 
-        String vacancyName = randomFromUuid();
+        String vacancyName = TestHelper.randomFromUuid();
         Long numberOfVacancies = RND.nextLong();
-        String keywords = randomFromUuid();
+        String keywords = TestHelper.randomFromUuid();
         List<SearchHistory> searchHistories = new ArrayList<>();
         searchHistories.add(SearchHistory.builder()
                 .vacancyName(vacancyName)
@@ -95,9 +94,5 @@ class SearchHistoryUtilsTest {
         assertNotNull(user.getSearchHistories());
         assertEquals(1, user.getSearchHistories().size());
         assertEquals(expected, user.getSearchHistories().get(0));
-    }
-
-    private String randomFromUuid() {
-        return UUID.randomUUID().toString();
     }
 }
