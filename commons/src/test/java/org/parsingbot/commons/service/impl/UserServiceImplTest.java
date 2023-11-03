@@ -14,6 +14,7 @@ import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.entity.Vacancy;
 import org.parsingbot.commons.repository.SearchHistoryRepository;
 import org.parsingbot.commons.repository.UserRepository;
+import org.parsingbot.commons.utils.TestHelper;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -90,7 +91,7 @@ class UserServiceImplTest {
     void getUserByChatIdCreateIfNotExist(boolean isPresent) {
         User user = createUser();
         Long chatId = user.getChatId();
-        String newUserName = randomFromUuid();
+        String newUserName = TestHelper.randomFromUuid();
 
         Optional<User> expected = Optional.empty();
         User newExpectedUser = null;
@@ -118,19 +119,15 @@ class UserServiceImplTest {
         verifyNoInteractions(searchHistoryRepository);
     }
 
-    private String randomFromUuid() {
-        return UUID.randomUUID().toString();
-    }
-
     private User createUser() {
         Long id = RND.nextLong();
-        String userName = randomFromUuid();
-        String authorisation = randomFromUuid();
+        String userName = TestHelper.randomFromUuid();
+        String authorisation = TestHelper.randomFromUuid();
         Boolean isSubscribed = RND.nextBoolean();
         Long chatId = RND.nextLong();
         LocalDateTime nextSendDate = LocalDateTime.now();
         Long nextSendDateDelaySeconds = RND.nextLong(100); // to not go out of LocalDate bounds
-        String state = randomFromUuid();
+        String state = TestHelper.randomFromUuid();
         List<Vacancy> userVacancies = new ArrayList<>();
         List<SearchHistory> searchHistories = new ArrayList<>();
         return User.builder()

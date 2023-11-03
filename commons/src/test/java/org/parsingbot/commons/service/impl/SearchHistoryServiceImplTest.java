@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.parsingbot.commons.entity.SearchHistory;
 import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.repository.SearchHistoryRepository;
+import org.parsingbot.commons.utils.TestHelper;
 
 import java.util.Random;
 import java.util.UUID;
@@ -31,9 +32,9 @@ class SearchHistoryServiceImplTest {
     @Test
     @DisplayName("Тест метода save")
     void saveTest() {
-        String vacancyName = randomFromUuid();
+        String vacancyName = TestHelper.randomFromUuid();
         Long numberOfVacancies = RND.nextLong();
-        String keywords = randomFromUuid();
+        String keywords = TestHelper.randomFromUuid();
         User user = User.builder().build();
         SearchHistory searchHistory = SearchHistory.builder()
                 .vacancyName(vacancyName)
@@ -47,9 +48,5 @@ class SearchHistoryServiceImplTest {
         SearchHistory actual = sut.save(searchHistory);
 
         assertEquals(searchHistory, actual);
-    }
-
-    private String randomFromUuid() {
-        return UUID.randomUUID().toString();
     }
 }
