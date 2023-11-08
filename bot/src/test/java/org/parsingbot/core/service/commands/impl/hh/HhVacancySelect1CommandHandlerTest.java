@@ -68,8 +68,8 @@ class HhVacancySelect1CommandHandlerTest {
         Event event = TestHelper.createEvent();
         Long chatId = event.getChatId();
         User user = event.getUser();
-//        Command blankCommand = new Command("");
-//        event.setCommand(blankCommand);
+        Command blankCommand = new Command("");
+        event.setCommand(blankCommand);
 
         Long numberOfVacancies = TestHelper.RND.nextLong();
         SearchHistory searchHistory = user.getSearchHistories().get(0);
@@ -99,7 +99,7 @@ class HhVacancySelect1CommandHandlerTest {
 
         assertEquals(expected, actual);
         assertEquals(State.HH_NUMBER_OF_VACANCIES_SELECT_2.toString(), user.getState());
-//        assertNull(searchHistory.getVacancyName());
+        assertNull(searchHistory.getVacancyName());
 
         verify(searchHistoryService).save(searchHistory);
         verify(userService).save(user);
