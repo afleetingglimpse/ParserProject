@@ -16,7 +16,7 @@ public class Command {
 
     private String getPrefix(String message) {
         String prefix = message.split(" ")[0];
-        messageWithoutPrefix = message.substring(prefix.length());
+        messageWithoutPrefix = message.substring(prefix.length()).strip();
         return prefix.charAt(0) == '/' ? prefix : null;
     }
 }

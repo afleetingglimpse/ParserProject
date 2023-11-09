@@ -26,7 +26,7 @@ public class DropStateCommandHandler implements CommandHandler {
     public List<PartialBotApiMethod<? extends Serializable>> handleCommand(Event event) {
         State newState = State.NONE;
         try {
-            newState = State.valueOf(event.getCommand().getMessageWithoutPrefix());
+            newState = State.valueOf(event.getCommand().getMessageWithoutPrefix().toUpperCase());
         } catch (Exception e) {
             log.warn("State {} doesn't exist. User.state was set to State.NONE", event.getCommand().getMessageWithoutPrefix());
         }
