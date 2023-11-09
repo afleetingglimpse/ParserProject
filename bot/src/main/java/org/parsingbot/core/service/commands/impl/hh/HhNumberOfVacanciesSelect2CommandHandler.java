@@ -37,8 +37,8 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
         User user = event.getUser();
 
         SearchHistory searchHistory = SearchHistoryUtils.getLastSearchHistoryOrCreateNew(user);
-        Long numberOfVacancies = Long.parseLong(event.getCommand().getFullMessage());
-        if (numberOfVacancies != null) {
+        if (StringUtils.isNumeric(event.getCommand().getFullMessage())) {
+            Long numberOfVacancies = Long.parseLong(event.getCommand().getFullMessage());
             searchHistory.setNumberOfVacancies(numberOfVacancies);
         }
 
