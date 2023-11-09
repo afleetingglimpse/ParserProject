@@ -62,6 +62,31 @@ class HhVacancySelect1CommandHandlerTest {
     }
 
     @Test
+    @DisplayName("Тест метода handleCommand, Command.fullMessage not blank, " +
+            "searchHistory.numberOfVacancies = null")
+    void handleCommand_MessageNotBlank_NumberOfVacanciesIsBlankTest() {
+        Event event = TestHelper.createEvent();
+        Long chatId = event.getChatId();
+        User user = event.getUser();
+        SearchHistory searchHistory = user.getSearchHistories().get(0);
+
+        SendMessage greetingMessage = SendMessage.builder()
+                .chatId(chatId)
+                .text(GREETING_TEXT_2)
+                .build();
+        List<SendMessage> expected = List.of(greetingMessage);
+
+        List<PartialBotApiMethod<? extends Serializable>> actual = sut.handleCommand(event);
+
+        assertEquals(expected, actual);
+        assertEquals(State.HH_NUMBER_OF_VACANCIES_SELECT_2.toString(), user.getState());
+        assertEquals(event.getCommand().getFullMessage(), searchHistory.getVacancyName());
+
+        verify(searchHistoryService).save(searchHistory);
+        verify(userService).save(user);
+    }
+
+    @Test
     @DisplayName("Тест метода handleCommand, Command.fullMessage is blank, " +
             "searchHistory.numberOfVacancies != SearchHistoryUtils.DEFAULT_NUMBER_OF_VACANCIES")
     void handleCommand_MessageBlank_NumberOfVacanciesNotDefaultTest() {

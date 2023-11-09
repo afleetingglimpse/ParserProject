@@ -101,7 +101,7 @@ class HhNumberOfVacanciesSelect2CommandHandlerTest {
     @Test
     @DisplayName("Тест метода handleCommand, Command.fullMessage is not number, " +
             "searchHistory.keywords != SearchHistoryUtils.DEFAULT_KEYWORDS")
-    void handleCommand_MessageBlank_NumberOfVacanciesNotDefaultTest() {
+    void handleCommand_MessageBlank_KeywordsNotDefaultTest() {
         Event event = TestHelper.createEvent();
         Long chatId = event.getChatId();
         User user = event.getUser();
