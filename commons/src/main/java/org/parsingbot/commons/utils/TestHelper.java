@@ -41,6 +41,10 @@ public class TestHelper {
     }
 
     public User createUser() {
+        List<Vacancy> userVacancies = new ArrayList<>();
+        userVacancies.add(Vacancy.builder().build());
+        List<SearchHistory> searchHistories = new ArrayList<>();
+        searchHistories.add(SearchHistory.builder().build());
         return User.builder()
                 .id(RND.nextLong())
                 .userName(randomFromUuid())
@@ -50,8 +54,8 @@ public class TestHelper {
                 .nextSendDate(LocalDateTime.now())
                 .nextSendDateDelaySeconds(RND.nextLong(1, 100))
                 .state(State.ANY.toString())
-                .userVacancies(List.of(Vacancy.builder().build()))
-                .searchHistories(List.of(SearchHistory.builder().build()))
+                .userVacancies(userVacancies)
+                .searchHistories(searchHistories)
                 .build();
     }
 }

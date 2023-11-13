@@ -26,7 +26,7 @@ import static org.parsingbot.commons.utils.TestHelper.RND;
 import static org.parsingbot.commons.utils.TestHelper.randomFromUuid;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Тесты для класса обработчика команды hh со state = HH_VACANCY_SELECT_1")
+@DisplayName("Тесты для класса обработчика команды hh со state = HH_NUMBER_OF_VACANCIES_SELECT_2")
 class HhNumberOfVacanciesSelect2CommandHandlerTest {
     private static final String GREETING_TEXT_3 =
             "ПОКА НЕ РАБОТАЕТ!! Введите ключевые слова для поиска (с любым разделителем)";
