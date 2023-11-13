@@ -5,13 +5,12 @@ import org.parsingbot.core.bot.TelegramBot;
 import org.parsingbot.commons.configuration.CommonConfiguration;
 import org.parsingbot.core.parser.service.ParserService;
 import org.parsingbot.core.parser.service.impl.ParserServiceImpl;
+import org.parsingbot.core.service.receiver.CommandHandlerDispatcher;
 import org.parsingbot.parser.configuration.ParserConfiguration;
 import org.parsingbot.parser.service.Parser;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.commons.service.VacancyService;
-import org.parsingbot.core.service.commands.CommandHandlerDispatcher;
 import org.parsingbot.core.service.receiver.UpdateReceiver;
-import org.parsingbot.core.service.receiver.impl.UpdateReceiverImpl;
 import org.parsingbot.core.service.validation.CommandHandlerValidator;
 import org.parsingbot.core.service.validation.impl.CommandHandlerValidatorImpl;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +39,7 @@ public class BotConfiguration {
     public UpdateReceiver updateReceiver(UserService userService,
                                          CommandHandlerDispatcher commandHandlerDispatcher,
                                          CommandHandlerValidator commandHandlerValidator) {
-        return new UpdateReceiverImpl(
+        return new UpdateReceiver(
                 userService,
                 commandHandlerDispatcher,
                 commandHandlerValidator);

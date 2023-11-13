@@ -1,4 +1,4 @@
-package org.parsingbot.core.service.commands.impl.hh;
+package org.parsingbot.core.service.commands.hh;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -22,12 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler {
+public class HhVacancySelect1CommandHandler implements CommandHandler {
 
-    private static final String GREETING_TEXT_3 =
-            "ПОКА НЕ РАБОТАЕТ!! Введите ключевые слова для поиска (с любым разделителем)";
-    private static final String GREETING_TEXT_3_KEYWORDS_NOT_NULL =
-            "Или выберите те ключевые слова, с которыми вы искали в прошлый раз";
+    private static final String GREETING_TEXT_2 = "Введите количество вакансий для поиска";
+    private static final String GREETING_TEXT_2_NUMBER_OF_VACANCIES_NOT_NULL =
+            "Или выберите количество вакансий, которое вы искали в прошлый раз";
 
     private final UserService userService;
     private final SearchHistoryService searchHistoryService;
@@ -37,27 +36,27 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
         User user = event.getUser();
 
         SearchHistory searchHistory = SearchHistoryUtils.getLastSearchHistoryOrCreateNew(user);
-        if (StringUtils.isNumeric(event.getCommand().getFullMessage())) {
-            Long numberOfVacancies = Long.parseLong(event.getCommand().getFullMessage());
-            searchHistory.setNumberOfVacancies(numberOfVacancies);
+        String vacancyName = event.getCommand().getFullMessage();
+        if (StringUtils.isNotBlank(vacancyName)) {
+            searchHistory.setVacancyName(vacancyName);
         }
 
         List<SendMessage> messagesToUser = new ArrayList<>();
-        messagesToUser.add(BotUtils.createMessage(event.getChatId(), GREETING_TEXT_3));
+        messagesToUser.add(BotUtils.createMessage(event.getChatId(), GREETING_TEXT_2));
 
-        String keywords = searchHistory.getKeywords();
-        if (StringUtils.isNotBlank(keywords) && !keywords.equals(SearchHistoryUtils.DEFAULT_KEYWORDS)) {
+        Long numberOfVacancies = searchHistory.getNumberOfVacancies();
+        if (numberOfVacancies != null && !numberOfVacancies.equals(SearchHistoryUtils.DEFAULT_NUMBER_OF_VACANCIES)) {
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
             List<InlineKeyboardButton> inlineKeyboardButtonsRowOne =
-                    List.of(BotUtils.createInlineKeyboardButton(keywords, keywords));
+                    List.of(BotUtils.createInlineKeyboardButton(numberOfVacancies, numberOfVacancies));
             inlineKeyboardMarkup.setKeyboard(List.of(inlineKeyboardButtonsRowOne));
 
             messagesToUser.add(
-                    BotUtils.createMessageTemplate(event.getChatId(), GREETING_TEXT_3_KEYWORDS_NOT_NULL, inlineKeyboardMarkup)
+                    BotUtils.createMessageTemplate(event.getChatId(), GREETING_TEXT_2_NUMBER_OF_VACANCIES_NOT_NULL, inlineKeyboardMarkup)
             );
         }
 
-        user.setState(State.HH_KEYWORDS_SELECT_3.toString());
+        user.setState(State.HH_NUMBER_OF_VACANCIES_SELECT_2.toString());
         searchHistoryService.save(searchHistory);
         userService.save(user);
         return List.copyOf(messagesToUser);
@@ -65,6 +64,6 @@ public class HhNumberOfVacanciesSelect2CommandHandler implements CommandHandler 
 
     @Override
     public State getRequiredState() {
-        return State.HH_NUMBER_OF_VACANCIES_SELECT_2;
+        return State.HH_VACANCY_SELECT_1;
     }
 }

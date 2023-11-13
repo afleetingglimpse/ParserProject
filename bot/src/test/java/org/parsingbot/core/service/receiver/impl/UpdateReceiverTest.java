@@ -12,14 +12,15 @@ import org.parsingbot.commons.entity.Event;
 import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.core.bot.TelegramBot;
-import org.parsingbot.core.service.commands.CommandHandlerDispatcher;
+import org.parsingbot.core.service.receiver.CommandHandlerDispatcher;
+import org.parsingbot.core.service.receiver.UpdateReceiver;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @DisplayName("Тест класса получателя сообщений от пользователя UpdateReceiverImpl")
 @ExtendWith(MockitoExtension.class)
-class UpdateReceiverImplTest {
+class UpdateReceiverTest {
 
     private final static TelegramBot BOT = null;
     private static final long CHAT_ID = 1;
@@ -44,7 +45,7 @@ class UpdateReceiverImplTest {
     @Mock
     private CommandHandlerDispatcher commandHandlerDispatcher;
     @InjectMocks
-    private UpdateReceiverImpl updateReceiver;
+    private UpdateReceiver updateReceiver;
 
     private static Update createUpdate() {
         Chat chat = new Chat();

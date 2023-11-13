@@ -2,17 +2,19 @@ package org.parsingbot.core.configuration;
 
 import org.parsingbot.commons.entity.CommandEnum;
 import org.parsingbot.commons.entity.State;
-import org.parsingbot.commons.repository.SearchHistoryRepository;
 import org.parsingbot.commons.service.SearchHistoryService;
 import org.parsingbot.core.parser.service.ParserService;
 import org.parsingbot.commons.service.UserService;
+import org.parsingbot.core.service.receiver.CommandHandlerDispatcher;
 import org.parsingbot.core.service.commands.CommandHandler;
-import org.parsingbot.core.service.commands.CommandHandlerDispatcher;
-import org.parsingbot.core.service.commands.impl.*;
-import org.parsingbot.core.service.commands.impl.hh.HhKeywordsSelect3CommandHandler;
-import org.parsingbot.core.service.commands.impl.hh.HhNumberOfVacanciesSelect2CommandHandler;
-import org.parsingbot.core.service.commands.impl.hh.HhStart0CommandHandler;
-import org.parsingbot.core.service.commands.impl.hh.HhVacancySelect1CommandHandler;
+import org.parsingbot.core.service.commands.hh.HhKeywordsSelect3CommandHandler;
+import org.parsingbot.core.service.commands.hh.HhNumberOfVacanciesSelect2CommandHandler;
+import org.parsingbot.core.service.commands.hh.HhStart0CommandHandler;
+import org.parsingbot.core.service.commands.hh.HhVacancySelect1CommandHandler;
+import org.parsingbot.core.service.commands.misc.DropStateCommandHandler;
+import org.parsingbot.core.service.commands.misc.HelpCommandHandler;
+import org.parsingbot.core.service.commands.misc.SubscribeCommandHandler;
+import org.parsingbot.core.service.commands.misc.UnsubscribeCommandHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -99,6 +101,6 @@ public class CommandHandlerConfiguration {
             @Qualifier("startCommandHandlerMap") Map<String, CommandHandler> startCommandHandlerMap,
             @Qualifier("commandHandlerMap") Map<State, CommandHandler> commandHandlerMap
     ) {
-        return new CommandHandlerDispatcherImpl(startCommandHandlerMap, commandHandlerMap);
+        return new CommandHandlerDispatcher(startCommandHandlerMap, commandHandlerMap);
     }
 }
