@@ -10,6 +10,7 @@ import org.parsingbot.commons.entity.*;
 import org.parsingbot.commons.service.SearchHistoryService;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.commons.utils.TestHelper;
+import org.parsingbot.core.service.commands.hh.HhVacancySelect1CommandHandler;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;

@@ -10,6 +10,7 @@ import org.parsingbot.commons.entity.*;
 import org.parsingbot.commons.service.SearchHistoryService;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.commons.utils.TestHelper;
+import org.parsingbot.core.service.commands.hh.HhNumberOfVacanciesSelect2CommandHandler;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -48,7 +49,8 @@ class HhNumberOfVacanciesSelect2CommandHandlerTest {
         User user = event.getUser();
         SearchHistory searchHistory = user.getSearchHistories().get(0);
 
-        Command command = new Command(String.valueOf(RND.nextInt()));
+        // Метод StringUtils.isNumeric не принимает числа меньше нуля
+        Command command = new Command(String.valueOf(RND.nextInt(0, Integer.MAX_VALUE)));
         event.setCommand(command);
 
         SendMessage greetingMessage = SendMessage.builder()

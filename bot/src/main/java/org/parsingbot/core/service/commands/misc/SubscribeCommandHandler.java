@@ -1,4 +1,4 @@
-package org.parsingbot.core.service.commands.impl;
+package org.parsingbot.core.service.commands.misc;
 
 import lombok.RequiredArgsConstructor;
 import org.parsingbot.commons.entity.Event;

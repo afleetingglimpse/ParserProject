@@ -11,6 +11,7 @@ import org.parsingbot.commons.entity.User;
 import org.parsingbot.commons.service.SearchHistoryService;
 import org.parsingbot.commons.service.UserService;
 import org.parsingbot.commons.utils.TestHelper;
+import org.parsingbot.core.service.commands.hh.HhStart0CommandHandler;
 import org.parsingbot.core.util.BotUtils;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
