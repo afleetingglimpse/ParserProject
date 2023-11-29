@@ -15,7 +15,7 @@ import java.util.List;
 public class SubscribeCommandHandler implements CommandHandler {
 
     private static final String USER_ALREADY_SUBSCRIBED = "User is already subscribed";
-    private static final String SUCCESSFUL_SUBSCRIBE = "You have been successfully subscribed";
+    private static final String SUCCESSFUL_SUBSCRIBED = "You have been successfully subscribed";
 
     private final UserService userService;
 
@@ -30,6 +30,6 @@ public class SubscribeCommandHandler implements CommandHandler {
 
         user.setIsSubscribed(true);
         userService.save(user);
-        return List.of(BotUtils.createMessage(chatId, SUCCESSFUL_SUBSCRIBE));
+        return List.of(BotUtils.createMessage(chatId, SUCCESSFUL_SUBSCRIBED));
     }
 }
